@@ -40,9 +40,10 @@
       (get-points)))
 
 (expect
-  [[10 0] [0 0] [0 0] [0 0] [0 0]]
+  [[10 0] [0 10] [0 0] [0 0] [0 0]]
   (-> (new-game)
       (play-card 0 0 0)
+      (play-card 1 1 1)
       (get-points)))
 
 (expect
@@ -134,3 +135,30 @@
   (-> (new-game)
       (play-card 0 0 0)
       (play-card 0 0 0)))
+
+; Stores next-play
+(expect
+  [0 0 0]
+  (-> (new-game)
+      (play-card 0 0 0)
+      :next-play))
+(expect
+  [1 2 3]
+  (-> (new-game)
+      (play-card 0 0 0)
+      (play-card 1 1 1)
+      (play-card 1 2 3)
+      :next-play))
+
+; Doesn't updates game-state until both players played a card
+(expect
+  [[0 0] [0 0] [0 0] [0 0] [0 0]]
+  (-> (new-game)
+      (play-card 0 0 0)
+      (get-points)))
+
+
+
+
+
+

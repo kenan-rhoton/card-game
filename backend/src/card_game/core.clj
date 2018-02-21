@@ -53,15 +53,26 @@
   (assoc game-state :play-wanted [(or (not= player 0) (not (get-in game-state [:play-wanted 1]))) 
                                   (or (not= player 1) (not (get-in game-state [:play-wanted 0])))]))
 
+(defn apply-play-card
+  "Plays a card waiting to be played onto the board"
+  [game-state player index row]
+    (let [card (get-in game-state [:players player :hand index])]
+      (-> game-state
+          (add-card-to-row (assoc card :owner player) row)
+          (remove-card player index))))
+
 (defn play-card
-  "Plays a card from hand onto a game row"
+  "Takes a playing of a card from hand onto a game row and makes it wait until both players had played"
   [game-state player index row]
   (if (get-in game-state [:play-wanted player])
-      (let [card (get-in game-state [:players player :hand index])]
-        (-> game-state
-            (add-card-to-row (assoc card :owner player) row)
-            (remove-card player index)
-            (update-play-wanted player)))
+      (let [game-state (update-play-wanted game-state player)]
+           (if (every? {true true} (:play-wanted game-state))
+               (-> game-state
+                   (apply-play-card (get-in game-state [:next-play 0]) 
+                                    (get-in game-state [:next-play 1])
+                                    (get-in game-state [:next-play 2]))
+                   (apply-play-card player index row))           
+               (assoc game-state :next-play [player index row])))
       {:error "Out of turn play"}))
 
 (defn alter-card
