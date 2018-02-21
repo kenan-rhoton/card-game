@@ -87,3 +87,50 @@
       (play-card 0 0 0)
       (play-card 1 0 0)
       (winner)))
+
+; Game tracks correctly who still has to play
+(expect
+  [true true]
+  (-> (new-game)
+      :play-wanted))
+
+(expect
+  [false true]
+  (-> (new-game)
+      (play-card 0 0 0)
+      :play-wanted))
+
+(expect
+  [true false]
+  (-> (new-game)
+      (play-card 1 0 0)
+      :play-wanted))
+
+(expect
+  [true true]
+  (-> (new-game)
+      (play-card 0 0 0)
+      (play-card 1 0 0)
+      :play-wanted))
+
+(expect
+  [true true]
+  (-> (new-game)
+      (play-card 1 0 0)
+      (play-card 0 0 0)
+      :play-wanted))
+
+(expect
+  [false true]
+  (-> (new-game)
+      (play-card 1 0 0)
+      (play-card 0 0 0)
+      (play-card 0 0 0)
+      :play-wanted))
+
+; Can't play a card when you were not supposed to
+(expect
+  {:error "Out of turn play"}
+  (-> (new-game)
+      (play-card 0 0 0)
+      (play-card 0 0 0)))

@@ -28,8 +28,11 @@
   (map :power 
        (-> (new-game)
            (play-card 1 1 3)
+           (play-card 0 0 0)
            (play-card 1 1 3)
+           (play-card 0 0 0)
            (play-card 1 1 3)
+           (play-card 0 0 0)
            (play-card 1 1 3)
            :rows
            (get 3))))

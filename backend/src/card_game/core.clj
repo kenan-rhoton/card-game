@@ -22,6 +22,7 @@
    {
     :players (vec (repeat 2 (new-player cards)))
     :rows (vec (repeat 5 []))
+    :play-wanted [true true]
     }))
 
 (defn add-card-to-row
@@ -46,13 +47,22 @@
   [game-state player index]
   (modify-hand game-state player (item-remover index)))
 
+(defn update-play-wanted
+  "Change which players are expected to play"
+  [game-state player]
+  (assoc game-state :play-wanted [(or (not= player 0) (not (get-in game-state [:play-wanted 1]))) 
+                                  (or (not= player 1) (not (get-in game-state [:play-wanted 0])))]))
+
 (defn play-card
   "Plays a card from hand onto a game row"
   [game-state player index row]
-  (let [card (get-in game-state [:players player :hand index])]
-    (-> game-state
-        (add-card-to-row (assoc card :owner player) row)
-        (remove-card player index))))
+  (if (get-in game-state [:play-wanted player])
+      (let [card (get-in game-state [:players player :hand index])]
+        (-> game-state
+            (add-card-to-row (assoc card :owner player) row)
+            (remove-card player index)
+            (update-play-wanted player)))
+      {:error "Out of turn play"}))
 
 (defn alter-card
   "Alters a cards' values, merging the new values with existing ones"
