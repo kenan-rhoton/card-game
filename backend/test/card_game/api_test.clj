@@ -1,6 +1,7 @@
 (ns card-game.api-test
   (:use expectations
-        card-game.api))
+        card-game.api
+        card-game.persistence))
 
 (expect
   #(contains? % :game-id)
@@ -137,9 +138,9 @@
   #(not (= (:player-id %) (:player-id (add-player (:game-id %)))))
   (create-game))
 
-; Game is Waiting for Opponent until two players had joined
+; Game tracks status correctly
 (expect
-  "Waiting for Opponent"
+  "Waiting for an opponent"
   (:status (create-game)))
 (expect
   "Playing"
@@ -148,7 +149,11 @@
       (add-player)
       :status))
 (expect
-  "Playing"
+  "Waiting for an opponent"
+  (let [game (create-game)]
+       (:status (get-game (:game-id game) (:player-id game)))))
+(expect
+  "Waiting for opponent's play"
   (let [game (create-game)]
     (-> (:game-id game)
         (add-player)
@@ -156,6 +161,36 @@
         (play-card-as-player (:player-id game) 0 0)
         :status)))
 (expect
-  "Waiting for Opponent"
+  "Playing"
+  (let [game (create-game)
+        opponent-id (:player-id (add-player (:game-id game)))]
+    (-> (:game-id game)
+        (play-card-as-player (:player-id game) 0 0)
+        :game-id
+        (play-card-as-player opponent-id 0 0)
+        :status)))
+(expect
+  "Playing"
+  (let [game (create-game)
+        opponent-id (:player-id (add-player (:game-id game)))]
+    (-> (:game-id game)
+        (play-card-as-player opponent-id 0 0)
+        :game-id
+        (get-game (:player-id game))
+        :status)))
+
+; Game gives error when playing and shouldn't
+(expect
+  {:error "Out of turn play"}
   (let [game (create-game)]
-       (:status (get-game (:game-id game) (:player-id game)))))
+    (-> (:game-id game)
+        (add-player)
+        :game-id
+        (play-card-as-player (:player-id game) 0 0)
+        :game-id
+        (play-card-as-player (:player-id game) 0 0))))
+(expect
+  {:error "Out of turn play"}
+  (let [game (create-game)]
+    (-> (:game-id game)
+        (play-card-as-player (:player-id game) 0 0))))

@@ -34,14 +34,20 @@
   [id player]
   (let [saved-game (fetch-game id)]
   (assoc (get-game-as-player saved-game player)
-         :status (nth ["Waiting for Opponent" "Playing"] (dec(count (:player-ids saved-game)))))))
+         :status (nth ["Waiting for an opponent"
+                       (if (get-in saved-game [:play-wanted (player-num saved-game player)])
+                           "Playing"
+                           "Waiting for opponent's play"
+                           )] (dec(count (:player-ids saved-game)))))))
 
 (defn play-card-as-player
   [game-id player index row]
   (let [game-state (fetch-game game-id)]
-      (do
-        (save-game (play-card game-state (player-num game-state player) index row))
-        (get-game game-id player))))
+      (if (= (:status (get-game game-id player)) "Playing")
+          (do
+            (save-game (play-card game-state (player-num game-state player) index row))
+            (get-game game-id player))
+          {:error "Out of turn play"})))
 
 (defn uuid [] (str (java.util.UUID/randomUUID)))
 
@@ -54,15 +60,15 @@
 
 (defn add-player
   "Adds a player to a game"
-  [game-id] 
+  [game-id]
   (let [saved-game (fetch-game game-id)
         players-connected (count (:player-ids saved-game))]
     (if (> players-connected 1)
       {:error "Too many players"}
-      (let [game-state (save-game 
+      (let [game-state (save-game
                    (create-player
-                     (or 
-                       saved-game 
+                     (or
+                       saved-game
                        (assoc (new-game) :game-id game-id))))]
         (get-game game-id (last (:player-ids game-state)))))))
 
