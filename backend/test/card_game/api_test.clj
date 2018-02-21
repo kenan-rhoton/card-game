@@ -137,5 +137,25 @@
   #(not (= (:player-id %) (:player-id (add-player (:game-id %)))))
   (create-game))
 
-
-
+; Game is Waiting for Opponent until two players had joined
+(expect
+  "Waiting for Opponent"
+  (:status (create-game)))
+(expect
+  "Playing"
+  (-> (create-game)
+      :game-id
+      (add-player)
+      :status))
+(expect
+  "Playing"
+  (let [game (create-game)]
+    (-> (:game-id game)
+        (add-player)
+        :game-id
+        (play-card-as-player (:player-id game) 0 0)
+        :status)))
+(expect
+  "Waiting for Opponent"
+  (let [game (create-game)]
+       (:status (get-game (:game-id game) (:player-id game)))))

@@ -32,7 +32,9 @@
 (defn get-game
   "Fetches a game from an ID and returns the visible part as a player"
   [id player]
-  (get-game-as-player (fetch-game id) player))
+  (let [saved-game (fetch-game id)]
+  (assoc (get-game-as-player saved-game player)
+         :status (nth ["Waiting for Opponent" "Playing"] (dec(count (:player-ids saved-game)))))))
 
 (defn play-card-as-player
   [game-id player index row]
@@ -53,15 +55,16 @@
 (defn add-player
   "Adds a player to a game"
   [game-id] 
-  (let [saved-game (fetch-game game-id)]
-    (if (> (count (:player-ids saved-game)) 1)
+  (let [saved-game (fetch-game game-id)
+        players-connected (count (:player-ids saved-game))]
+    (if (> players-connected 1)
       {:error "Too many players"}
       (let [game-state (save-game 
                    (create-player
                      (or 
                        saved-game 
                        (assoc (new-game) :game-id game-id))))]
-        (get-game-as-player game-state (last (:player-ids game-state)))))))
+        (get-game game-id (last (:player-ids game-state)))))))
 
 (defn create-game
   "Creates a new instance of a game"
