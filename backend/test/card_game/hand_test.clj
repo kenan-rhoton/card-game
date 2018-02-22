@@ -42,11 +42,13 @@
       second))
 
 ; Playing a card does not affect other players' hand
-; Don't see how to do this test right now. Changed to adapt to new logic
 (expect
-  #(= (count (:hand %)) 11)
-  (-> (new-game)
-      (play-card 1 1 1)
-      (play-card 0 0 0)
-      :players
-      first))
+  [15 10 10 10 10 10 10 10 10 10 10]
+  (map :power
+       (-> (new-game)
+           (alter-card [:players 1 :hand 0] {:power 15})
+           (play-card 0 0 0)
+           (play-card 1 1 1)
+           :players
+           (nth 1)
+           :hand)))

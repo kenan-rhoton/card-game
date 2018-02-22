@@ -138,16 +138,22 @@
 
 ; Stores next-play
 (expect
-  [0 0 0]
+  {:player 0 :index 0 :row 0}
   (-> (new-game)
       (play-card 0 0 0)
-      :next-play))
+      (get-in [:next-play 0])))
 (expect
-  [1 2 3]
+  {:player 1 :index 2 :row 3}
   (-> (new-game)
       (play-card 0 0 0)
       (play-card 1 1 1)
       (play-card 1 2 3)
+      (get-in [:next-play 0])))
+(expect
+  [{:player 0 :index 0 :row 0} {:player 1 :index 1 :row 1}]
+  (-> (new-game)
+      (play-card 0 0 0)
+      (play-card 1 1 1)
       :next-play))
 
 ; Doesn't updates game-state until both players played a card

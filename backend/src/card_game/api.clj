@@ -18,27 +18,32 @@
 
 (defn get-game-as-player
   "Returns the part that ought to be visible to the player"
-  [game-state player]
+  [game-state player-id]
   {:game-id (:game-id game-state)
-   :player-id player
-   :hand (get-in game-state [:players (player-num game-state player) :hand])
+   :player-id player-id
+   :hand (get-in game-state [:players (player-num game-state player-id) :hand])
    :rows (mapv #(mapv (fn [card]
                         (assoc card :owner
-                          (translate-player game-state (:owner card) player)))
+                          (translate-player game-state (:owner card) player-id)))
                       %)
                (:rows game-state))
-   :winner (translate-player game-state (winner game-state) player)})
+   :winner (translate-player game-state (winner game-state) player-id)})
+
+(defn define-status
+  "Returns the status of the game"
+  [game-state player-id]
+  (nth ["Waiting for an opponent"
+       (if (get-in game-state [:play-wanted (player-num game-state player-id)])
+           "Playing"
+           "Waiting for opponent's play"
+            )] (dec(count (:player-ids game-state)))))
 
 (defn get-game
   "Fetches a game from an ID and returns the visible part as a player"
-  [id player]
-  (let [saved-game (fetch-game id)]
-  (assoc (get-game-as-player saved-game player)
-         :status (nth ["Waiting for an opponent"
-                       (if (get-in saved-game [:play-wanted (player-num saved-game player)])
-                           "Playing"
-                           "Waiting for opponent's play"
-                           )] (dec(count (:player-ids saved-game)))))))
+  [game-id player-id]
+  (let [game-state (fetch-game game-id)]
+  (assoc (get-game-as-player game-state player-id)
+         :status (define-status game-state player-id))))
 
 (defn play-card-as-player
   [game-id player index row]

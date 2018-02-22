@@ -1,7 +1,6 @@
 (ns card-game.api-test
   (:use expectations
-        card-game.api
-        card-game.persistence))
+        card-game.api))
 
 (expect
   #(contains? % :game-id)
