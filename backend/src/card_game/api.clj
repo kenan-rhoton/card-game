@@ -32,11 +32,9 @@
 (defn define-status
   "Returns the status of the game"
   [game-state player-id]
-  (nth ["Waiting for an opponent"
-       (if (get-in game-state [:play-wanted (player-num game-state player-id)])
-           "Playing"
-           "Waiting for opponent's play"
-            )] (dec(count (:player-ids game-state)))))
+  (cond (= (count (:player-ids game-state)) 1) "Waiting for an opponent"
+        (get-in game-state [:play-wanted (player-num game-state player-id)]) "Playing"
+        :else "Waiting for opponent's play"))
 
 (defn get-game
   "Fetches a game from an ID and returns the visible part as a player"
