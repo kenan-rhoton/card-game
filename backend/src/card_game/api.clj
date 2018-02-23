@@ -1,7 +1,7 @@
 (ns card-game.api
   (:require [card-game.core :as core]
             [card-game.victory-conditions :as victory-conditions]
-            [card-game.persistence :as persistence))
+            [card-game.persistence :as persistence]))
 
 (defn player-num
   "Translates a Player id into an internal player representation"
@@ -77,4 +77,4 @@
 
 (defn create-game
   "Creates a new instance of a game"
-  [] (add-player (next-id)))
+  [] (add-player (persistence/next-id)))
