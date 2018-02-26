@@ -2,6 +2,7 @@
   (:require [expectations.clojure.test :refer :all]
             [card-game.api :as api]))
 
+
 (defexpect sanity-check
   (expect
     #(contains? % :game-id)
