@@ -1,6 +1,10 @@
 <template>
   <div id="app" class="text-center container">
-    <h1 class="display-1">Troll Card Game</h1>
+    <h1 class="display-1">
+        <router-link :to="{ name: 'Home' }">
+            Troll Card Game
+        </router-link>
+    </h1>
     <router-view/>
   </div>
 </template>

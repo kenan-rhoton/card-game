@@ -3,7 +3,9 @@
         <div v-if="response.status != 'Waiting for an opponent'"
             id="board"
             class="row">
+            <!-- my-score should show how many rows I'm currently winnning in -->
             <div id="my-score" class="col text-right">0</div>
+            <!-- opponent-score should show how many rows I'm currently losing in -->
             <div id="opponent-score" class="col text-left">0</div>
             <div class="w-100"></div>
             <div id="rows" class="col-12">
@@ -29,7 +31,7 @@
                 <div class="hand row">
                     <div v-for="(card, index) in response.hand"
                         :key="index"
-                        class="card col"
+                        class="card col-1"
                         :index="index"
                         draggable
                         v-on:dragstart="dragCardFromHand">
@@ -39,10 +41,10 @@
             </div>
         </div>
         <div v-else id="waiting-for-opponent" class="row">
-            <div id="game-status">
+            <div id="game-status" class="col-12">
                 Waiting for opponent
             </div>
-            <div v-if="joinLink" id="join-link">{{joinLink}}</div>
+            <div v-if="joinLink" id="join-link" class="col-12">{{joinLink}}</div>
         </div>
     </div>
 </template>
