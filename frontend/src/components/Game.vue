@@ -82,19 +82,12 @@ export default {
     allowDrop: function(ev) {
       ev.preventDefault();
     },
-    dropOnRow: async function(ev) {
+    dropOnRow: function(ev) {
       ev.preventDefault();
-      try {
-        const req = this.gameReq();
-        const data = ev.dataTransfer.getData("handIndex");
-        const sentData = { index: data, row: ev.target.getAttribute("rownum") };
-        console.log(ev.target);
-        console.log(sentData);
-        const response = await axios.post(req, sentData);
-        console.log(response);
-      } catch (err) {
-        throw err;
-      }
+      const req = this.gameReq();
+      const data = ev.dataTransfer.getData("handIndex");
+      const sentData = { index: data, row: ev.target.getAttribute("rownum") };
+      axios.post(req, sentData);
     }
   },
   computed: {
@@ -121,8 +114,8 @@ export default {
     );
   },
   beforeRouteLeave: function(to, from, next) {
-      clearInterval(this.intervalID);
-      next();
+    clearInterval(this.intervalID);
+    next();
   },
   filters: {
     cut: function(word) {
