@@ -1,36 +1,44 @@
 <template>
     <div id="game">
-        <div v-if="response.status != 'Waiting for an opponent'" id="board">
-            <div id="my-score">0</div>
-            <div id="opponent-score">0</div>
-            <div v-for="(row, rownum) in response.rows"
-                :key="row.$index"
-                class="game-row"
-                :rownum="rownum"
-                v-on:dragover="allowDrop"
-                v-on:drop="dropOnRow">
-                <div v-for="card in row"
-                    :key="card.$index"
+        <div v-if="response.status != 'Waiting for an opponent'"
+            id="board"
+            class="row">
+            <div id="my-score" class="col text-right">0</div>
+            <div id="opponent-score" class="col text-left">0</div>
+            <div class="w-100"></div>
+            <div id="rows" class="col-12">
+                <div v-for="(row, rownum) in response.rows"
+                    :key="row.$index"
+                    class="game-row row border"
+                    style="height: 50px"
                     :rownum="rownum"
                     v-on:dragover="allowDrop"
-                    v-on:drop="dropOnRow"
-                    class="card">
-                    Power: {{card.power}}
-                    Owner: {{card.owner}}
+                    v-on:drop="dropOnRow">
+                    <div v-for="card in row"
+                        :key="card.$index"
+                        :rownum="rownum"
+                        v-on:dragover="allowDrop"
+                        v-on:drop="dropOnRow"
+                        class="card col-1">
+                        {{card.power}}
+                        {{card.owner | cut}}
+                    </div>
                 </div>
             </div>
-            <div class="hand">
-                <div v-for="(card, index) in response.hand"
-                    :key="index"
-                    class="card"
-                    :index="index"
-                    draggable
-                    v-on:dragstart="dragCardFromHand">
-                    Power: {{card.power}}
+            <div class="col-12">
+                <div class="hand row">
+                    <div v-for="(card, index) in response.hand"
+                        :key="index"
+                        class="card col"
+                        :index="index"
+                        draggable
+                        v-on:dragstart="dragCardFromHand">
+                        {{card.power}}
+                    </div>
                 </div>
             </div>
         </div>
-        <div v-else id="waiting-for-opponent">
+        <div v-else id="waiting-for-opponent" class="row">
             <div id="game-status">
                 Waiting for opponent
             </div>
@@ -109,13 +117,11 @@ export default {
       }.bind(this),
       1000
     );
+  },
+  filters: {
+    cut: function(word) {
+      return word.slice(0, 3);
+    }
   }
 };
 </script>
-
-<style>
-.game-row {
-  height: 900px;
-  width: 100%;
-}
-</style>

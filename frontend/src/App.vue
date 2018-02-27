@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" class="text-center container">
+    <h1 class="display-1">Troll Card Game</h1>
     <router-view/>
   </div>
 </template>
