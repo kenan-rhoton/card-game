@@ -19,8 +19,6 @@
                     <div v-for="card in row"
                         :key="card.$index"
                         :rownum="rownum"
-                        v-on:dragover="allowDrop"
-                        v-on:drop="dropOnRow"
                         class="card col-1">
                         {{card.power}}
                         {{card.owner | cut}}
@@ -105,6 +103,7 @@ export default {
     }
   },
   created: function() {
+    this.response = {};
     this.updateGame();
     this.intervalID = setInterval(
       function() {
