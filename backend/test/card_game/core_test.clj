@@ -1,7 +1,8 @@
 (ns card-game.core-test
   (:require [expectations.clojure.test :refer :all]
             [card-game.core :as core]
-            [card-game.victory-conditions :as victory-conditions]))
+            [card-game.victory-conditions :as victory-conditions]
+            [configs :as configs]))
 
 (defexpect basic.game
   ; Game can be created
@@ -96,7 +97,7 @@
 (defexpect ot-of-turn
   ; Can't play a card when you were not supposed to
   (expect
-    {:error "Out of turn play"}
+    {:error configs/out-of-turn}
     (-> (core/new-game)
         (core/play-card 0 0 0)
         (core/play-card 0 0 0))))

@@ -1,6 +1,7 @@
 (ns card-game.api-test
   (:require [expectations.clojure.test :refer :all]
-            [card-game.api.base :as api]))
+            [card-game.api.base :as api]
+            [configs :as configs]))
 
 (defexpect sanity-check
   (expect
@@ -141,20 +142,20 @@
 (defexpect status-check
   ; Game tracks status correctly
   (expect
-    "Waiting for an opponent"
+    configs/no-opp
     (:status (api/create-game)))
   (expect
-    "Playing"
+    configs/play
     (-> (api/create-game)
         :game-id
         (api/add-player)
         :status))
   (expect
-    "Waiting for an opponent"
+    configs/no-opp
     (let [game (api/create-game)]
       (:status (api/get-game (:game-id game) (:player-id game)))))
   (expect
-    "Waiting for opponent's play"
+    configs/wait
     (let [game (api/create-game)]
       (-> (:game-id game)
           (api/add-player)
@@ -162,7 +163,7 @@
           (api/play-card-as-player (:player-id game) 0 0)
           :status)))
   (expect
-    "Playing"
+    configs/play
     (let [game (api/create-game)
           opponent-id (:player-id (api/add-player (:game-id game)))]
       (-> (:game-id game)
@@ -171,7 +172,7 @@
           (api/play-card-as-player opponent-id 0 0)
           :status)))
   (expect
-    "Playing"
+    configs/play
     (let [game (api/create-game)
           opponent-id (:player-id (api/add-player (:game-id game)))]
       (-> (:game-id game)
@@ -183,7 +184,7 @@
 (defexpect out-of-turn
   ; Game gives error when playing and shouldn't
   (expect
-    {:error "Out of turn play"}
+    {:error configs/out-of-turn}
     (let [game (api/create-game)]
       (-> (:game-id game)
           (api/add-player)
@@ -192,7 +193,7 @@
           :game-id
           (api/play-card-as-player (:player-id game) 0 0))))
   (expect
-    {:error "Out of turn play"}
+    {:error configs/out-of-turn}
     (let [game (api/create-game)]
       (-> (:game-id game)
           (api/play-card-as-player (:player-id game) 0 0)))))

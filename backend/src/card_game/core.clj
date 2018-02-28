@@ -1,5 +1,6 @@
 (ns card-game.core
-  (:require [card-game.build-card :as build-card])
+  (:require [card-game.build-card :as build-card]
+            [configs :as configs])
   (:gen-class))
 
 (defn -main
@@ -76,7 +77,7 @@
           (-> game-state
               (assoc-in [:next-play player] {:player player :index index :row row})
               (apply-all-plays)))
-      {:error "Out of turn play"}))
+      {:error configs/out-of-turn}))
 
 (defn alter-card
   "Alters a cards' values, merging the new values with existing ones"
