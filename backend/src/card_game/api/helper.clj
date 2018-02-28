@@ -1,7 +1,8 @@
 (ns card-game.api.helper
   (:require [card-game.core :as core]
             [card-game.victory-conditions :as victory-conditions]
-            [card-game.persistence :as persistence]))
+            [card-game.persistence :as persistence]
+            [configs :as configs]))
 
 (defn player-num
   "Translates a Player id into an internal player representation"
@@ -32,9 +33,9 @@
 (defn define-status
   "Returns the status of the game"
   [game-state player-id]
-  (cond (= (count (:player-ids game-state)) 1) "Waiting for an opponent"
-        (nil? (get-in game-state [:next-play (player-num game-state player-id)])) "Playing"
-        :else "Waiting for opponent's play"))
+  (cond (= (count (:player-ids game-state)) 1) configs/no-opp
+        (nil? (get-in game-state [:next-play (player-num game-state player-id)])) configs/play
+        :else configs/wait))
 
 (defn uuid [] (str (java.util.UUID/randomUUID)))
 

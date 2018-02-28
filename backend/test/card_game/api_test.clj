@@ -11,7 +11,7 @@
     #(contains? % :player-id)
     (api/create-game))
   (expect
-    #(= 12 (count (:hand %)))
+    #(= (count (:hand %)) (count (configs/ini-hand)))
     (api/create-game))
   (expect
     #(= 5 (count (:rows %)))
@@ -23,7 +23,7 @@
     #(= :tie (:winner %))
     (loop [game (api/create-game)
            opponent (api/add-player (:game-id game))
-           iteration 12]
+           iteration (count (configs/ini-hand))]
       (if (= 0 iteration)
         (api/get-game (:game-id game) (:player-id game))
         (recur
@@ -36,7 +36,7 @@
     #(= :me (:winner %))
     (loop [game (api/create-game)
            opponent (api/add-player (:game-id game))
-           iteration 12]
+           iteration (count (configs/ini-hand))]
       (if (= 0 iteration)
         (api/get-game (:game-id game) (:player-id game))
         (recur
@@ -49,7 +49,7 @@
     #(= :opponent (:winner %))
     (loop [game (api/create-game)
            opponent (api/add-player (:game-id game))
-           iteration 12]
+           iteration (count (configs/ini-hand))]
       (if (= 0 iteration)
         (api/get-game (:game-id game) (:player-id game))
         (recur
@@ -65,7 +65,7 @@
 
   ; Cards are removed from hands upon being played
   (expect
-    #(= 11 (count (:hand %)))
+    #(= (count (:hand %)) (dec (count (configs/ini-hand))))
     (let [game (api/create-game)
           opponent (api/add-player (:game-id game))]
       (api/play-card-as-player (:game-id game) (:player-id opponent) 0 0)
@@ -73,7 +73,7 @@
 
   ; Card is not removed if opponent has not yet played
   (expect
-    #(= 12 (count (:hand %)))
+    #(= (count (:hand %)) (count (configs/ini-hand)))
     (let [game (api/create-game)
           opponent (api/add-player (:game-id game))]
       (do
@@ -82,7 +82,7 @@
 
   ; Fetching the game as a player returns one less card after a play
   (expect
-    #(= 11 (count (:hand %)))
+    #(= (count (:hand %)) (dec (count (configs/ini-hand))))
     (let [game (api/create-game)
           opponent (api/add-player (:game-id game))]
       (do
@@ -128,7 +128,7 @@
 
   ; A third player causes an error
   (expect
-    {:error "Too many players"}
+    {:error configs/too-players}
     (-> (api/create-game)
         :game-id
         (api/add-player)

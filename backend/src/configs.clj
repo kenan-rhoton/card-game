@@ -7,3 +7,10 @@
 (def play "Playing")
 
 (def wait "Waiting for opponent's play")
+
+(def too-players "Too many players")
+
+(defn ini-hand
+  "Generates de initial hand (can't be empty)"
+  []
+  (vec (repeat 13 {:power 11})))

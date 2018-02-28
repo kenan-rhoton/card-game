@@ -2,7 +2,8 @@
   (:require [expectations.clojure.test :refer :all]
             [card-game.core :as core]
             [card-game.victory-conditions :as victory-conditions]
-            [configs :as configs]))
+            [configs :as configs]
+            [card-game.test-helper :as helper]))
 
 (defexpect basic.game
   ; Game can be created
@@ -13,7 +14,14 @@
   ; Game contains two players
   (expect
     #(count (:players %))
-    (core/new-game)))
+    (core/new-game))
+
+  ; Hand's not empty
+  (expect
+    false
+    (-> (core/new-game)
+        (get-in [:players 0 :hand])
+        (empty?))))
 
 (defexpect finished-game
   ; We can tell if a game is finished
@@ -22,19 +30,8 @@
     (core/new-game))
 
   (expect
-    victory-conditions/finished?
-    (core/new-game 0))
-
-  (expect
-    #(not (victory-conditions/finished? %))
-    (-> (core/new-game 1)
-        (core/play-card 0 0 0)))
-
-  (expect
-    victory-conditions/finished?
-    (-> (core/new-game 1)
-        (core/play-card 0 0 0)
-        (core/play-card 1 0 0))))
+    #(victory-conditions/finished? %)
+    (helper/end-game (core/new-game))))
 
 (defexpect points-on-rows
   ; We can get the current amount of points on different rows
@@ -44,14 +41,19 @@
         (victory-conditions/get-points)))
 
   (expect
-    [[10 0] [0 10] [0 0] [0 0] [0 0]]
+    [[(helper/ini-hand-power 0) 0]
+     [0 (helper/ini-hand-power 1)]
+     [0 0] [0 0] [0 0]]
     (-> (core/new-game)
         (core/play-card 0 0 0)
         (core/play-card 1 1 1)
         (victory-conditions/get-points)))
 
   (expect
-    [[20 10] [0 0] [0 0] [0 10] [0 0]]
+    [[(+ (helper/ini-hand-power 0) (helper/ini-hand-power 1))
+      (helper/ini-hand-power 0)]
+     [0 0] [0 0] 
+     [0 (helper/ini-hand-power 1)] [0 0]]
     (-> (core/new-game)
         (core/play-card 0 0 0)
         (core/play-card 1 0 0)
@@ -68,30 +70,28 @@
 (defexpect winning-player
   ; Winner returns the winning player on a finished game, or 2 on a tie
   (expect
-    1
-    (-> (core/new-game 2)
-        (core/play-card 0 0 0)
-        (core/play-card 1 0 1)
-        (core/play-card 0 0 0)
-        (core/play-card 1 0 2)
-        (victory-conditions/winner)))
-
-  (expect
     0
-    (-> (core/new-game 2)
+    (-> (core/new-game)
         (core/play-card 0 0 3)
         (core/play-card 1 0 2)
         (core/play-card 0 0 0)
         (core/play-card 1 0 2)
+        (helper/end-game 2)
+        (victory-conditions/winner)))
+  (expect
+    1
+    (-> (core/new-game)
+        (core/play-card 0 0 0)
+        (core/play-card 1 0 1)
+        (core/play-card 0 0 0)
+        (core/play-card 1 0 2)
+        (helper/end-game 2)
         (victory-conditions/winner)))
 
   (expect
     2
-    (-> (core/new-game 2)
-        (core/play-card 0 0 0)
-        (core/play-card 1 0 0)
-        (core/play-card 0 0 0)
-        (core/play-card 1 0 0)
+    (-> (core/new-game)
+        (helper/end-game)
         (victory-conditions/winner))))
 
 (defexpect ot-of-turn

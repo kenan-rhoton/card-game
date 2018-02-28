@@ -1,6 +1,5 @@
 (ns card-game.core
-  (:require [card-game.build-card :as build-card]
-            [configs :as configs])
+  (:require [configs :as configs])
   (:gen-class))
 
 (defn -main
@@ -10,18 +9,16 @@
 
 (defn new-player
   "Creates a new player object"
-  ([] (new-player 12))
-  ([cards]
+  ([]
    {
-    :hand (vec (repeat cards (build-card/build-card)))
+    :hand (configs/ini-hand)
     }))
 
 (defn new-game
   "Creates a new game object"
-  ([] (new-game 12))
-  ([cards]
+  ([]
    {
-    :players (vec (repeat 2 (new-player cards)))
+    :players (vec (repeat 2 (new-player)))
     :rows (vec (repeat 5 []))
     :next-play [nil nil]
     }))
