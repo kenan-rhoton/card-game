@@ -1,6 +1,6 @@
 (ns card-game.api-test
   (:require [expectations.clojure.test :refer :all]
-            [card-game.api :as api]))
+            [card-game.api.base :as api]))
 
 (defexpect sanity-check
   (expect

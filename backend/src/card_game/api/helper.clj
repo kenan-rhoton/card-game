@@ -1,4 +1,4 @@
-(ns card-game.api
+(ns card-game.api.helper
   (:require [card-game.core :as core]
             [card-game.victory-conditions :as victory-conditions]
             [card-game.persistence :as persistence]))
@@ -36,22 +36,6 @@
         (nil? (get-in game-state [:next-play (player-num game-state player-id)])) "Playing"
         :else "Waiting for opponent's play"))
 
-(defn get-game
-  "Fetches a game from an ID and returns the visible part as a player"
-  [game-id player-id]
-  (let [game-state (persistence/fetch-game game-id)]
-  (assoc (get-game-as-player game-state player-id)
-         :status (define-status game-state player-id))))
-
-(defn play-card-as-player
-  [game-id player index row]
-  (let [game-state (persistence/fetch-game game-id)]
-      (if (= (:status (get-game game-id player)) "Playing")
-          (do
-            (persistence/save-game (core/play-card game-state (player-num game-state player) index row))
-            (get-game game-id player))
-          {:error "Out of turn play"})))
-
 (defn uuid [] (str (java.util.UUID/randomUUID)))
 
 (defn create-player
@@ -60,21 +44,3 @@
     (if (some #{id} (:player-ids game))
       (recur (uuid))
       (update game :player-ids #(vec (conj % id))))))
-
-(defn add-player
-  "Adds a player to a game"
-  [game-id]
-  (let [saved-game (persistence/fetch-game game-id)
-        players-connected (count (:player-ids saved-game))]
-    (if (> players-connected 1)
-      {:error "Too many players"}
-      (let [game-state (persistence/save-game
-                   (create-player
-                     (or
-                       saved-game
-                       (assoc (core/new-game) :game-id game-id))))]
-        (get-game game-id (last (:player-ids game-state)))))))
-
-(defn create-game
-  "Creates a new instance of a game"
-  [] (add-player (persistence/next-id)))
