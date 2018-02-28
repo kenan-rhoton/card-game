@@ -78,10 +78,10 @@ test('Sample Game', async t=> {
                 gamePage.cardsInHand.nth(0),
                 gamePage.rows.nth(0))
             .expect(gamePage.cardsInHand.count).eql(num-1)
-            .expect(gamePage.rows.nth(0).find('.card').count).eql(cardsInPlay+2)
+            .expect(gamePage.rows.nth(0).find('.card').count).eql(cardsInPlay+1)
             .navigateTo(myGameURL.href);
 
-        cardsInPlay += 2;
+        cardsInPlay += 1;
         num -= 1;
     }
     await t
