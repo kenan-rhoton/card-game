@@ -64,15 +64,15 @@ test('Sample Game', async t=> {
     var cardsInPlay = 0;
     var num = 12;
     while (await gamePage.cardsInHand.exists) {
-        await t.expect(gamePage.rows.nth(0).find('.card').count).eql(cardsInPlay)
         await t
+            .expect(gamePage.rows.nth(0).find('.card').count).eql(cardsInPlay)
+            .expect(gamePage.opponentRows.nth(0).find('.card').count).eql(cardsInPlay)
             .dragToElement(
                 gamePage.cardsInHand.nth(0),
                 gamePage.rows.nth(0))
-            //.expect(gamePage.cardsInHand.count).eql(num-1)
-            //.expect(gamePage.rows.nth(0).find('.card').count).eql(cardsInPlay+1)
             .navigateTo(opponentURL.href)
             .expect(gamePage.rows.nth(0).find('.card').count).eql(cardsInPlay)
+            .expect(gamePage.opponentRows.nth(0).find('.card').count).eql(cardsInPlay)
             .expect(gamePage.cardsInHand.count).eql(num)
             .dragToElement(
                 gamePage.cardsInHand.nth(0),
