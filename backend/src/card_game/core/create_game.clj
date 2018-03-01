@@ -1,11 +1,6 @@
 (ns card-game.core.create-game
   (:require [configs :as configs]))
 
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
-
 (defn new-player
   "Creates a new player object"
   ([]
