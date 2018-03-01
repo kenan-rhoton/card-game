@@ -29,7 +29,7 @@
         (core/play-card 1 0 2)
         (core/play-card 0 0 0)
         (core/play-card 1 0 2)
-        (helper/end-game 2)
+        (helper/end-game)
         (victory-conditions/winner)))
   (expect
     1
@@ -38,7 +38,7 @@
         (core/play-card 1 0 1)
         (core/play-card 0 0 0)
         (core/play-card 1 0 2)
-        (helper/end-game 2)
+        (helper/end-game)
         (victory-conditions/winner)))
 
   (expect

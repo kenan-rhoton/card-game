@@ -3,17 +3,14 @@
             [configs :as configs]))
 
 (defn end-game
-  ([game-state] (end-game game-state 0))
-  ([game-state previous-plays]
-    (loop [game-state game-state
-          x (- (count (configs/ini-hand)) previous-plays)]
-      (if (< x 1)
-          game-state
-          (recur
-            (-> game-state
-                (core/play-card 0 0 0)
-                (core/play-card 1 0 0))
-            (dec x))))))
+  [game-state]
+   (loop [game-state game-state]
+     (if (empty? (get-in game-state [:players 0 :hand]))
+         game-state
+         (recur
+           (-> game-state
+               (core/play-card 0 0 0)
+               (core/play-card 1 0 0))))))
 
 (defn ini-hand-power
   [x]
