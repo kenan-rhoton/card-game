@@ -14,7 +14,7 @@ export default {
   },
   created: async function() {
     const gameID = this.$route.params.joinID;
-    const response = this.fetchGame(gameID);
+    const response = await this.fetchGame(gameID);
     this.$router.push({
       name: "Game",
       params: {
