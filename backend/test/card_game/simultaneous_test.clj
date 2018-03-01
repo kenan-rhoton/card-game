@@ -4,7 +4,7 @@
             [card-game.victory-conditions :as victory-conditions]
             [configs :as configs]))
 
-(defexpect ot-of-turn
+(defexpect out-of-turn
   ; Can't play a card when you were not supposed to
   (expect
     {:error configs/out-of-turn}

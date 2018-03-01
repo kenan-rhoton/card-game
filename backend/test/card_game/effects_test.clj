@@ -6,12 +6,10 @@
 (defexpect card-altering
   ; Altering a card in hand works
   (expect
-    (concat [9001] (subvec (vec (map :power (configs/ini-hand))) 2))
+    (concat [9001] (rest (vec (map :power (configs/ini-hand)))))
     (map :power
          (-> (core/new-game)
              (core/alter-card [:players 1 :hand 0] {:power 9001})
-             (core/play-card 0 0 0)
-             (core/play-card 1 1 1)
              :players
              (nth 1)
              :hand)))

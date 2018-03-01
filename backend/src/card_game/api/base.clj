@@ -27,7 +27,7 @@
   (let [saved-game (persistence/fetch-game game-id)
         players-connected (count (:player-ids saved-game))]
     (if (> players-connected 1)
-      {:error configs/too-players}
+      {:error configs/too-many-players}
       (let [game-state (persistence/save-game
                    (helper/create-player
                      (or

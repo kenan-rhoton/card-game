@@ -37,7 +37,7 @@
 
   ; A third player causes an error
   (expect
-    {:error configs/too-players}
+    {:error configs/too-many-players}
     (-> (api/create-game)
         :game-id
         (api/add-player)

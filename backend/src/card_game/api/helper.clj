@@ -18,7 +18,7 @@
     :else :opponent))
 
 (defn get-game-as-player
-  "Returns the part that ought to be visible to the player"
+  "Returns the part of the game-state that ought to be visible to the player"
   [game-state player-id]
   {:game-id (:game-id game-state)
    :player-id player-id
@@ -31,7 +31,7 @@
    :winner (translate-player game-state (victory-conditions/winner game-state) player-id)})
 
 (defn define-status
-  "Returns the status of the game"
+  "Returns the status of the game from a player's perspective"
   [game-state player-id]
   (cond (= (count (:player-ids game-state)) 1) configs/no-opp
         (nil? (get-in game-state [:next-play (player-num game-state player-id)])) configs/play
