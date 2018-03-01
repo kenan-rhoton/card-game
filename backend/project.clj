@@ -14,6 +14,6 @@
             [lein-expectations "0.0.8"]
             [lein-ring "0.12.1"]]
   :ring {:handler card-game.api.handler/entry}
-  :main ^:skip-aot card-game.core
+  :main ^:skip-aot card-game.core.create-game
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
