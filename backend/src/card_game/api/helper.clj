@@ -9,7 +9,7 @@
   [game-state id] (.indexOf (:player-ids game-state) id))
 
 (defn translate-player
-  "Translates an internal player to a useful representation"
+  "Translates an internal player to a human-readable representation"
   [game-state internal me]
   (cond
     (nil? internal) nil
