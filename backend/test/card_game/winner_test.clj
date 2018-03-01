@@ -25,19 +25,15 @@
   (expect
     0
     (-> (core/new-game)
-        (core/play-card 0 0 3)
-        (core/play-card 1 0 2)
-        (core/play-card 0 0 0)
-        (core/play-card 1 0 2)
+        (helper/play-strategies [[0 0 3] [0 0 0]]
+                                [[1 0 2] [1 0 2]])
         (helper/end-game)
         (victory-conditions/winner)))
   (expect
     1
     (-> (core/new-game)
-        (core/play-card 0 0 0)
-        (core/play-card 1 0 1)
-        (core/play-card 0 0 0)
-        (core/play-card 1 0 2)
+        (helper/play-strategies [[0 0 0] [0 0 0]]
+                                [[1 0 1] [1 0 2]])
         (helper/end-game)
         (victory-conditions/winner)))
 
