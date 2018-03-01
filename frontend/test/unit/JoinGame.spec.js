@@ -3,14 +3,14 @@ import { shallow } from "@vue/test-utils";
 import JoinGame from "@/components/JoinGame.vue";
 
 describe("JoinGame", () => {
-  it("renders", () => {
+  it("renders", async () => {
     var pushParams = {};
     const $route = { params: { joinID: 5 } };
     const $router = { push: a => (pushParams = a) };
-    shallow(JoinGame, {
+    await shallow(JoinGame, {
       mocks: { $route, $router },
       methods: {
-        fetchGame: () => {
+        fetchGame: async () => {
           return { data: { "player-id": 3 } };
         }
       }
