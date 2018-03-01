@@ -26,16 +26,4 @@
         (core/play-card 0 2 1)
         (core/play-card 1 1 1)
         :players
-        second))
-
-  ; Playing a card does not affect other players' hand
-  (expect
-    (concat [9001] (subvec (vec (map :power (configs/ini-hand))) 2)) 
-    (map :power
-         (-> (core/new-game)
-             (core/alter-card [:players 1 :hand 0] {:power 9001})
-             (core/play-card 0 0 0)
-             (core/play-card 1 1 1)
-             :players
-             (nth 1)
-             :hand))))
+        second)))

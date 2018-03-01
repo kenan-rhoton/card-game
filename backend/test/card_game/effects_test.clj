@@ -3,12 +3,8 @@
             [card-game.core :as core]
             [configs :as configs]))
 
-
-
-
 (defexpect card-altering
   ; Altering a card in hand works
-  ; Playing a card does not affect other players' hand
   (expect
     (concat [9001] (subvec (vec (map :power (configs/ini-hand))) 2))
     (map :power
