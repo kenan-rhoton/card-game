@@ -65,7 +65,7 @@ test('Sample Game', async t=> {
         .expect(gamePage.cardsInHand.exists).ok();
     
     var cardsInPlay = 0;
-    var maxHandNum = 12;
+    var maxHandNum = await gamePage.cardsInHand.count;
 
     while (await gamePage.cardsInHand.exists) {
         await gamePage.checkState(t, maxHandNum, cardsInPlay)
