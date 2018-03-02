@@ -11,6 +11,17 @@ export default class GamePage {
         this.myScore = Selector('#my-score');
         this.opponentScore = Selector('#opponent-score');
         this.gameStatus = Selector('#game-status');
+
+        this.cardsInMyRow = this.rows.nth(0).find('.card')
+        this.cardsInOpposingRow = this.opponentRows.nth(0).find('.card')
     }
+
+    checkState(t, inHand, inPlay){
+        return t
+            .expect(this.cardsInHand.count).eql(inHand)
+            .expect(this.cardsInMyRow.count).eql(inPlay)
+            .expect(this.cardsInOpposingRow.count).eql(inPlay)
+    }
+
 }
 

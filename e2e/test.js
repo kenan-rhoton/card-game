@@ -50,40 +50,42 @@ test('Game links are different', async t => {
 });
 
 test('Sample Game', async t=> {
-    await t
-        .click(mainPage.createGame)
+    
+    await t.click(mainPage.createGame)
     const opponentLink = await gamePage.joinLink.textContent;
     const myGameURL = await getWindowLocation();
+    
     await t
         .navigateTo(opponentLink)
         .expect(gamePage.cardsInHand.exists).ok()
     const opponentURL  = await getWindowLocation();
+    
     await t
         .navigateTo(myGameURL.href)
         .expect(gamePage.cardsInHand.exists).ok();
+    
     var cardsInPlay = 0;
-    var num = 12;
+    var maxHandNum = 12;
+
     while (await gamePage.cardsInHand.exists) {
-        await t
-            .expect(gamePage.rows.nth(0).find('.card').count).eql(cardsInPlay)
-            .expect(gamePage.opponentRows.nth(0).find('.card').count).eql(cardsInPlay)
+        await gamePage.checkState(t, maxHandNum, cardsInPlay)
             .dragToElement(
                 gamePage.cardsInHand.nth(0),
                 gamePage.rows.nth(0))
             .navigateTo(opponentURL.href)
-            .expect(gamePage.rows.nth(0).find('.card').count).eql(cardsInPlay)
-            .expect(gamePage.opponentRows.nth(0).find('.card').count).eql(cardsInPlay)
-            .expect(gamePage.cardsInHand.count).eql(num)
+
+        await gamePage.checkState(t, maxHandNum, cardsInPlay)
             .dragToElement(
                 gamePage.cardsInHand.nth(0),
                 gamePage.rows.nth(0))
-            .expect(gamePage.cardsInHand.count).eql(num-1)
-            .expect(gamePage.rows.nth(0).find('.card').count).eql(cardsInPlay+1)
+        
+        await gamePage.checkState(t, maxHandNum-1, cardsInPlay+1)
             .navigateTo(myGameURL.href);
 
         cardsInPlay += 1;
-        num -= 1;
+        maxHandNum -= 1;
     }
+
     await t
         .expect(gamePage.myScore.textContent).eql("0")
         .expect(gamePage.opponentScore.textContent).eql("0")
