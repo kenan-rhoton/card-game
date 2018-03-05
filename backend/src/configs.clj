@@ -12,8 +12,8 @@
 
 (defn ini-hand
   "Generates de initial hand (can't be empty)"
-   []
-   [{:power 5}
+  []
+  [{:power 5}
    {:power 6}
    {:power 7}
    {:power 8}
