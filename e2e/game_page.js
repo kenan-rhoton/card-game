@@ -16,8 +16,8 @@ export default class GamePage {
         this.cardsInOpposingRow = this.opponentRows.nth(0).find('.card')
     }
 
-    checkState(t, inHand, inPlay){
-        return t
+    checkState(testCase, inHand, inPlay){
+        return testCase
             .expect(this.cardsInHand.count).eql(inHand)
             .expect(this.cardsInMyRow.count).eql(inPlay)
             .expect(this.cardsInOpposingRow.count).eql(inPlay)
