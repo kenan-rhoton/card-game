@@ -2,7 +2,7 @@
   (:require [rules.create-game :as create-game]
             [rules.play-card :as play-card]
             [rules.victory-conditions :as victory-conditions]
-            [persistence :as persistence]
+            [persistence.persistence :as persistence]
             [api.helper :as helper]
             [configs.messages :as messages]))
 

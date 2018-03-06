@@ -1,9 +1,9 @@
-(ns card-game.rules.winner-test
+(ns rules.winner-test
   (:require [expectations.clojure.test :refer :all]
-            [card-game.rules.create-game :as create-game]
-            [card-game.rules.play-card :as play-card]
-            [card-game.rules.victory-conditions :as victory-conditions]
-            [card-game.configs.hand :as hand]))
+            [rules.create-game :as create-game]
+            [rules.play-card :as play-card]
+            [rules.victory-conditions :as victory-conditions]
+            [configs.hand :as hand]))
 
 (defn play-a-game-helper
   [strategy1 strategy2]

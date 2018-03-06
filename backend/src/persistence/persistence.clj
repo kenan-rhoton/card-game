@@ -1,4 +1,4 @@
-(ns persistence
+(ns persistence.persistence
   (:require [taoensso.carmine :as car :refer (wcar)]))
 
 ; See `wcar` docstring for opts

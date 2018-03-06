@@ -1,9 +1,9 @@
-(ns card-game.rules.effects-test
+(ns rules.effects-test
   (:require [expectations.clojure.test :refer :all]
-            [card-game.rules.create-game :as create-game]
-            [card-game.rules.play-card :as play-card]
-            [card-game.rules.alter-card :as alter-card]
-            [card-game.configs.hand :as hand]))
+            [rules.create-game :as create-game]
+            [rules.play-card :as play-card]
+            [rules.alter-card :as alter-card]
+            [configs.hand :as hand]))
 
 (defexpect card-altering
   ; Altering a card in hand works
@@ -39,7 +39,7 @@
           (play-card/play-card 1 1 1)
           :rows (get 0) (get 0))))
   (expect
-    (rest (map :power (configs/ini-hand)))
+    (rest (map :power (hand/ini-hand)))
     (map :power
          (-> (create-game/new-game)
              (alter-card/alter-card [:players 0 :hand 0] {:power 9001})

@@ -1,8 +1,8 @@
-(ns card-game.rules.hand-test
+(ns rules.hand-test
   (:require [expectations.clojure.test :refer :all]
-            [card-game.rules.create-game :as create-game]
-            [card-game.rules.play-card :as play-card]
-            [card-game.configs.hand :as hand]))
+            [rules.create-game :as create-game]
+            [rules.play-card :as play-card]
+            [configs.hand :as hand]))
 
 (defexpect starting-hand
   ; Players start with expected hand

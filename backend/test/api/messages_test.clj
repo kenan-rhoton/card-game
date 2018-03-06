@@ -1,4 +1,4 @@
-(ns api-messages-test
+(ns api.messages-test
   (:require [expectations.clojure.test :refer :all]
             [api.base :as api]
             [configs.messages :as messages]))
@@ -6,20 +6,20 @@
 (defexpect status-check
   ; Game tracks status correctly
   (expect
-    configs/no-opp
+    messages/no-opp
     (:status (api/create-game)))
   (expect
-    configs/play
+    messages/play
     (-> (api/create-game)
         :game-id
         (api/add-player)
         :status))
   (expect
-    configs/no-opp
+    messages/no-opp
     (let [game (api/create-game)]
       (:status (api/get-game (:game-id game) (:player-id game)))))
   (expect
-    configs/wait
+    messages/wait
     (let [game (api/create-game)
           game-id (:game-id game)
           player-id (:player-id game)]
@@ -28,7 +28,7 @@
             (api/play-card-as-player game-id player-id 0 0)))))
  
   (expect
-    configs/play
+    messages/play
     (let [game (api/create-game)
           game-id (:game-id game)
           player-id (:player-id game)
@@ -38,7 +38,7 @@
             (api/play-card-as-player game-id opponent-id 0 0)))))
  
   (expect
-    configs/play
+    messages/play
     (let [game (api/create-game)
           game-id (:game-id game)
           player-id (:player-id game)

@@ -1,4 +1,4 @@
-(ns api-play-test
+(ns api.play-test
   (:require [expectations.clojure.test :refer :all]
             [api.base :as api]
             [configs.hand :as hand]))
