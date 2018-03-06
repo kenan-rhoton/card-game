@@ -21,7 +21,6 @@ define(function (require) {
             };
 
             req.send(JSON.stringify(playData));
-
         }
     }
 });

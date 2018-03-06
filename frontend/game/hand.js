@@ -7,11 +7,8 @@ define(function(require) {
             var hand = document.querySelector(".hand");
             helper.clear(hand);
 
-            const baseCard = document.getElementById("card-template")
-                .content.querySelector(".card");
-
             handState.forEach(function (cardInHand, index) {
-                var newCard = baseCard.cloneNode(true);
+                var newCard = helper.baseCard.cloneNode(true);
                 newCard.innerHTML = cardInHand["power"];
                 newCard.setAttribute("index", index);
 

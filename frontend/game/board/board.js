@@ -12,21 +12,15 @@ define(function (require) {
     return {
         buildRows: builder.buildRows,
         setBoard(boardState) {
-            const baseCard = document.getElementById("card-template")
-                .content.querySelector(".card");
-
             var gameRows = document.querySelectorAll("game-row");
+
             gameRows.forEach(function (gameRow) {
                 helper.clear(gameRow);
             })
 
             boardState.forEach(function (row, rownum) {
                 row.forEach(function (cardInRow) {
-                    var newCard = baseCard.cloneNode(true);
-                    newCard.setAttribute("draggable","false");
-                    newCard.classList.remove("col-1");
-                    newCard.classList.add("col-2");
-                    newCard.innerHTML = cardInRow["power"];
+                    var newCard = builder.buildCard(helper.baseCard, cardInRow);
 
                     if (cardInRow["owner"] === "me") {
                         fetchRow("#my-rows .game-row", rownum).appendChild(newCard);

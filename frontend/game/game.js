@@ -1,6 +1,7 @@
 "use strict";
 
 requirejs(['./board/board.js', './hand.js', './helper.js'], function (board, hand, helper) {
+
     function setState(state) {
         hand.setHand(state["hand"]);
         board.setBoard(state["rows"]);
@@ -13,7 +14,6 @@ requirejs(['./board/board.js', './hand.js', './helper.js'], function (board, han
         req.responseType = "json";
 
         req.onload = function () {
-            console.log(req.response);
             var num = req.response["hand"].length;
             if (num !== lastnum){
                 lastnum = num;

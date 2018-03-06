@@ -10,6 +10,8 @@ define(function() {
             }
         },
         gameID: params.get("gameID"),
-        playerID: params.get("playerID")
+        playerID: params.get("playerID"),
+        baseCard: document.getElementById("card-template")
+                .content.querySelector(".card"),
     }
 })
