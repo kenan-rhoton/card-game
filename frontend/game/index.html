@@ -17,7 +17,7 @@
             <div id="game">
                 <div id="board" class="row">
                     <div id="my-score" class="col text-right">0</div>
-                    <div id="opponent-score" class="col text-right">0</div>
+                    <div id="opponent-score" class="col text-left">0</div>
                     <div class="w-100"></div>
                     <div id="rows" class="col-12">
                         <div id="row-card-title" class="row">
@@ -57,10 +57,10 @@
             <div class="card col-1"
                  draggable="true"
                  ondragstart="dragCardFromHand(event)">
-                10
             </div>
         </template>
         
-        <script src="game.js"></script>
+        <!-- this makes require.js start off by loading game.js -->
+        <script data-main="game.js" src="require.js"></script>
     </body>
 </html>
