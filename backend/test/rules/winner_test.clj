@@ -52,7 +52,12 @@
     #(= (victory-conditions/get-won-rows % 1) 4)
     (play-a-game-helper
       (fn [i] 4)
-      (fn [i] (mod i 4)))))
+      (fn [i] (mod i 4))))
+  (expect
+    #(= (victory-conditions/get-won-rows % 0) 0)
+    (play-a-game-helper
+      (fn [i] 0)
+      (fn [i] 0))))
 
 (defexpect winning-player
   ; Winner isn't set if game hasn't ended
