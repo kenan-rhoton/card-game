@@ -48,7 +48,7 @@
         (inc row))))) 
 
 (defn most-points
-  "Which player has the most points? (simplified?)"
+  "Which player has the most points?"
   [game-state]
   (let [one (get-won-rows game-state 0)
         two (get-won-rows game-state 1)]
