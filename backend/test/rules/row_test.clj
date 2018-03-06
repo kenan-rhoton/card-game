@@ -1,8 +1,7 @@
-(ns card-game.row-test
+(ns card-game.rules.row-test
   (:require [expectations.clojure.test :refer :all]
-            [card-game.core.create-game :as create-game]
-            [card-game.core.play-card :as play-card]
-            [configs :as configs]
+            [card-game.rules.create-game :as create-game]
+            [card-game.rules.play-card :as play-card]
             [card-game.test-helper :as helper]))
 
 (defexpect initial-state

@@ -1,7 +1,7 @@
-(ns card-game.api-messages-test
+(ns api-messages-test
   (:require [expectations.clojure.test :refer :all]
-            [card-game.api.base :as api]
-            [configs :as configs]))
+            [api.base :as api]
+            [configs.messages :as messages]))
 
 (defexpect status-check
   ; Game tracks status correctly
@@ -50,7 +50,7 @@
 (defexpect out-of-turn
   ; Game gives error when playing and shouldn't
   (expect
-    {:error configs/out-of-turn}
+    {:error messages/out-of-turn}
     (let [game (api/create-game)
           game-id (:game-id game)
           player-id (:player-id game)]
@@ -59,7 +59,7 @@
           (api/play-card-as-player game-id player-id 0 0))))
   
   (expect
-    {:error configs/out-of-turn}
+    {:error messages/out-of-turn}
     (let [game (api/create-game)
           game-id (:game-id game)
           player-id (:player-id game)]
