@@ -20,6 +20,7 @@
 
 (defn get-points
   "Tells us how many points each player has on each row"
+  ; Only used on tests
   [game-state]
   (loop [row 0
          points []]
@@ -32,26 +33,33 @@
           [(points-in-row game-state row 0)
            (points-in-row game-state row 1)])))))
 
+(defn get-won-rows
+  "Tells us how many rows a player is winning"
+  [game-state player]
+  (loop [won 0
+         row 0]
+    (if (= row 5)
+      won
+      (recur
+        (if (> (points-in-row game-state row player)
+               (points-in-row game-state row (mod (inc player) 2)))
+            (inc won)
+            won)
+        (inc row))))) 
+
 (defn most-points
-  "Which player has the most points?"
-  [point-list]
-  (loop [one 0
-         two 0
-         points point-list]
-    (if (empty? points)
-      (cond
-        (> one two) 0
-        (< one two) 1
-        :else 2)
-      (let [current (first points)]
-        (cond
-          (> (first current) (second current)) (recur (inc one) two (rest points))
-          (< (first current) (second current)) (recur one (inc two) (rest points))
-          :else (recur one two (rest points)))))))
+  "Which player has the most points? (simplified?)"
+  [game-state]
+  (let [one (get-won-rows game-state 0)
+        two (get-won-rows game-state 1)]
+    (cond
+      (> one two) 0
+      (< one two) 1
+      :else 2)))
 
 (defn winner
   "Tells us if there's a winner and if so, who it is"
   [game-state]
   (if (finished? game-state)
-    (most-points (get-points game-state))
+    (most-points game-state)
     nil))
