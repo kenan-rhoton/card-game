@@ -18,21 +18,6 @@
       0
       row-data)))
 
-(defn get-points
-  "Tells us how many points each player has on each row"
-  ; Only used on tests
-  [game-state]
-  (loop [row 0
-         points []]
-    (if (> row 4)
-      points
-      (recur
-        (inc row)
-        (conj 
-          points 
-          [(points-in-row game-state row 0)
-           (points-in-row game-state row 1)])))))
-
 (defn get-won-rows
   "Tells us how many rows a player is winning"
   [game-state player]
