@@ -5,7 +5,7 @@ define(function(require) {
     return {
         setHand(handState) {
             var hand = document.querySelector(".hand");
-            helper.clear(hand);
+            helper.clearChildren(hand);
 
             handState.forEach(function (cardInHand, index) {
                 var newCard = helper.baseCard.cloneNode(true);

@@ -15,7 +15,7 @@ define(function (require) {
             var gameRows = document.querySelectorAll("game-row");
 
             gameRows.forEach(function (gameRow) {
-                helper.clear(gameRow);
+                helper.clearChildren(gameRow);
             })
 
             boardState.forEach(function (row, rownum) {
