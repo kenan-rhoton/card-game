@@ -13,7 +13,7 @@ export default class GamePage {
         this.gameStatus = Selector('#game-status');
 
         this.cardsInMyRow = this.rows.nth(0).find('.card')
-        this.cardsInOpposingRow = this.opponentRows.nth(0).find('.card')
+        this.cardsInOpposingRow = this.opponentRows.nth(1).find('.card')
     }
 
     checkState(testCase, inHand, inPlay){
