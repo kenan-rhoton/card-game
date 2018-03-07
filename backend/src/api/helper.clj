@@ -18,15 +18,19 @@
 (defn get-game-as-player
   "Returns the part of the game-state that ought to be visible to the player"
   [game-state player-id]
-  {:game-id (:game-id game-state)
-   :player-id player-id
-   :hand (get-in game-state [:players (player-num game-state player-id) :hand])
-   :rows (mapv #(mapv (fn [card]
+  (let [player (player-num game-state player-id)
+        opponent (mod (inc player) 2)]
+    {:game-id (:game-id game-state)
+     :player-id player-id
+     :hand (get-in game-state [:players player :hand])
+     :rows (mapv #(mapv (fn [card]
                         (assoc card :owner
                           (translate-player game-state (:owner card) player-id)))
                       %)
                (:rows game-state))
-   :winner (translate-player game-state (victory-conditions/winner game-state) player-id)})
+     :winner (translate-player game-state (victory-conditions/winner game-state) player-id)
+     :scores [(victory-conditions/get-won-rows game-state player)
+              (victory-conditions/get-won-rows game-state opponent)]}))
 
 (defn define-status
   "Returns the status of the game from a player's perspective"

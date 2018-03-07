@@ -2,11 +2,11 @@
 
 define(function(require) {
     return {
-        setScores() {
+        setScores(scoresState) {
             var myScore = document.getElementById("my-score");
 	    var opponentScore = document.getElementById("opponent-score");
-	    myScore.innerHTML = "0";
-            opponentScore.innerHTML = "0";
+	    myScore.innerHTML = scoresState[0];
+            opponentScore.innerHTML = scoresState[1];
         }
     }
 });

@@ -89,6 +89,6 @@ test('Sample Game', async testCase => {
     }
 
     await testCase
-        .expect(gamePage.myScore.innerText).eql("0")
-        .expect(gamePage.opponentScore.innerText).eql("0")
+        .expect(gamePage.myScore.innerText).eql("1")
+        .expect(gamePage.opponentScore.innerText).eql("1")
 })
