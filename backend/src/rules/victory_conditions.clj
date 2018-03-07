@@ -7,32 +7,32 @@
     (= 0 (count (get-in game-state [:players 0 :hand])))
     (= 0 (count (get-in game-state [:players 1 :hand])))))
 
-(defn points-in-row
-  "Tells us how many points a certain row contains for a certain player"
-  [game-state row player]
-  (let [row-data (get-in game-state [:rows row])]
-    (reduce
-      #(if (= (:owner %2) player)
-         (+ %1 (:power %2))
-         %1)
-      0
-      row-data)))
+(defn ^:private points-in-row
+  "Tells us how many points the data of a row has for a certain player"
+  [row-data player]
+  (reduce
+    #(if (= (:owner %2) player)
+       (+ %1 (:power %2))
+       %1)
+    0
+    row-data))
+
+(defn ^:private player-wins-row?
+  "Tells us if a player is winning a row from its data"
+  [row-data player]
+  (let [opponent (mod (inc player) 2)]
+    (> (points-in-row row-data player)
+       (points-in-row row-data opponent))))
 
 (defn get-won-rows
   "Tells us how many rows a player is winning"
   [game-state player]
-  (loop [won 0
-         row 0]
-    (if (= row 5)
-      won
-      (recur
-        (if (> (points-in-row game-state row player)
-               (points-in-row game-state row (mod (inc player) 2)))
-            (inc won)
-            won)
-        (inc row))))) 
+  (reduce
+    #(if (player-wins-row? %2 player) (inc %1) %1)
+    0
+    (get-in game-state [:rows])))
 
-(defn most-points
+(defn ^:private most-points
   "Which player has the most points?"
   [game-state]
   (let [one (get-won-rows game-state 0)
