@@ -1,6 +1,15 @@
 "use strict";
 import { Selector } from 'testcafe'; // first import testcafe selectors
 
+async function countCardsInRow (rows) {
+    var countedCards = 0;
+    for (var i = 0; i < await rows.count; ++i) {
+        console.log(i);
+        countedCards += await rows.nth(i).find('.card').count;
+    }
+    return countedCards;
+}
+
 export default class GamePage {
     constructor () {
         this.hand = Selector('.hand');
@@ -20,11 +29,11 @@ export default class GamePage {
 	}
     }
 
-    checkState(testCase, inHand, inPlay, myRow, opposingRow){
+    checkState(testCase, inHand, inPlay){
         return testCase
             .expect(this.cardsInHand.count).eql(inHand)
-            .expect(this.cardsInMyRow(myRow).count).eql(inPlay)
-            .expect(this.cardsInOpposingRow(opposingRow).count).eql(inPlay)
+            .expect(countCardsInRow(this.rows)).eql(inPlay)
+            .expect(countCardsInRow(this.opponentRows)).eql(inPlay)
     }
 
 }
