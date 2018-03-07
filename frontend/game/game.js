@@ -5,7 +5,7 @@ requirejs(['./board/board.js', './hand.js', './scores.js', './helper.js'], funct
     function setState(state) {
         hand.setHand(state["hand"]);
         board.setBoard(state["rows"]);
-	scores.setScores(state["scores"]);
+        scores.setScores(state["scores"]);
     }
 
     var lastnum = 0;
