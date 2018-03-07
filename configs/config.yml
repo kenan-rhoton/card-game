@@ -1,0 +1,6 @@
+messages:
+    out-of-turn: "Our of turn play"
+    no-opp: "Waiting for an opponent"
+    play: "Playing"
+    wait: "Waiting for opponent's play"
+    too-many-players: "Too many players"
