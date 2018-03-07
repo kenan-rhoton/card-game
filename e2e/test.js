@@ -70,18 +70,18 @@ test('Sample Game', async testCase => {
     var maxHandNum = await gamePage.cardsInHand.count;
 
     while (await gamePage.cardsInHand.exists) {
-        await gamePage.checkState(testCase, maxHandNum, cardsInPlay)
+        await gamePage.checkState(testCase, maxHandNum, cardsInPlay, 0, 1)
             .dragToElement(
                 gamePage.cardsInHand.nth(0),
                 gamePage.rows.nth(0))
             .navigateTo(opponentURL.href)
 
-        await gamePage.checkState(testCase, maxHandNum, cardsInPlay)
+        await gamePage.checkState(testCase, maxHandNum, cardsInPlay, 1, 0)
             .dragToElement(
                 gamePage.cardsInHand.nth(0),
-                gamePage.rows.nth(0))
+                gamePage.rows.nth(1))
         
-        await gamePage.checkState(testCase, maxHandNum-1, cardsInPlay+1)
+        await gamePage.checkState(testCase, maxHandNum-1, cardsInPlay+1, 1, 0)
             .navigateTo(myGameURL.href);
 
         cardsInPlay += 1;

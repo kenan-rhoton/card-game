@@ -12,15 +12,19 @@ export default class GamePage {
         this.opponentScore = Selector('#opponent-score');
         this.gameStatus = Selector('#game-status');
 
-        this.cardsInMyRow = this.rows.nth(0).find('.card')
-        this.cardsInOpposingRow = this.opponentRows.nth(0).find('.card')
+        this.cardsInMyRow = function (n) {
+		return this.rows.nth(n).find('.card')
+	}
+        this.cardsInOpposingRow = function (n) {
+		return this.opponentRows.nth(n).find('.card')
+	}
     }
 
-    checkState(testCase, inHand, inPlay){
+    checkState(testCase, inHand, inPlay, myRow, opposingRow){
         return testCase
             .expect(this.cardsInHand.count).eql(inHand)
-            .expect(this.cardsInMyRow.count).eql(inPlay)
-            .expect(this.cardsInOpposingRow.count).eql(inPlay)
+            .expect(this.cardsInMyRow(myRow).count).eql(inPlay)
+            .expect(this.cardsInOpposingRow(opposingRow).count).eql(inPlay)
     }
 
 }
