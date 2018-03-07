@@ -79,7 +79,7 @@ test('Sample Game', async testCase => {
         await gamePage.checkState(testCase, maxHandNum, cardsInPlay)
             .dragToElement(
                 gamePage.cardsInHand.nth(0),
-                gamePage.rows.nth(1))
+                gamePage.rows.nth(0))
         
         await gamePage.checkState(testCase, maxHandNum-1, cardsInPlay+1)
             .navigateTo(myGameURL.href);
