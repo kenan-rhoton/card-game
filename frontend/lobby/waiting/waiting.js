@@ -5,8 +5,6 @@ const gameID = params.get("gameID");
 const playerID = params.get("playerID");
 const gameURL = `/game/?gameID=${gameID}&playerID=${playerID}`;
 
-var config = {}
-
 function checkForOpponent() {
     var req = new XMLHttpRequest();
     req.open("GET", `http://backend:3000/games/${gameID}/player/${playerID}`);
@@ -36,11 +34,4 @@ function setup () {
     setInterval(checkForOpponent, 1000);
 }
 
-var req = new XMLHttpRequest();
-req.open("GET", "/config/data/config.yml");
-req.responseType = "text";
-req.onload = function () {
-    config = jsyaml.load(req.response);
-    setup();
-}
-req.send();
+onConfigLoad(setup);
