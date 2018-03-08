@@ -2,6 +2,15 @@
 
 define(function(require) {
     var helper = require('./helper.js');
+    
+    var clickedCard = -1;
+
+    function clearBackground() {
+        document.querySelectorAll(".card").forEach(function(element) {
+            element.style.background = "white"
+        });
+    }
+
     return {
         setHand(handState) {
             var hand = document.querySelector(".hand");
@@ -14,9 +23,20 @@ define(function(require) {
 
                 hand.appendChild(newCard);
             });
+
+            clickedCard = -1;
         },
         dragCard(event) {
             event.dataTransfer.setData("handIndex", event.target.getAttribute("index"));
+        },
+        clickCard(event) {
+            clearBackground();
+            if (clickedCard == event.target) {
+                clickedCard = -1;
+            } else {
+                clickedCard = event.target;
+                event.target.style.background = "red";
+            }
         }
     }
 });
