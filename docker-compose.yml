@@ -7,7 +7,7 @@ services:
             - "8080:8080"
         volumes:
             - ./frontend:/usr/src/app
-            - ./configs:/configs
+            - ./configs:/usr/src/app/config/data
         depends_on:
             - backend
     backend:
@@ -28,6 +28,7 @@ services:
         build: e2e
         volumes:
             - ./e2e:/tests
+            - ./configs:/configs
         links:
             - frontend
             - backend

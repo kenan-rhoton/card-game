@@ -1,3 +1,4 @@
+# Anything in this file should be considered 100% public as it is served to frontend
 messages:
     out-of-turn: "Our of turn play"
     no-opp: "Waiting for an opponent"
