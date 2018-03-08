@@ -11,8 +11,8 @@ define(function(require) {
 
     function clickCard(card) {
         clearBackground();
-        if (helper.clickedCard == card) {
-            helper.clickedCard = -1;
+        if (helper.clickedCard === card) {
+            helper.clickedCard = undefined;
         } else {
             helper.clickedCard = card;
             card.style.background = "red";
@@ -33,7 +33,7 @@ define(function(require) {
                 hand.appendChild(newCard);
             });
 
-            helper.clickedCard = -1;
+            helper.clickedCard = undefined;
         },
         dragCard(event) {
             event.dataTransfer.setData("handIndex", event.target.getAttribute("index"));

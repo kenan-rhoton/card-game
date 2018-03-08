@@ -33,20 +33,11 @@ define(function (require) {
         allowDrop: drop.allow,
         dropOnRow: drop.onRow,
         clickRow(event) {
-            if (helper.clickedCard != -1) {
+            if (helper.clickedCard !== undefined) {
                 event.preventDefault();
-                var req = new XMLHttpRequest();
-                req.open("POST", `http://backend:3000/games/${helper.gameID}/player/${helper.playerID}`);
-                req.setRequestHeader("Content-type", "application/json");
-                req.responseType = "json";
 
-                const data = helper.clickedCard.getAttribute("index");
-                const playData = {
-                    index: data,
-                    row: event.target.getAttribute("rownum")
-                };
-
-                req.send(JSON.stringify(playData));
+                helper.playCard(event.target.getAttribute("rownum"),
+                                helper.clickedCard.getAttribute("index"));
             }
         }
     }
