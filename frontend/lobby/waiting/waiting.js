@@ -7,15 +7,6 @@ const gameURL = `/game/?gameID=${gameID}&playerID=${playerID}`;
 
 var config = {}
 
-var req = new XMLHttpRequest();
-req.open("GET", "/config/data/config.yml");
-req.responseType = "text";
-req.onload = function () {
-    config = jsyaml.load(req.response);
-}
-req.send();
-
-
 function checkForOpponent() {
     var req = new XMLHttpRequest();
     req.open("GET", `http://backend:3000/games/${gameID}/player/${playerID}`);
@@ -32,7 +23,7 @@ function checkForOpponent() {
     req.send();
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function setup () {
     var joinLink = document.getElementById("joinTemplate")
         .content.querySelector('#join-link');
 
@@ -40,6 +31,16 @@ document.addEventListener('DOMContentLoaded', function () {
     joinLink.appendChild(text);
     
     document.getElementById("waiting-for-opponent").appendChild(joinLink);
+    document.getElementById("game-status").innerHTML = config.messages["no-opp"];
 
     setInterval(checkForOpponent, 1000);
-});
+}
+
+var req = new XMLHttpRequest();
+req.open("GET", "/config/data/config.yml");
+req.responseType = "text";
+req.onload = function () {
+    config = jsyaml.load(req.response);
+    setup();
+}
+req.send();

@@ -21,7 +21,7 @@ test('Create a game', async testCase => {
         .expect(gamePage.gameStatus.exists).notOk()
         .click(mainPage.createGame)
         .expect(gamePage.joinLink.exists).ok()
-        .expect(gamePage.gameStatus.innerText).eql(config.messages["wait-for-opponent"])
+        .expect(gamePage.gameStatus.innerText).eql(config.messages["no-opp"])
         .expect(mainPage.createGame.exists).notOk()
 });
 
