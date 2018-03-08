@@ -9,6 +9,16 @@ define(function(require) {
         });
     }
 
+    function clickCard(card) {
+        clearBackground();
+        if (helper.clickedCard == card) {
+            helper.clickedCard = -1;
+        } else {
+            helper.clickedCard = card;
+            card.style.background = "red";
+        }
+    }
+
     return {
         setHand(handState) {
             var hand = document.querySelector(".hand");
@@ -18,6 +28,7 @@ define(function(require) {
                 var newCard = helper.baseCard.cloneNode(true);
                 newCard.innerHTML = cardInHand["power"];
                 newCard.setAttribute("index", index);
+                newCard.addEventListener('click', function(){clickCard(newCard)});
 
                 hand.appendChild(newCard);
             });
@@ -26,15 +37,6 @@ define(function(require) {
         },
         dragCard(event) {
             event.dataTransfer.setData("handIndex", event.target.getAttribute("index"));
-        },
-        clickCard(event) {
-            clearBackground();
-            if (helper.clickedCard == event.target) {
-                helper.clickedCard = -1;
-            } else {
-                helper.clickedCard = event.target;
-                event.target.style.background = "red";
-            }
         }
     }
 });

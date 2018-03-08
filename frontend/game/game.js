@@ -34,5 +34,4 @@ requirejs(['./board/board.js', './hand.js', './scores.js', './helper.js'], funct
     window.dropOnRow = board.dropOnRow;
     window.clickOnRow = board.clickRow;
     window.dragCardFromHand = hand.dragCard;
-    window.clickCardOnHand = hand.clickCard;
 });
