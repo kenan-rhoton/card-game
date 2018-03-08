@@ -36,11 +36,11 @@ define(function (require) {
             if (helper.clickedCard != -1) {
                 event.preventDefault();
                 var req = new XMLHttpRequest();
-                req.open("POST", `http://backend:3000/games/%{helper.gameID}/player/${helper.playerID}`);
+                req.open("POST", `http://backend:3000/games/${helper.gameID}/player/${helper.playerID}`);
                 req.setRequestHeader("Content-type", "application/json");
                 req.responseType = "json";
 
-                const data = helper.clickedCard.getData("handIndex");
+                const data = helper.clickedCard.getAttribute("index");
                 const playData = {
                     index: data,
                     row: event.target.getAttribute("rownum")
