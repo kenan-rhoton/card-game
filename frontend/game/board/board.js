@@ -4,6 +4,7 @@ define(function (require) {
     var helper = require('../helper.js');
     var builder = require('./builder.js');
     var drop = require('./drop.js');
+    var play = require('../play.js');
 
     function fetchRow(finder, index) {
         return document.querySelectorAll(finder)[index];
@@ -36,8 +37,8 @@ define(function (require) {
             if (helper.clickedCard !== undefined) {
                 event.preventDefault();
 
-                helper.playCard(event.target.getAttribute("rownum"),
-                                helper.clickedCard.getAttribute("index"));
+                play.playCard(event.target.getAttribute("rownum"),
+                              helper.clickedCard.getAttribute("index"));
             }
         }
     }

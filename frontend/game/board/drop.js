@@ -1,7 +1,7 @@
 "use strict";
 
 define(function (require) {
-    var helper = require('../helper.js');
+    var play = require('../play.js');
 
     return {
         allow(event) {
@@ -10,8 +10,8 @@ define(function (require) {
         onRow(event) {
             event.preventDefault();
 
-            helper.playCard(event.target.getAttribute("rownum"),
-                            event.dataTransfer.getData("handIndex"));
+            play.playCard(event.target.getAttribute("rownum"),
+                          event.dataTransfer.getData("handIndex"));
         }
     }
 });
