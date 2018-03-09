@@ -2,22 +2,7 @@
 
 define(function(require) {
     var helper = require('./helper.js');
-
-    function clearBackground() {
-        document.querySelectorAll(".card").forEach(function(element) {
-            element.style.background = "white"
-        });
-    }
-
-    function clickCard(card) {
-        clearBackground();
-        if (helper.clickedCard === card) {
-            helper.clickedCard = undefined;
-        } else {
-            helper.clickedCard = card;
-            card.style.background = "red";
-        }
-    }
+    var play = require('./play/hand.js');
 
     return {
         setHand(handState) {
@@ -28,7 +13,7 @@ define(function(require) {
                 var newCard = helper.baseCard.cloneNode(true);
                 newCard.innerHTML = cardInHand["power"];
                 newCard.setAttribute("index", index);
-                newCard.addEventListener('click', function(){clickCard(newCard)});
+                newCard.addEventListener('click', function(){play.clickCard(newCard)});
 
                 hand.appendChild(newCard);
             });

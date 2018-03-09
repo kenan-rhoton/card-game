@@ -1,7 +1,7 @@
 "use strict";
 
-define(function() {
-    var helper = require('./helper.js');
+define(function(require) {
+    var helper = require('../helper.js');
 
     return {
         playCard(rownum, cardindex) {

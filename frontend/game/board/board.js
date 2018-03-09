@@ -3,8 +3,7 @@
 define(function (require) {
     var helper = require('../helper.js');
     var builder = require('./builder.js');
-    var drop = require('./drop.js');
-    var play = require('../play.js');
+    var play = require('../play/board.js');
 
     function fetchRow(finder, index) {
         return document.querySelectorAll(finder)[index];
@@ -31,15 +30,8 @@ define(function (require) {
                 });
             });
         },
-        allowDrop: drop.allow,
-        dropOnRow: drop.onRow,
-        clickRow(event) {
-            if (helper.clickedCard !== undefined) {
-                event.preventDefault();
-
-                play.playCard(event.target.getAttribute("rownum"),
-                              helper.clickedCard.getAttribute("index"));
-            }
-        }
+        allowDrop: play.allowDrop,
+        dropOnRow: play.dropOnRow,
+        clickRow: play.clickRow
     }
 });
