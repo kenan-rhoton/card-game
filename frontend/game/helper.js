@@ -28,6 +28,7 @@ define(function() {
         playerID: playerID,
         baseCard: document.getElementById("card-template")
                 .content.querySelector(".card"),
+        onGetStatus: onGetStatus,
         setStatus() {
             onGetStatus(function(status) {
                 document.getElementById("game-status").innerHTML = status;
