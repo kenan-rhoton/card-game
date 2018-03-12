@@ -16,6 +16,8 @@ define(function(require) {
             };
 
             document.querySelector('.card[index="'+cardindex+'"]').style.background = "yellow";
+                
+            req.onload = helper.setStatus;
 
             req.send(JSON.stringify(playData));
         }
