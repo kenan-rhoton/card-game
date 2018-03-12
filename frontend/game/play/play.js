@@ -15,6 +15,8 @@ define(function(require) {
                 row: rownum,
             };
 
+            document.querySelector('.card[index="'+cardindex+'"]').style.background = "yellow";
+
             req.send(JSON.stringify(playData));
         }
     }
