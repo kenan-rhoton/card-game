@@ -32,7 +32,17 @@
 (defn ^:private get-rows-power
   "Return the powers of each row as seen by the player"
   [game-state player-id]
-  [[0 0] [0 0] [0 0] [0 0] [0 0]])
+  (let [player (player-num game-state player-id)
+        opponent (mod (inc player) 2)]
+    (loop [rows-power []
+           rows (:rows game-state)]
+      (if (empty? rows)
+        rows-power
+        (recur
+          (conj rows-power
+                [victory-conditions/points-in-row (first rows) player
+                 victory-conditions/points-in-row (first rows) opponent])
+          (rest rows))))))
 
 (defn ^:private get-scores
   "Return the scores as seen by the player"
