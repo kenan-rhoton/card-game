@@ -24,14 +24,5 @@ services:
     redis:
         image: redis:alpine
         restart: always
-    e2e:
-        build: e2e
-        volumes:
-            - ./e2e:/tests
-            - ./configs:/configs
-        links:
-            - frontend
-            - backend
-        command: "/bin/true"
 volumes:
     lein-deps:
