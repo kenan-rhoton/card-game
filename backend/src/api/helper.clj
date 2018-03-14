@@ -1,5 +1,5 @@
 (ns api.helper
-  (:require [rules.victory-conditions :as victory-conditions]
+  (:require [rules.victory-conditions :as victory]
             [configs.messages :as messages]))
 
 (defn player-num
@@ -40,8 +40,8 @@
         rows-power
         (recur
           (conj rows-power
-                [(victory-conditions/points-in-row (first rows) player)
-                 (victory-conditions/points-in-row (first rows) opponent)])
+                [(victory/points-in-row (first rows) player)
+                 (victory/points-in-row (first rows) opponent)])
           (rest rows))))))
 
 (defn ^:private get-scores
@@ -49,13 +49,13 @@
   [game-state player-id]
   (let [player (player-num game-state player-id)
         opponent (mod (inc player) 2)]
-    [(victory-conditions/get-won-rows game-state player)
-     (victory-conditions/get-won-rows game-state opponent)]))
+    [(victory/get-won-rows game-state player)
+     (victory/get-won-rows game-state opponent)]))
 
 (defn ^:private get-winner
   "Return the winner as seen by the player"
   [game-state player-id]
-  (translate-player game-state (victory-conditions/winner game-state) player-id))
+  (translate-player game-state (victory/winner game-state) player-id))
 
 (defn get-game-as-player
   "Returns the part of the game-state that ought to be visible to the player"
