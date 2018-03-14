@@ -2,7 +2,7 @@
   (:require [expectations.clojure.test :refer :all]
             [rules.create-game :as create-game]
             [rules.play-card :as play-card]
-            [hand :as hand]
+            [test.hand :as hand]
             [autoplay :as autoplay]))
 
 (defexpect initial-state

@@ -1,6 +1,8 @@
-(ns hand
+(ns test.hand
   (:require [configs.hands :as hands]))
 
-(defn default-hand-power
-  [x]
-  (get-in hands/default-hand [x :power]))
+(defn power-of-nth
+  ([x]
+    (power-of-nth x hands/default-hand))
+  ([x hand]
+    (get-in hand [x :power])))
