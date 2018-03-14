@@ -1,4 +1,4 @@
-(ns test.hand
+(ns test-hand
   (:require [configs.hands :as hands]))
 
 (defn power-of-nth

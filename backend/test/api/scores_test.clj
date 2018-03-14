@@ -1,7 +1,7 @@
 (ns api.scores-test
   (:require [expectations.clojure.test :refer :all]
             [api.base :as api]
-            [test.hand :as hand]
+            [test-hand :as hand]
             [autoplay :as autoplay]
             [configs.hands :as hands]))
 
