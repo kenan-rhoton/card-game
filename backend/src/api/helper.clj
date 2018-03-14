@@ -29,6 +29,11 @@
                %)
         (:rows game-state)))
 
+(defn ^:private get-rows-power
+  "Return the powers of each row as seen by the player"
+  [game-state player-id]
+  [[0 0] [0 0] [0 0] [0 0] [0 0]])
+
 (defn ^:private get-scores
   "Return the scores as seen by the player"
   [game-state player-id]
@@ -49,6 +54,7 @@
    :player-id player-id
    :hand (get-hand game-state player-id)
    :rows (get-rows game-state player-id)
+   :rows-power (get-rows-power game-state player-id)
    :scores (get-scores game-state player-id)
    :winner (get-winner game-state player-id)})
 

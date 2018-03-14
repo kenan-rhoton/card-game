@@ -1,6 +1,7 @@
 (ns api.winner-test
   (:require [expectations.clojure.test :refer :all]
             [api.base :as api]
+            [test-helper :as helper]
             [configs.hands :as hands]))
 
 (defn ^:private play-a-game-helper
@@ -54,4 +55,22 @@
         (:scores %))
     (play-a-game-helper
       (fn [i] (mod i 2))
-      (fn [i] (+ (mod i 2) 2)))))
+      (fn [i] (+ (mod i 2) 2))))
+  (expect
+    [[0 0] [0 0] [0 0] [0 0] [0 0]]
+    (let [game-state (api/create-game)
+          game-id (:game-id game-state)
+          player-id (:player-id game-state)
+          opponent-id (:player-id (api/add-player game-id))]
+      (:rows-power (api/get-game game-id player-id))))
+  (expect
+    [[(helper/default-hand-power 0) (helper/default-hand-power 0)]
+     [0 0] [0 0] [0 0] [0 0]]
+    (let [game-state (api/create-game)
+          game-id (:game-id game-state)
+          player-id (:player-id game-state)
+          opponent-id (:player-id (api/add-player game-id))]
+      (do
+        (api/play-card-as-player game-id player-id 0 0)
+        (api/play-card-as-player game-id opponent-id 0 0))
+      (:rows-power (api/get-game game-id player-id)))))
