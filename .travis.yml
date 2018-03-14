@@ -22,6 +22,7 @@ jobs:
               - chmod 600 .travis/deploy_key.pem
               - ssh-add .travis/deploy_key.pem
               - git remote add deploy kenan@rhoton.es:~/Projects/card-game
+              - git checkout master
               - git push deploy
 
 
