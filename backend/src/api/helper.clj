@@ -40,8 +40,8 @@
         rows-power
         (recur
           (conj rows-power
-                [victory-conditions/points-in-row (first rows) player
-                 victory-conditions/points-in-row (first rows) opponent])
+                [(victory-conditions/points-in-row (first rows) player)
+                 (victory-conditions/points-in-row (first rows) opponent)])
           (rest rows))))))
 
 (defn ^:private get-scores

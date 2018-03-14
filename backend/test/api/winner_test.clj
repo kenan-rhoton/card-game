@@ -64,7 +64,7 @@
           opponent-id (:player-id (api/add-player game-id))]
       (:rows-power (api/get-game game-id player-id))))
   (expect
-    [[(helper/default-hand-power 0) (helper/default-hand-power 0)]
+    [[(helper/default-hand-power 0) (helper/default-hand-power 1)]
      [0 0] [0 0] [0 0] [0 0]]
     (let [game-state (api/create-game)
           game-id (:game-id game-state)
@@ -72,5 +72,5 @@
           opponent-id (:player-id (api/add-player game-id))]
       (do
         (api/play-card-as-player game-id player-id 0 0)
-        (api/play-card-as-player game-id opponent-id 0 0))
+        (api/play-card-as-player game-id opponent-id 1 0))
       (:rows-power (api/get-game game-id player-id)))))
