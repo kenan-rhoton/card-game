@@ -4,7 +4,7 @@ services:
         build: frontend
         restart: always
         ports:
-            - "8080:8080"
+            - "8880:8080"
         volumes:
             - ./frontend:/usr/src/app
             - ./configs:/usr/src/app/config/data
@@ -22,7 +22,7 @@ services:
         links:
             - redis
     redis:
-        image: redis:alpine
+        image: redis
         restart: always
 volumes:
     lein-deps:
