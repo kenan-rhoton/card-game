@@ -16,7 +16,7 @@ jobs:
               - docker-compose up -d
               - docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e test-delayed
         - stage: Deploy
-          if: branch = master AND type != pull_request
+          if: branch = master
           script:
               - eval "$(ssh-agent -s)" #start the ssh agent
               - chmod 600 .travis/deploy_key.pem
