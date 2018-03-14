@@ -2,6 +2,7 @@
   (:require [expectations.clojure.test :refer :all]
             [rules.create-game :as create-game]
             [rules.play-card :as play-card]
+            [autoplay :as autoplay]
             [rules.victory-conditions :as victory]))
 
 (defexpect row-winner
@@ -20,16 +21,16 @@
         (victory/get-won-rows 0)))
   (expect
     #(= (victory/get-won-rows % 0) 1)
-    (play-a-game-helper
+    (autoplay/as-rules
       (fn [i] 4)
       (fn [i] (mod i 4))))
   (expect
     #(= (victory/get-won-rows % 1) 4)
-    (play-a-game-helper
+    (autoplay/as-rules
       (fn [i] 4)
       (fn [i] (mod i 4))))
   (expect
     #(= (victory/get-won-rows % 0) 0)
-    (play-a-game-helper
+    (autoplay/as-rules
       (fn [i] 0)
       (fn [i] 0))))

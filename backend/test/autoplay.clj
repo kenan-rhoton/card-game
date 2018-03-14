@@ -1,14 +1,10 @@
-(ns test-helper
+(ns autoplay
   (:require [configs.hands :as hands]
             [api.base :as api]
             [rules.create-game :as create-game]
             [rules.play-card :as play-card]))
 
-(defn default-hand-power
-  [x]
-  (get-in hands/default-hand [x :power]))
-
-(defn play-as-api
+(defn as-api
   [strategy1 strategy2]
   (let [game (api/create-game)
         game-id (:game-id game)
@@ -24,7 +20,7 @@
               (api/play-card-as-player game-id opponent-id 0 (strategy2 iteration)))
             (dec iteration))))))
 
-(defn play-as-rules
+(defn as-rules
   [strategy1 strategy2]
   (loop [game-state (create-game/new-game)
          iteration (count hands/default-hand)]
