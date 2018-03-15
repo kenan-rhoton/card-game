@@ -4,7 +4,7 @@
             [persistence.persistence :as persistence]
             [api.player-view :as player-view]
             [api.conversions :as conversions]
-            [api.create-player :as create-player]
+            [api.generators :as generators]
             [configs.messages :as messages]))
 
 (defn get-game
@@ -29,7 +29,7 @@
     (if (> players-connected 1)
       {:error messages/too-many-players}
       (let [game-state (persistence/save-game
-                   (create-player/create-player
+                   (generators/player-uuid
                      (or
                        saved-game
                        (assoc (create-game/new-game) :game-id game-id))))]
