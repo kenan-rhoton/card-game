@@ -24,12 +24,10 @@ define(function (require) {
 
                 var newScore = baseScore.cloneNode(true);
                 newScore.setAttribute("rownum", i);
-                newScore.innerText="1";
                 myScores.appendChild(newScore);
 
                 var newScore2 = baseScore.cloneNode(true);
                 newScore2.setAttribute("rownum", i);
-                newScore2.innerHTML="2";
                 oppScores.appendChild(newScore2);
             }
         },
