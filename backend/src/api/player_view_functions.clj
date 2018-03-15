@@ -1,4 +1,4 @@
-(ns api.helper
+(ns api.player-view-functions
   (:require [rules.victory-conditions :as victory]
             [configs.messages :as messages]))
 
@@ -15,12 +15,12 @@
     (= me (get-in game-state [:player-ids internal])) :me
     :else :opponent))
 
-(defn ^:private get-hand
+(defn get-hand
   "Return hand as seen by the player"
   [game-state player-id]
   (get-in game-state [:players (player-num game-state player-id) :hand]))
 
-(defn ^:private get-rows
+(defn get-rows
   "Return the rows as seen by the player"
   [game-state player-id]
   (mapv #(mapv (fn [card]
@@ -29,7 +29,7 @@
                %)
         (:rows game-state)))
 
-(defn ^:private get-rows-power
+(defn get-rows-power
   "Return the powers of each row as seen by the player"
   [game-state player-id]
   (let [player (player-num game-state player-id)
@@ -44,7 +44,7 @@
                  (victory/points-in-row (first rows) opponent)])
           (rest rows))))))
 
-(defn ^:private get-scores
+(defn get-scores
   "Return the scores as seen by the player"
   [game-state player-id]
   (let [player (player-num game-state player-id)
@@ -52,34 +52,14 @@
     [(victory/get-won-rows game-state player)
      (victory/get-won-rows game-state opponent)]))
 
-(defn ^:private get-winner
+(defn get-winner
   "Return the winner as seen by the player"
   [game-state player-id]
   (translate-player game-state (victory/winner game-state) player-id))
 
-(defn get-game-as-player
-  "Returns the part of the game-state that ought to be visible to the player"
-  [game-state player-id]
-  {:game-id (:game-id game-state)
-   :player-id player-id
-   :hand (get-hand game-state player-id)
-   :rows (get-rows game-state player-id)
-   :rows-power (get-rows-power game-state player-id)
-   :scores (get-scores game-state player-id)
-   :winner (get-winner game-state player-id)})
-
-(defn define-status
+(defn get-status
   "Returns the status of the game from a player's perspective"
   [game-state player-id]
   (cond (= (count (:player-ids game-state)) 1) messages/no-opp
         (nil? (get-in game-state [:next-play (player-num game-state player-id)])) messages/play
         :else messages/wait))
-
-(defn ^:private uuid [] (str (java.util.UUID/randomUUID)))
-
-(defn create-player
-  [game]
-  (loop [id (uuid)]
-    (if (some #{id} (:player-ids game))
-      (recur (uuid))
-      (update game :player-ids #(vec (conj % id))))))
