@@ -14,12 +14,3 @@
    :scores (functions/get-scores game-state player-id)
    :status (functions/get-status game-state player-id)
    :winner (functions/get-winner game-state player-id)})
-
-(defn ^:private uuid [] (str (java.util.UUID/randomUUID)))
-
-(defn create-player
-  [game]
-  (loop [id (uuid)]
-    (if (some #{id} (:player-ids game))
-      (recur (uuid))
-      (update game :player-ids #(vec (conj % id))))))

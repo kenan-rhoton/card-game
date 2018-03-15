@@ -3,7 +3,7 @@
             [rules.play-card :as play-card]
             [persistence.persistence :as persistence]
             [api.player-view :as player-view]
-            [api.player-view-functions :as functions]
+            [api.conversions :as conversions]
             [configs.messages :as messages]))
 
 (defn get-game
@@ -16,7 +16,7 @@
   (let [game-state (persistence/fetch-game game-id)]
       (if (= (:status (get-game game-id player)) messages/play)
           (do
-            (persistence/save-game (play-card/play-card game-state (functions/player-num game-state player) index row))
+            (persistence/save-game (play-card/play-card game-state (conversions/player-num game-state player) index row))
             (get-game game-id player))
           {:error messages/out-of-turn})))
 
@@ -28,7 +28,7 @@
     (if (> players-connected 1)
       {:error messages/too-many-players}
       (let [game-state (persistence/save-game
-                   (player-view/create-player
+                   (conversions/create-player
                      (or
                        saved-game
                        (assoc (create-game/new-game) :game-id game-id))))]
