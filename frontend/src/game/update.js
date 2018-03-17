@@ -14,6 +14,7 @@ function setState(state) {
     hand.setHand(state["hand"]);
     board.setBoard(state["rows"]);
     scores.setScores(state["scores"]);
+    scores.setScoresByRow(state["rows-power"]);
 
     status.setStatus();
 }

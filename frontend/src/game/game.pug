@@ -10,13 +10,17 @@ block view
             .w-100
             #rows.col-12
                 #row-card-title.row
-                    #my-game-row-title.col-6.text-center
+                    #my-game-row-title.col-5.text-center
                         h2 My cards
+                    #scores-title.col-2.text-center
+                        h2 Scores
                     #opponent-game-row-title.col-6.text-center
                         h2 Opponent's cards
                 .row
-                    #my-rows.col-6
-                    #opp-rows.col-6
+                    #my-rows.col-5
+                    #my-scores.col-1.text-center
+                    #opp-scores.col-1.text-center
+                    #opp-rows.col-5
             .col-12
                 .hand.row
     template#row-template
@@ -26,6 +30,8 @@ block view
             onclick!="clickOnRow(event)"
             style="height: 50px"
             )
+    template#score-template
+        .scores-row.row.text-center(style="height: 50px")
     template#card-template
         .card.col-1(
             draggable="true"

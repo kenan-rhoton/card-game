@@ -5,6 +5,11 @@ const baseRow = document.getElementById("row-template")
 const myRows = document.getElementById("my-rows");
 const oppRows = document.getElementById("opp-rows");
 
+const baseScore = document.getElementById("score-template")
+    .content.querySelector("div");
+const myScores = document.getElementById("my-scores");
+const oppScores = document.getElementById("opp-scores");
+
 module.exports = {
     buildRows() {
         for (var i = 0; i < 5; i++) {
@@ -15,6 +20,14 @@ module.exports = {
 
             var oppRow = baseRow.cloneNode(true);
             oppRows.appendChild(oppRow);
+
+            var newScore = baseScore.cloneNode(true);
+            newScore.setAttribute("rownum", i);
+            myScores.appendChild(newScore);
+
+            var newScore2 = baseScore.cloneNode(true);
+            newScore2.setAttribute("rownum", i);
+            oppScores.appendChild(newScore2);
         }
     },
     buildCard(baseCard, cardData){
