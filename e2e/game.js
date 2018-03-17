@@ -6,7 +6,7 @@ import GamePage from './game_page.js';
 import config from './config.js'
 import wait_for_frontend from './wait-for-frontend.js'
 
-fixture("Game creation")
+fixture("Game")
     .page("http://" + config.servers["frontend"])
     .before(wait_for_frontend);
 

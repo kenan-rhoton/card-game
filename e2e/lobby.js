@@ -6,7 +6,7 @@ import GamePage from './game_page.js';
 import config from './config.js'
 import wait_for_frontend from './wait-for-frontend.js'
 
-fixture("Game creation")
+fixture("Lobby")
     .page("http://" + config.servers["frontend"])
     .before(wait_for_frontend);
 
@@ -15,11 +15,11 @@ const gamePage = new GamePage();
 
 test('Create a game', async testCase => {
     await testCase
-        .expect(mainPage.title.exists).ok("Page Title", {timeout: 60000})
+        .expect(mainPage.title.exists).ok()
         .expect(gamePage.joinLink.exists).notOk()
         .expect(gamePage.gameStatus.exists).notOk()
         .click(mainPage.createGame)
-        .expect(gamePage.joinLink.exists).ok("Join link", {timeout: 60000})
+        .expect(gamePage.joinLink.exists).ok()
         .expect(gamePage.gameStatus.innerText).eql(config.messages["no-opp"])
         .expect(mainPage.createGame.exists).notOk()
 });
