@@ -13,18 +13,16 @@ const config = yaml.safeLoad(fs.readFileSync('/configs/config.yml', 'utf8'));
 fixture("Game creation")
     .page("http://" + config.servers["frontend"])
     .before(async () => {
-        for(var i = 0; i < 20; i++) {
+        for(var i = 0; i < 50; i++) {
             try {
                 const response = await fetch("http://" + config.servers["frontend"]);
                 if (response.ok) {
                     break
                 } else {
-                    console.log("Waiting for page to be ready...")
-                    await delay(500)
+                    await delay(1000)
                 }
             } catch (error) {
-                console.log("Waiting for page to be ready...")
-                await delay(500)
+                await delay(1000)
             }
         }
     });
