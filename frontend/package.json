@@ -11,6 +11,7 @@
     "yaml-loader": "^0.5.0"
   },
   "scripts": {
+    "test": "echo 'not yet implemented'",
     "build": "webpack",
     "start": "webpack-dev-server"
   },
