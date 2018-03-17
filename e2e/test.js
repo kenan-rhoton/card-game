@@ -20,11 +20,11 @@ fixture("Game creation")
                     break
                 } else {
                     console.log("Waiting for page to be ready...")
-                    delay(500)
+                    await delay(500)
                 }
             } catch (error) {
                 console.log("Waiting for page to be ready...")
-                delay(500)
+                await delay(500)
             }
         }
     });
