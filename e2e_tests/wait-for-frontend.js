@@ -1,6 +1,7 @@
 "use strict";
 import fetch from 'node-fetch';
 import delay from 'delay';
+import config from './config.js'
 
 export default async function() {
     for(var i = 0; i < 50; i++) {
