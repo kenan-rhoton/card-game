@@ -15,3 +15,5 @@ backend.hg/
 e2e/node_modules
 e2e/screenshots
 frontend/node_modules
+frontend/yarn-error.log
+frontend/dist
