@@ -8,6 +8,12 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
+delay@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/delay/-/delay-2.0.0.tgz#9112eadc03e4ec7e00297337896f273bbd91fae5"
+  dependencies:
+    p-defer "^1.0.0"
+
 esprima@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-4.0.0.tgz#4499eddcd1110e0b218bacf2fa7f7f59f55ca804"
@@ -18,6 +24,14 @@ js-yaml@^3.11.0:
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
+
+node-fetch@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.1.1.tgz#369ca70b82f50c86496104a6c776d274f4e4a2d4"
+
+p-defer@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"
 
 sprintf-js@~1.0.2:
   version "1.0.3"

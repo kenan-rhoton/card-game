@@ -13,4 +13,5 @@ backend.hg/
 *.class
 
 e2e/node_modules
+e2e/screenshots
 frontend/node_modules

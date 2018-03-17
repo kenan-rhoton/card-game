@@ -13,9 +13,9 @@ cd /tests
 npm install
 
 if [[ "$1" == "test" ]]; then
-    node /opt/testcafe/bin/testcafe.js --ports 1337,1338 firefox /tests/*.js
+    node /opt/testcafe/bin/testcafe.js --ports 1337,1338 firefox /tests/*.js -S -s screenshots
 elif [[ "$1" == "test-delayed" ]]; then
-    node /opt/testcafe/bin/testcafe.js --ports 1337,1338 firefox /tests/*.js --app 'true' --app-init-delay 20000
+    node /opt/testcafe/bin/testcafe.js --ports 1337,1338 firefox /tests/*.js --app 'true' --app-init-delay 20000 -S -s screenshots
 else
     eval "$@"
 fi
