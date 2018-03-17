@@ -6,13 +6,16 @@ services:
 jobs:
     include:
         - stage: Unit Tests
+          language: clojure
           script:
               - docker-compose run backend lein test
         - stage: End-to-End Tests
+          language: node_js
           script:
               - docker-compose run frontend yarn install # Prepare modules
               - docker-compose -f docker-compose.yml -f docker-compose.e2e.yml run e2e test-delayed
         - stage: Deploy
+          language: go
           if: branch = master AND type != pull_request
           script:
               - openssl aes-256-cbc -K $encrypted_cce65efc8ba2_key -iv $encrypted_cce65efc8ba2_iv -in .travis/deploy_key.pem.enc -out .travis/deploy_key.pem -d
