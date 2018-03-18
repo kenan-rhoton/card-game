@@ -19,6 +19,9 @@ module.exports = {
             myRows.appendChild(myNewRow);
 
             var oppRow = baseRow.cloneNode(true);
+            oppRow.onclick = null;
+            oppRow.ondragover = null;
+            oppRow.ondrop = null;
             oppRows.appendChild(oppRow);
 
             var newScore = baseScore.cloneNode(true);
