@@ -58,3 +58,29 @@
           (play-card/play-card 1 1 1)
           (alter-card/alter-card [:rows 0 0] {:power 9001})
           :rows (get 0) (get 0)))))
+
+(defexpect alter-card-relative
+  (expect
+    {:power 30}
+    (get-in 
+      (alter-card/relative-power
+        {:cards [{:power 10}]}
+        [:cards 0]
+        20)
+      [:cards 0]))
+  (expect
+    {:power -47}
+    (get-in 
+      (alter-card/relative-power
+        {:cards [{:power 10}]}
+        [:cards 0]
+        -57)
+      [:cards 0]))
+  (expect
+    {:power 10}
+    (get-in 
+      (alter-card/relative-power
+        {:cards [{:power 10}]}
+        [:cards 0]
+        0)
+      [:cards 0])))
