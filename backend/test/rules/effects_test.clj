@@ -60,27 +60,30 @@
           :rows (get 0) (get 0)))))
 
 (defexpect alter-card-relative
+  ; Adds power
   (expect
     {:power 30}
     (get-in 
-      (alter-card/relative-power
+      (alter-card/increase-power
         {:cards [{:power 10}]}
         [:cards 0]
         20)
       [:cards 0]))
+  ; Subtracts, does not alter other fields
   (expect
-    {:power -47}
+    {:power -47 :potatoes "amazing"}
     (get-in 
-      (alter-card/relative-power
-        {:cards [{:power 10}]}
+      (alter-card/increase-power
+        {:cards [{:power 10 :potatoes "amazing"}]}
         [:cards 0]
         -57)
       [:cards 0]))
+  ; Weird path
   (expect
-    {:power 10}
+    {:power 56 :salsa "mild"}
     (get-in 
-      (alter-card/relative-power
-        {:cards [{:power 10}]}
-        [:cards 0]
-        0)
-      [:cards 0])))
+      (alter-card/increase-power
+        [nil {:croissant "chocolate" :enchilada {:power 1 :salsa "mild"}}]
+        [1 :enchilada]
+        55)
+      [1 :enchilada])))

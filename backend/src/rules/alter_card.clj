@@ -5,7 +5,7 @@
   [game-state path new-values]
   (update-in game-state path #(merge % new-values)))
 
-(defn relative-power
+(defn increase-power
   "Alters a cards' power, by adding the passed value to it"
   [game-state path increase]
   (let [power (get-in game-state (conj path :power))]
