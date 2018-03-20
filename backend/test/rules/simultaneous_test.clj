@@ -16,12 +16,12 @@
 (defexpect next-play
   ; Stores next-play
   (expect
-    {:player 0 :index 0 :row 0}
+    {:player 0 :index 0 :row 0 :target nil}
     (-> (create-game/new-game)
         (play-card/play-card 0 0 0)
         (get-in [:next-play 0])))
   (expect
-    {:player 1 :index 2 :row 3}
+    {:player 1 :index 2 :row 3 :target nil}
     (-> (create-game/new-game)
         (play-card/play-card 0 0 0)
         (play-card/play-card 1 1 1)
