@@ -26,13 +26,13 @@
 (defn ^:private apply-play-card
   "Plays a card waiting to be played onto the board"
   [game-state play]
-    (let [player (:player play)
+    (let [player-id (:player play)
           index (:index play)
           row-id (:row play)
-          card (get-in game-state [:players player :hand index])]
+          card (get-in game-state [:players player-id :hand index])]
       (-> game-state
-          (add-card-to-row (assoc card :owner player) row-id)
-          (remove-card player index))))
+          (add-card-to-row (assoc card :owner player-id) row-id)
+          (remove-card player-id index))))
 
 (defn ^:private apply-all-plays
   "Plays all cards waiting to be played"
@@ -44,12 +44,12 @@
 
 (defn play-card
   "Takes a playing of a card from hand onto a game row and makes it wait until both players had played"
-  [game-state player index row-id & target]
+  [game-state player-id index row-id & target]
   ; Uses stored :next-play to know who is supposed to play
-  (if (nil? (get-in game-state [:next-play player]))
+  (if (nil? (get-in game-state [:next-play player-id]))
       (if (every? nil? (:next-play game-state))
-          (assoc-in game-state [:next-play player] {:player player :index index :row row-id :target (first target)})
+          (assoc-in game-state [:next-play player-id] {:player player-id :index index :row row-id :target (first target)})
           (-> game-state
-              (assoc-in [:next-play player] {:player player :index index :row row-id :target (first target)})
+              (assoc-in [:next-play player-id] {:player player-id :index index :row row-id :target (first target)})
               (apply-all-plays)))
       {:error messages/out-of-turn}))
