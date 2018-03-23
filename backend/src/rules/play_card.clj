@@ -42,14 +42,32 @@
         (apply-play-card (get-in game-state [:next-play 1]))
         (assoc :next-play [nil nil])))
 
+(defn ^:private count-owned-cards
+  "Returns number of cards owned by a player in row-cards"
+  [row-cards player-id]
+  (reduce #(if (= (:owner %2) player-id)
+               (inc %1)
+               %1)
+          0
+          row-cards))
+
+(defn ^:private crowded-row?
+  "True if a row has :limit cards for player-id"
+  [row-data player-id]
+  (<= (:limit row-data 9000)
+      (count-owned-cards (:cards row-data) player-id)))
+
 (defn play-card
   "Takes a playing of a card from hand onto a game row and makes it wait until both players had played"
   [game-state player-id index row-id & target]
   ; Uses stored :next-play to know who is supposed to play
-  (if (nil? (get-in game-state [:next-play player-id]))
-      (if (every? nil? (:next-play game-state))
-          (assoc-in game-state [:next-play player-id] {:player player-id :index index :row row-id :target (first target)})
-          (-> game-state
-              (assoc-in [:next-play player-id] {:player player-id :index index :row row-id :target (first target)})
-              (apply-all-plays)))
-      {:error messages/out-of-turn}))
+  (cond (some? (get-in game-state [:next-play player-id]))
+        {:error messages/out-of-turn}
+        (crowded-row? (get-in game-state [:rows row-id]) player-id)
+        {:error messages/row-limit}
+        :else
+        (if (every? nil? (:next-play game-state))
+            (assoc-in game-state [:next-play player-id] {:player player-id :index index :row row-id :target (first target)})
+            (-> game-state
+                (assoc-in [:next-play player-id] {:player player-id :index index :row row-id :target (first target)})
+                (apply-all-plays)))))
