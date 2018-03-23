@@ -7,7 +7,7 @@
 
 (defn as-api
   [strategy1 strategy2]
-  (let [game (api/create-game {:limit rows/limitless})
+  (let [game (api/create-game {:limits rows/limitless})
         game-id (:game-id game)
         player-id (:player-id game)
         opponent-id (:player-id (api/add-player game-id))]

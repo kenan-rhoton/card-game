@@ -15,7 +15,9 @@
   ([ini-config]
    {
     :players (vec (repeat 2 (new-player (:hand ini-config hands/default-hand))))
-    :rows (vec (repeat 5 {:limit (:limit ini-config rows/default-limit)
-                          :cards []}))
+    :rows (vec (reduce
+                 #(concat %1 [{:limit %2 :cards []}])
+                 []
+                 (:limits ini-config rows/default-limit)))
     :next-play [nil nil]
     }))

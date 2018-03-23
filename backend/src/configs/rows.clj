@@ -1,6 +1,8 @@
 (ns configs.rows)
 
 
-(def default-limit 9000) ; Set to 9000 before frontend can handle limits
+(def default-limit
+  (vec (repeat 5 9000))) ; Set to 9000 before frontend can handle limits
 
-(def limitless 9000)
+(def limitless
+  (vec (repeat 5 9000)))
