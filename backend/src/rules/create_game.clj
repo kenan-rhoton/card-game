@@ -18,6 +18,6 @@
     :rows (vec (reduce
                  #(concat %1 [{:limit %2 :cards []}])
                  []
-                 (:limits ini-config rows/default-limit)))
+                 (:limits ini-config rows/default-limits)))
     :next-play [nil nil]
     }))

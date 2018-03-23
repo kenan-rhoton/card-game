@@ -27,11 +27,11 @@
 
   ; Rows begin empty and with limit
   (expect
-    [{:limit (nth rows/default-limit 0) :cards []}
-     {:limit (nth rows/default-limit 1) :cards []}
-     {:limit (nth rows/default-limit 2) :cards []}
-     {:limit (nth rows/default-limit 3) :cards []}
-     {:limit (nth rows/default-limit 4) :cards []}]
+    [{:limit (nth rows/default-limits 0) :cards []}
+     {:limit (nth rows/default-limits 1) :cards []}
+     {:limit (nth rows/default-limits 2) :cards []}
+     {:limit (nth rows/default-limits 3) :cards []}
+     {:limit (nth rows/default-limits 4) :cards []}]
     (-> (create-game/new-game)
         :rows)))
 
