@@ -14,3 +14,7 @@
    {:power 14}
    {:power 15}
    {:power 16}]) 
+
+(def default-hands
+  "Default hands"
+  [default-hand default-hand])
