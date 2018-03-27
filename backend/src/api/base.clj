@@ -21,12 +21,12 @@
             (get-game game-id player))
           {:error messages/out-of-turn})))
 
-(defn create-empty-game
+(defn ^:private create-empty-game
   "Creates a new instance of a game"
-  [& ini-config]
+  [ini-config]
   (let [game-id (persistence/next-id)]
     (persistence/save-game
-      (assoc (create-game/new-game (first ini-config))
+      (assoc (create-game/new-game ini-config)
              :game-id game-id))
     game-id))
 
@@ -44,6 +44,7 @@
 
 (defn create-game
   "Creates a new instance of a game with a player"
-  [& ini-config]
-  (-> (create-empty-game (first ini-config))
-      (add-player)))
+  ([] (create-game {}))
+  ([ini-config]
+   (-> (create-empty-game ini-config)
+       (add-player))))
