@@ -42,4 +42,12 @@
     (-> (play-card/apply-play-card {:rows [{:cards [{:power 24}]}]
                                     :players [{:hand [{:add-power 18}]}]}
                                    {:player 0 :index 0 :row 0 :target [:rows 0 :cards 0]})
-        (get-in [:rows 0 :cards 0 :power]))))
+        (get-in [:rows 0 :cards 0 :power])))
+  (expect
+    {:power -2 :coolness 100}
+    (-> (play-card/apply-play-card {:rows [{}{:cards [{:power 4 :coolness 100}]}]
+                                    :players [{:hand [{:add-power -6}]}]}
+                                   {:player 0 :index 0 :row 0 :target [:rows 1 :cards 0]})
+       (get-in [:rows 1 :cards 0])))) 
+
+
