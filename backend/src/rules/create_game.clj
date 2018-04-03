@@ -2,11 +2,20 @@
   (:require [configs.hands :as hands]
             [configs.rows :as rows]))
 
-(defn ^:private new-player
+(defn new-player
   "Creates a new player object"
-  ([hand]
+  ([hand player]
    {
-    :hand hand
+    :hand (loop [final-hand []
+                 base-hand hand
+                 id (* 1000 player)]
+            (if (empty? base-hand)
+              final-hand
+              (recur
+                (conj final-hand
+                        (assoc (first base-hand) :id id))
+                (rest base-hand)
+                (inc id))))
     }))
 
 (defn new-game
@@ -14,7 +23,8 @@
   ([] (new-game {}))
   ([ini-config]
    {
-    :players (vec (repeat 2 (new-player (:hand ini-config hands/default-hand))))
+    :players [(new-player (:hand ini-config hands/default-hand) 0)
+              (new-player (:hand ini-config hands/default-hand) 1)]
     :rows (vec (reduce
                  #(concat %1 [{:limit %2 :cards []}])
                  []
