@@ -53,15 +53,13 @@
 (defexpect configs.game
   ; Game can start with different configs
   (expect
-    [{:power 0 :attribute 9001 :id 0}{:power 1 :id 1}]
-        (-> (create-game/new-game {:hand [{:power 0 :attribute 9001}
-                                          {:power 1}]})
-        (get-in [:players 0 :hand])))
-  (expect
-    [{:power 10 :potato 42 :id 1000}{:id 1001}]
-        (-> (create-game/new-game {:hand [{:power 10 :potato 42}
-                                          {}]})
-        (get-in [:players 1 :hand])))
+    [{:hand [{:power 0 :attribute 9001 :id 0}{:power 1 :id 1}]}
+     {:hand [{:whatever 10 :id 1000}]}]
+    (-> (create-game/new-game {:hands [[{:power 0 :attribute 9001}
+                                        {:power 1}]
+                                       [{:whatever 10}]]})
+        :players))
+  
   (expect
     [{:limit 0 :cards []} {:limit 2 :cards []} {:limit 4 :cards []} {:limit 6 :cards []} {:limit 8 :cards []}]
     (-> (create-game/new-game {:limits [0 2 4 6 8]})
