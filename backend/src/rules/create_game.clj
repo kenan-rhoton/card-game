@@ -6,17 +6,9 @@
   "Creates a new player object"
 [hand player]
 {
- :hand (loop [final-hand []
-              base-hand hand
-              id (* 1000 player)]
-         (if (empty? base-hand)
-           final-hand
-           (recur
-             (conj final-hand
-                   (assoc (first base-hand) :id id))
-             (rest base-hand)
-             (inc id))))
-})
+ :hand (mapv (fn [card id] (assoc card :id id))
+             hand
+             (iterate inc (* player 1000)))})
 
 (defn new-game
   "Creates a new game object"
