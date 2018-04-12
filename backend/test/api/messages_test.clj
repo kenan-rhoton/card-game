@@ -2,38 +2,58 @@
   (:require [expectations.clojure.test :refer :all]
             [clojure.test :as ctest]
             [mocking :as mocking]
+            [api.handler :as handler]
             [api.base :as api]
+            [cheshire.core :as json]
             [configs.messages :as messages]))
 
 (ctest/use-fixtures :each mocking/mock-persistence)
 
+(defn request [resource method & params]
+  (json/parse-string
+    (:body 
+      (handler/entry {:request-method method
+                :uri resource
+                :params (first params)}))
+    true))
+   
+
 (defexpect no-opp-on-creation
-  (let [game (api/create-game)]
+  (let [response (request "/games" :post)
+        game-id (:game-id response)
+        player-id (:player-id response)]
     (expect
       messages/no-opp
-      (:status game))
+      (:status (request
+                 (str "/games/" game-id "/player/" player-id)
+                 :get)))
     (expect
       messages/no-opp
       (:status
-        (api/get-game (:game-id game) (:player-id game))))))
+        (request
+          (str "/games/" game-id "/player/" player-id)
+          :get)))))
 
 (defexpect play-on-both-players
   (expect
     messages/play
-    (-> (api/create-game)
-        :game-id
-        (api/add-player)
-        :status)))
+    (let [game (request "/games" :post)]
+        (:status (request
+                   (str "/games/" (:game-id game))
+                   :post)))))
 
 (defexpect wait-on-card-played
   (expect
     messages/wait
-    (let [game (api/create-game)
+    (let [game (request "/games" :post)
           game-id (:game-id game)
           player-id (:player-id game)]
-      (do (api/add-player game-id)
+      (do (request (str "/games/" game-id) :post)
           (:status
-            (api/play-card-as-player game-id player-id 0 0))))))
+            (request
+              (str "/games/" game-id "/player/" player-id)
+              :post
+              {:index 0 :rownum 0}))))))
 
 (defexpect play-on-not-played
   (let [game (api/create-game)

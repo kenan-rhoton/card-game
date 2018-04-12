@@ -13,6 +13,7 @@
                  [expectations "2.2.0-rc3" :scope "test"]]
   :plugins [[com.jakemccrary/lein-test-refresh "0.22.0"]
             [lein-expectations "0.0.8"]
+            [lein-cloverage "1.0.10"]
             [lein-ring "0.12.1"]]
   :ring {:handler api.handler/entry}
   :target-path "target/%s"

@@ -5,9 +5,9 @@
 (def server1-conn
   {:pool {} :spec {:uri "redis://redis"}})
 
-(defmacro wcar*
+(defn wcar*
   [& body] 
-  `(car/wcar server1-conn ~@body))
+  (car/wcar server1-conn body))
 
 (defn set-game-id
   "Saves an ID and returns it for convenience"
@@ -18,7 +18,9 @@
 (defn next-id
   "Returns the next available game id"
   []
-  (let [id (wcar* (car/parse-int (car/get "next-game-id")))]
+  (let [id (wcar*
+             (car/parse-int
+               (car/get "next-game-id")))]
     (if (nil? id)
       (set-game-id 0)
       (set-game-id (inc id)))))
