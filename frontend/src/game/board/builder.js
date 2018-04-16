@@ -27,6 +27,7 @@ module.exports = {
             var newScore = baseScore.cloneNode(true);
             newScore.setAttribute("rownum", i);
             myScores.appendChild(newScore);
+            document.querySelectorAll("#my-scores .scores-row")[i].innerHTML = "1"
 
             var newScore2 = baseScore.cloneNode(true);
             newScore2.setAttribute("rownum", i);
