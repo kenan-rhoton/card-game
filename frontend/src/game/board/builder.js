@@ -7,7 +7,7 @@ const oppRows = document.getElementById("opp-rows");
 
 const baseScore = document.getElementById("score-template")
     .content.querySelector("div");
-const scores = document.getElementById("row-scores");
+const row-scores = document.getElementById("row-scores");
 const limits = document.getElementById("limits");
 
 module.exports = {
@@ -26,7 +26,7 @@ module.exports = {
 
             var newScore = baseScore.cloneNode(true);
             newScore.setAttribute("rownum", i);
-            scores.appendChild(newScore);
+            row-scores.appendChild(newScore);
 
             var newScore2 = baseScore.cloneNode(true);
             newScore2.setAttribute("rownum", i);
