@@ -7,22 +7,27 @@ const config = require('config/config.js');
 const backend = config.servers["backend"];
 
 module.exports = {
-    playCard(rownum, cardindex) {
-        const playData = {
-            index: status.clickedCard.getAttribute("index"),
-            row: status.clickedCard.getAttribute("row-played"),
-        };
-        status.clickedCard.style.background = "green";
+    playCard(target) {
+        if (target === undefined &&
+            status.clickedCard.getAttribute("add-power") !== "undefined") {
+            status.clickedCard.style.background = "yellow";    
+        } else {
+            const playData = {
+                index: status.clickedCard.getAttribute("index"),
+                row: status.clickedCard.getAttribute("row-played"),
+            };
+            status.clickedCard.style.background = "green";
 
-        fetch(
-            `http://${backend}/games/${params.gameID}/player/${params.playerID}`,
-            {
-                method: 'POST',
-                body: JSON.stringify(playData),
-                headers: { 'Content-Type': 'application/json' }
-            }
-        )
-            .then( () => status.setStatus() )
-            .catch(error => console.log(error))
+            fetch(
+                `http://${backend}/games/${params.gameID}/player/${params.playerID}`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify(playData),
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            )
+                .then( () => status.setStatus() )
+                .catch(error => console.log(error))
+        }
     }
 }

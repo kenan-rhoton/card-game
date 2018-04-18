@@ -11,11 +11,7 @@ module.exports = {
 
             var rownum = event.target.getAttribute("rownum");
             status.clickedCard.setAttribute("row-played", rownum);
-            if (status.clickedCard.getAttribute("add-power") == "undefined") {
-                play.playCard();
-            } else {
-                status.clickedCard.style.background = "yellow";
-            }
+            play.playCard();
         }
     },
     allowDrop(event) {
@@ -23,12 +19,15 @@ module.exports = {
     },
     dropOnRow(event) {
         event.preventDefault();
-        const rownum = event.target.getAttribute("rownum");
-        const cardindex = event.dataTransfer.getData("handIndex");
+        status.clickedCard = document.querySelector('.card[index="'+
+                event.dataTransfer.getData("handIndex")+
+                '"]');
+        status.clickedCard.setAttribute("row-played",
+                event.target.getAttribute("rownum"));
 
         status.onGetStatus(function(status) {
             if (status === config.messages["play"]) {
-                play.playCard(rownum, cardindex);
+                play.playCard();
             }
         })
     }

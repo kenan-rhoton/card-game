@@ -45,8 +45,7 @@ module.exports = {
         newCard.addEventListener('click', function() {
             if (status.clickedCard !== undefined &&
                 status.clickedCard.hasAttribute("row-played")) {
-                status.clickedCard.style.background = "green";
-                play.playCard()
+                play.playCard(true)
             }
         });
 
