@@ -7,13 +7,12 @@ const config = require('config/config.js');
 const backend = config.servers["backend"];
 
 module.exports = {
-    playCard(rownum, cardindex, target) {
+    playCard(rownum, cardindex) {
         const playData = {
-            index: cardindex,
-            row: rownum,
-            target: target,
+            index: status.clickedCard.getAttribute("index"),
+            row: status.clickedCard.getAttribute("row-played"),
         };
-        document.querySelector('.card[index="'+cardindex+'"]').style.background = "yellow";
+        status.clickedCard.style.background = "green";
 
         fetch(
             `http://${backend}/games/${params.gameID}/player/${params.playerID}`,

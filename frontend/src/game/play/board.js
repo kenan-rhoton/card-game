@@ -9,8 +9,13 @@ module.exports = {
         if (status.clickedCard !== undefined) {
             event.preventDefault();
 
-            play.playCard(event.target.getAttribute("rownum"),
-                status.clickedCard.getAttribute("index"));
+            var rownum = event.target.getAttribute("rownum");
+            status.clickedCard.setAttribute("row-played", rownum);
+            if (status.clickedCard.getAttribute("add-power") == "undefined") {
+                play.playCard();
+            } else {
+                status.clickedCard.style.background = "yellow";
+            }
         }
     },
     allowDrop(event) {
