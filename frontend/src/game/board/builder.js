@@ -43,7 +43,6 @@ module.exports = {
         newCard.classList.add("col-2");
         newCard.innerHTML = cardData["power"];
         newCard.addEventListener('click', function() {
-            console.log("clicked")
             if (status.clickedCard !== undefined &&
                 status.clickedCard.hasAttribute("row-played")) {
                 status.clickedCard.style.background = "green";
