@@ -45,7 +45,8 @@ module.exports = {
         newCard.addEventListener('click', function() {
             if (status.clickedCard &&
                 status.clickedCard.hasAttribute("row-played")) {
-                play.playCard(true)
+                var target = 1;    
+                play.playCard(target)
             }
         });
 
