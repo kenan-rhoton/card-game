@@ -7,8 +7,8 @@ const config = require('config/config.js');
 const backend = config.servers["backend"];
 
 module.exports = {
-    playCard(target) {
-        if (target === undefined &&
+    playCard() {
+        if (!status.clickedCard.hasAttribute("target") &&
             status.clickedCard.getAttribute("add-power") !== "undefined") {
             status.clickedCard.style.background = "yellow";    
         } else {
