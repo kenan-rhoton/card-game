@@ -43,10 +43,10 @@ module.exports = {
         newCard.classList.add("col-2");
         newCard.innerHTML = cardData["power"];
         newCard.addEventListener('click', function() {
-            if (status.clickedCard &&
+            if (status.clickedCard !== undefined &&
                 status.clickedCard.hasAttribute("row-played")) {
-                var target = 1;    
-                play.playCard(target)
+                var target = 1;
+                play.playCard(target);
             }
         });
 
