@@ -9,7 +9,7 @@ const backend = config.servers["backend"];
 module.exports = {
     playCard(target) {
         if (target === undefined &&
-            status.clickedCard.getAttribute("add-power")) {
+            status.clickedCard.getAttribute("add-power") !== "undefined") {
             status.clickedCard.style.background = "yellow";    
         } else {
             const playData = {
