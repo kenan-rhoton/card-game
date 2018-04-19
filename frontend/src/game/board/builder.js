@@ -43,7 +43,7 @@ module.exports = {
         newCard.classList.add("col-2");
         newCard.innerHTML = cardData["power"];
         newCard.addEventListener('click', function() {
-            if (status.clickedCard !== undefined &&
+            if (status.clickedCard &&
                 status.clickedCard.hasAttribute("row-played")) {
                 play.playCard(true)
             }
