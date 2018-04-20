@@ -11,7 +11,7 @@ module.exports = {
 
             var rownum = event.target.getAttribute("rownum");
             status.clickedCard.setAttribute("row-played", rownum);
-            play.playCard();
+            play.playCard(status.clickedCard);
         }
     },
     allowDrop(event) {
@@ -27,7 +27,7 @@ module.exports = {
 
         status.onGetStatus(function(status) {
             if (status === config.messages["play"]) {
-                play.playCard();
+                play.playCard(status.clickedCard);
             }
         })
     }

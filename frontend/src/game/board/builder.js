@@ -47,7 +47,7 @@ module.exports = {
                 status.clickedCard.hasAttribute("row-played") &&
                 !status.clickedCard.hasAttribute("target")) {
                 status.clickedCard.setAttribute("target", 1);
-                play.playCard();
+                play.playCard(status.clickedCard);
             }
         });
 

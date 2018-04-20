@@ -7,16 +7,16 @@ const config = require('config/config.js');
 const backend = config.servers["backend"];
 
 module.exports = {
-    playCard() {
-        if (!status.clickedCard.hasAttribute("target") &&
-            status.clickedCard.getAttribute("add-power") !== "undefined") {
-            status.clickedCard.style.background = "yellow";    
+    playCard(card) {
+        if (!card.hasAttribute("target") &&
+            card.getAttribute("add-power") !== "undefined") {
+            card.style.background = "yellow";    
         } else {
             const playData = {
-                index: status.clickedCard.getAttribute("index"),
-                row: status.clickedCard.getAttribute("row-played"),
+                index: card.getAttribute("index"),
+                row: card.getAttribute("row-played"),
             };
-            status.clickedCard.style.background = "green";
+            card.style.background = "green";
 
             fetch(
                 `http://${backend}/games/${params.gameID}/player/${params.playerID}`,
