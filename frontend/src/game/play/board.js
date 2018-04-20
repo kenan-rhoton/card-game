@@ -19,15 +19,15 @@ module.exports = {
     },
     dropOnRow(event) {
         event.preventDefault();
-        status.clickedCard = document.querySelector('.card[index="'+
-                event.dataTransfer.getData("handIndex")+
-                '"]');
-        status.clickedCard.setAttribute("row-played",
-                event.target.getAttribute("rownum"));
+        var card = document.querySelector('.card[index="'+
+            event.dataTransfer.getData("handIndex")+
+            '"]');
+        card.setAttribute("row-played",
+            event.target.getAttribute("rownum"));
 
         status.onGetStatus(function(status) {
             if (status === config.messages["play"]) {
-                play.playCard(status.clickedCard);
+                play.playCard(card);
             }
         })
     }

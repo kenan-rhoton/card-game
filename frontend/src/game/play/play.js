@@ -10,7 +10,8 @@ module.exports = {
     playCard(card) {
         if (!card.hasAttribute("target") &&
             card.getAttribute("add-power") !== "undefined") {
-            card.style.background = "yellow";    
+            card.style.background = "yellow";
+            status.clickedCard = card;
         } else {
             const playData = {
                 index: card.getAttribute("index"),
