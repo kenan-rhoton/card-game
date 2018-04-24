@@ -21,6 +21,8 @@ module.exports = {
                     status.clickedCard = card;
                     card.style.background = "red";
                 }
+
+                document.getElementById("game-status").innerHTML = config.messages["play"];
             }
         })
     }  

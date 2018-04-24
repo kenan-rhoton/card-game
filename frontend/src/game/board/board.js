@@ -29,6 +29,7 @@ module.exports = {
                     fetchRow("#opp-rows .game-row", rownum).appendChild(newCard);
                 }
             });
+
             document.querySelectorAll("#limits .scores-row")[rownum].innerText = "(lim: " + row["limit"] + ")"
         });
     },
