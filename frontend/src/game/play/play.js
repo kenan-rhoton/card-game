@@ -12,6 +12,7 @@ module.exports = {
             card.getAttribute("add-power") !== "undefined") {
             card.style.background = "yellow";
             status.clickedCard = card;
+            document.getElementById("game-status").innerHTML = "Select a target";
         } else {
             const playData = {
                 index: card.getAttribute("index"),
