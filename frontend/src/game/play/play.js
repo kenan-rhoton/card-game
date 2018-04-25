@@ -14,7 +14,9 @@ module.exports = {
             status.clickedCard = card;
             document.getElementById("game-status").innerHTML = "Select a target";
         } else {
-            if (!card.hasAttribute("target")) card.setAttribute("target", "none");
+            if (!card.hasAttribute("target")) {
+                card.setAttribute("target", "nil");
+            }
             const playData = {
                 index: card.getAttribute("index"),
                 row: card.getAttribute("row-played"),
