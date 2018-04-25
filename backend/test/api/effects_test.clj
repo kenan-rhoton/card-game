@@ -18,6 +18,6 @@
       (api/play-card-as-player game-id player-id   0 0)
       (api/play-card-as-player game-id opponent-id 0 1)
       (api/play-card-as-player game-id player-id   0 1)
-      (api/play-card-as-player game-id opponent-id 0 1 [:rows 0 :cards 0])
+      (api/play-card-as-player game-id opponent-id 0 1 "[:rows 0 :cards 0]")
       (get-in (api/get-game game-id player-id)
               [:rows 0 :cards 0 :power]))))

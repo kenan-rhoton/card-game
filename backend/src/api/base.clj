@@ -13,13 +13,16 @@
   (player-view/get-game-as-player (persistence/fetch-game game-id) player-id))
 
 (defn play-card-as-player
-  [game-id player index row-id & target]
-  (let [game-state (persistence/fetch-game game-id)]
+ ([game-id player index row-id]
+  (play-card-as-player game-id player index row-id "nil"))
+ ([game-id player index row-id target]
+  (let [game-state (persistence/fetch-game game-id)
+        target (load-string target)]
       (if (= (:status (get-game game-id player)) messages/play)
           (do
-            (persistence/save-game (play-card/play-card game-state (conversions/player-num game-state player) index row-id (first target)))
+            (persistence/save-game (play-card/play-card game-state (conversions/player-num game-state player) index row-id target))
             (get-game game-id player))
-          {:error messages/out-of-turn})))
+          {:error messages/out-of-turn}))))
 
 (defn ^:private create-empty-game
   "Creates a new instance of a game"
