@@ -15,7 +15,7 @@ module.exports = {
             document.getElementById("game-status").innerHTML = "Select a target";
         } else {
             if (!card.hasAttribute("target")) {
-                card.setAttribute("target", "nil");
+                card.setAttribute("target", [0, 0]);
             }
             const playData = {
                 index: card.getAttribute("index"),
