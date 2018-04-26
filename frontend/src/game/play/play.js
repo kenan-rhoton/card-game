@@ -21,7 +21,7 @@ module.exports = {
                 index: card.getAttribute("index"),
                 row: card.getAttribute("row-played"),
                 targetrownum: card.getAttribute("target")[0],
-                targetindex: card.getAttribute("target")[1],
+                targetindex: card.getAttribute("target")[2],
             };
             card.style.background = "green";
 
