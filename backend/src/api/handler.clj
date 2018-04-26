@@ -19,7 +19,7 @@
     player-id
     (parse-int (:index action))
     (parse-int (:row action))
-    [:rows (:target-rownum action) :cards (:target-index action)]))
+    [:rows (:targetrownum action) :cards (:targetindex action)]))
 
 (defroutes ^:private app-routes
   (context "/games" [] (defroutes game-list-routes
