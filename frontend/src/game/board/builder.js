@@ -1,5 +1,7 @@
 "use strict";
 
+var status = require("game/status.js");
+var play = require("game/play/play.js");
 const baseRow = document.getElementById("row-template")
     .content.querySelector("div");
 const myRows = document.getElementById("my-rows");
@@ -7,8 +9,8 @@ const oppRows = document.getElementById("opp-rows");
 
 const baseScore = document.getElementById("score-template")
     .content.querySelector("div");
-const myScores = document.getElementById("my-scores");
-const oppScores = document.getElementById("opp-scores");
+const rowScores = document.getElementById("row-scores");
+const limits = document.getElementById("limits");
 
 module.exports = {
     buildRows() {
@@ -26,11 +28,11 @@ module.exports = {
 
             var newScore = baseScore.cloneNode(true);
             newScore.setAttribute("rownum", i);
-            myScores.appendChild(newScore);
+            rowScores.appendChild(newScore);
 
             var newScore2 = baseScore.cloneNode(true);
             newScore2.setAttribute("rownum", i);
-            oppScores.appendChild(newScore2);
+            limits.appendChild(newScore2);
         }
     },
     buildCard(baseCard, cardData){
@@ -40,6 +42,14 @@ module.exports = {
         newCard.classList.remove("col-1");
         newCard.classList.add("col-2");
         newCard.innerHTML = cardData["power"];
+        newCard.addEventListener('click', function() {
+            if (status.clickedCard &&
+                status.clickedCard.hasAttribute("row-played") &&
+                !status.clickedCard.hasAttribute("target")) {
+                status.clickedCard.setAttribute("target", 1);
+                play.playCard(status.clickedCard);
+            }
+        });
 
         return newCard;
     }
