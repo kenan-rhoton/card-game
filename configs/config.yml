@@ -6,3 +6,4 @@ messages:
     wait: "Waiting for opponent's play"
     row-limit: "Can't play on this row"
     too-many-players: "Too many players"
+    need-target: "A target is needed"

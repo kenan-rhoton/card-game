@@ -2,57 +2,34 @@
   (:require [configs.messages :as messages]
             [rules.alter-card :as alter-card]))
 
-(defn ^:private add-card-to-row
-  "Adds a card onto the specified row"
-  [game-state card row-id]
-  (update-in game-state [:rows row-id :cards] #(conj % card)))
+(defn move-card
+  "Moves a card to the specified row"
+  [game-state card-id row-id]
+  (assoc-in game-state [:cards card-id :location] [:row row-id]))
 
-(defn ^:private modify-hand
-  "Modifies a player's hand according to some function"
-  [game-state player modification]
-  (update-in game-state [:players player :hand] modification))
-
-(defn ^:private item-remover
-  "Returns a function that removes given index from a vector"
-  [index]
-  #(vec (concat
-          (subvec % 0 index)
-          (subvec % (inc index)))))
-
-(defn ^:private remove-card
-  "Remove a card from hand"
-  [game-state player index]
-  (modify-hand game-state player (item-remover index)))
-
-(defn ^:private apply-play-card-abilities
-  "Applies the abilities of the played card"
+(defn apply-add-power
+  "Applies an add-power ability"
   [game-state play]
-  (if (nil? (:target play))
-    game-state
-    (alter-card/add-power
-      game-state 
-      (:target play)
-      (get-in game-state [:players (:player play)
-                          :hand (:index play)
-                          :add-power]))))
+  (let [add-power (get-in game-state
+                          [:cards (:card-id play) :add-power])
+        target (:target play)]
+    (if (nil? add-power)
+        game-state
+        (alter-card/add-power game-state target add-power))))
 
-(defn apply-play-card
-  "Plays a card waiting to be played onto the board"
+(defn apply-play
+  "Applies an entire play"
   [game-state play]
-    (let [player-id (:player play)
-          index (:index play)
-          row-id (:row play)
-          card (get-in game-state [:players player-id :hand index])]
-      (-> (apply-play-card-abilities game-state play)
-          (add-card-to-row (assoc card :owner player-id) row-id)
-          (remove-card player-id index))))
+  (-> game-state
+      (apply-add-power play)
+      (move-card (:card-id play) (:row-id play))))
 
-(defn ^:private apply-all-plays
+(defn apply-all-plays
   "Plays all cards waiting to be played"
   [game-state]
     (-> game-state
-        (apply-play-card (get-in game-state [:next-play 0]))
-        (apply-play-card (get-in game-state [:next-play 1]))
+        (apply-play (get-in game-state [:next-play 0]))
+        (apply-play (get-in game-state [:next-play 1]))
         (assoc :next-play [nil nil])))
 
 (defn ^:private count-owned-cards

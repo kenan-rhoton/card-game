@@ -15,3 +15,5 @@
 (def row-limit (get-in config-file [:messages :row-limit]))
 
 (def too-many-players (get-in config-file [:messages :too-many-players]))
+
+(def need-target (get-in config-file [:messages :need-target]))
