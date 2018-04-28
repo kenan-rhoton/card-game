@@ -23,6 +23,10 @@
   (expect
     1
     (count-cards/count-cards game-state {:owner 0 :location [:row 3]}))
+
+  (expect
+    2
+    (count-cards/count-cards game-state {:location [:hand]}))
   
   ; Uses summand correctly
   (expect

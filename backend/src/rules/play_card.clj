@@ -51,6 +51,9 @@
     (not= (get-in game-state [:cards card-id :owner]) player-id)
     {:error messages/not-owned-card}
 
+    (>= row-id (count (:rows game-state)))
+    {:error messages/no-row}
+
     (crowded-row? game-state row-id player-id)
     {:error messages/row-limit}
 

@@ -3,7 +3,9 @@
             [rules.play-card :as play-card]
             [configs.messages :as messages]))
 
-  (def game-state {:cards [{:power 0 :location [:hand]} {:power 10 :add-power -1} {:power 100 :add-power -100}] :next-play [{:card-id 0 :row-id 0} {:card-id 1 :row-id 3 :target 2}]})
+  (def game-state {:cards [{:power 0 :location [:hand]} {:power 10 :add-power -1} {:power 100 :add-power -100}]
+                   :rows [{}{}{}{}]
+                   :next-play [{:card-id 0 :row-id 0} {:card-id 1 :row-id 3 :target 2}]})
 
 (defexpect move-card
 
@@ -52,7 +54,9 @@
 (defexpect apply-all-plays
   
   (expect
-    {:cards [{:power 0 :location [:row 0]} {:power 10 :add-power -1 :location [:row 3]} {:power 99 :add-power -100}] :next-play [nil nil]}
+    {:cards [{:power 0 :location [:row 0]} {:power 10 :add-power -1 :location [:row 3]} {:power 99 :add-power -100}]
+     :rows [{}{}{}{}]
+     :next-play [nil nil]}
     (play-card/apply-all-plays game-state)))
 
 (defexpect crowded-row?
@@ -85,6 +89,12 @@
                           :cards [{:owner 1}]} 0 0 0))
 
   (expect
+    {:error messages/no-row}
+    (play-card/play-card {:next-play [nil nil]
+                          :cards [{:owner 0}]
+                          :rows [{}{}{}{}]} 0 0 4))
+
+  (expect
     {:error messages/row-limit}
     (play-card/play-card {:next-play [nil nil]
                           :rows [{:limit 0}]
@@ -93,6 +103,7 @@
   (expect
     {:error messages/need-target}
     (play-card/play-card {:next-play [nil nil]
+                          :rows [{}]
                           :cards [{:add-power 1 :owner 0}]} 0 0 0))
   
   ; Saves next-play
@@ -100,17 +111,21 @@
     [{:card-id 0 :row-id 1 :target nil} nil]
     (:next-play
       (play-card/play-card {:next-play [nil nil]
+                            :rows [{}{}{}]
                             :cards [{:owner 0}]} 0 0 1)))
   
   (expect
     [nil {:card-id 2 :row-id 3 :target 0}]
     (:next-play
       (play-card/play-card {:next-play [nil nil]
+                            :rows [{}{}{}{}]
                             :cards [{}{}{:owner 1 :add-power 1}]} 1 2 3 0)))
   
   ; Applies a play
   (expect 
     {:cards [{:power 0 :location [:row 0] :owner 0} {:power 10 :add-power -1 :owner 1 :location [:row 3]} {:power 99 :add-power -100}]
+     :rows [{}{}{}{}{}]
      :next-play [nil nil]}
     (play-card/play-card {:cards [{:power 0 :location [:hand] :owner 0} {:power 10 :add-power -1 :owner 1} {:power 100 :add-power -100}]
+                          :rows [{}{}{}{}{}]
                           :next-play [nil {:card-id 1 :row-id 3 :target 2}]} 0 0 0)))
