@@ -12,4 +12,4 @@
    :rows (functions/get-rows game-state player-id)
    :scores (functions/get-scores game-state player-id)
    :status (functions/get-status game-state player-id)
-   :winner (functions/get-winner game-state player-id)})
+   :winner (functions/get-winner game-state)})
