@@ -1,6 +1,7 @@
 (ns api.player-view-functions-test
   (:require [expectations.clojure.test :refer :all]
-            [api.player-view-functions :as functions]))
+            [api.player-view-functions :as functions]
+            [configs.messages :as messages]))
 
 (defexpect get-cards
   
@@ -10,11 +11,11 @@
      {:location [:row 0] :owner "opp"}
      {:power 1 :attr "kill" :location [:hand] :owner "me"}
      {:power 100 :location [:row 1] :owner "me"}]
-    (functions/get-cards {:cards [{:power 99 :location [:hand] :owner "opp"}
-                                  {:power -1 :location [:row 0] :owner "opp" :secret-attr "who knows?"}
-                                  {:power 1 :attr "kill" :location [:hand] :owner "me"}
-                                  {:power 100 :location [:row 1] :owner "me"}]}
-                        "me")))
+    (functions/get-cards {:cards [{:power 99 :location [:hand] :owner "opp_name"}
+                                  {:power -1 :location [:row 0] :owner "opp_name" :secret-attr "who knows?"}
+                                  {:power 1 :attr "kill" :location [:hand] :owner "me_name"}
+                                  {:power 100 :location [:row 1] :owner "me_name"}]}
+                        "me_name")))
 
 (defexpect get-rows
 
@@ -51,16 +52,25 @@
   ; No winner
   (expect
     nil
-    (functions/get-winner {:cards [{:location [:hand]}]}))
+    (functions/get-winner {:cards [{:location [:hand]}]
+                           :player-ids ["john" "jihn"]} "john"))
 
   ; Tie
   (expect
     ""
-    (functions/get-winner {:cards [{}] :rows[{}{}]}))
+    (functions/get-winner {:cards [{}] :rows[{}{}]
+                           :player-ids ["jihn" "john"]} "john"))
 
   ; Gets winner
   (expect
-    "winner"
+    "me"
     (functions/get-winner {:cards [{:power 1 :location [:row 1] :owner "winner"}]
                            :rows [{}{}]
-                           :player-ids ["winner" "someone"]})))
+                           :player-ids ["winner" "someone"]}
+                          "winner"))
+  (expect
+    "opp"
+    (functions/get-winner {:cards [{:power 1 :location [:row 1] :owner "winner"}]
+                           :rows [{}{}]
+                           :player-ids ["winner" "someone"]}
+                          "someone")))

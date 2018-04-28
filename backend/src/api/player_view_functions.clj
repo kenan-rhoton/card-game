@@ -8,9 +8,9 @@
   [game-state player-id]
   (vec (map
          #(if (= (:owner %) player-id)
-            %
+            (assoc % :owner "me")
             {:location (:location %)
-             :owner (:owner %)})
+             :owner "opp"})
          (:cards game-state))))
 
 (defn get-rows
@@ -44,8 +44,18 @@
 
 (defn get-winner
   "Return the winner as seen by the player"
-  [game-state]
-  (victory/winner game-state))
+  [game-state player-id]
+  (let [winner (victory/winner game-state)
+        player-ids (:player-ids game-state)
+        opp-id (if (= (first player-ids) player-id)
+                 (second player-ids)
+                 (first player-ids))]
+    (cond (= winner player-id)
+          "me"
+          (= winner opp-id)
+          "opp"
+          :else
+          winner)))
 
 (defn get-status
   "Returns the status of the game from a player's perspective"
