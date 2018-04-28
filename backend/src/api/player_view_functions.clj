@@ -60,6 +60,6 @@
 (defn get-status
   "Returns the status of the game from a player's perspective"
   [game-state player-id]
-  (cond (= (count (:player-ids game-state)) 1) messages/no-opp
-        (nil? (get-in game-state [:next-play (conversions/player-num game-state player-id)])) messages/play
-        :else messages/wait))
+  (if (nil? (get-in game-state [:next-play (keyword player-id)]))
+    messages/play
+    messages/wait))

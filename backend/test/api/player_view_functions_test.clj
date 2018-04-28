@@ -74,3 +74,18 @@
                            :rows [{}{}]
                            :player-ids ["winner" "someone"]}
                           "someone")))
+
+(defexpect get-status
+  
+  ; Status are as intended
+  (expect
+    messages/play
+    (functions/get-status {:next-play {}} "player"))
+  
+  (expect
+    messages/play
+    (functions/get-status {:next-play {:quick {}}} "slow"))
+  
+  (expect
+    messages/wait
+    (functions/get-status {:next-play {:waiter {}}} "waiter")))
