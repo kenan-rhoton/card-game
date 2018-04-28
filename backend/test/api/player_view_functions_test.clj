@@ -44,7 +44,7 @@
                                    {:power 5 :location [:row 1] :owner "tu"}
                                    {:power 9 :location [:row 2] :owner "tu"}]
                            :rows [{}{}{}{}]
-                           :player-ids ["jo" "tu"]}
+                           :player-ids ["tu" "jo"]}
                           "jo")))
 
 (defexpect get-winner

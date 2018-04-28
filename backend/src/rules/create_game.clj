@@ -23,5 +23,5 @@
                    #(concat %1 [{:limit %2}])
                    []
                    (:limits ini-config rows/default-limits)))
-      :next-play [nil nil]
+      :next-play {} 
    })))

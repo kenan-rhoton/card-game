@@ -122,7 +122,13 @@
       (play-card/play-card {:next-play {}
                             :rows [{}{}{}{}]
                             :cards [{}{}{:owner "p" :add-power 1}]} "p" 2 3 0)))
-  
+
+  (expect
+    [{:owner "p"}]
+    (:cards (play-card/play-card {:cards [{:owner "p"}]
+                                  :rows [{}]
+                                  :next-play {}} "p" 0 0)))
+
   ; Applies a play
   (expect 
     {:cards [{:power 0 :location [:row 0] :owner "p0"} {:power 10 :add-power -1 :owner "p1" :location [:row 3]} {:power 99 :add-power -100}]

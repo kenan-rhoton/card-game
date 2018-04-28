@@ -32,6 +32,11 @@
   (expect
     #(not (empty? %))
     (:rows (create-game/new-game)))
+
+  ; Game has empty next-play
+  (expect
+    {}
+    (:next-play (create-game/new-game)))
   
   ; Game uses config
   (expect
