@@ -12,7 +12,8 @@
                          {:power 128 :location [:row 2] :owner "p0"}
                          {:power 128 :location [:row 2] :owner "p1"}
                          {:power 256 :location [:row 3] :owner "p0"}]
-                 :rows [{}{}{}{}{}]})
+                 :rows [{}{}{}{}{}]
+                 :player-ids ["p0" "p1"]})
 
 (defexpect finished?
 
@@ -52,17 +53,6 @@
   (expect
     72
     (victory/points-in-row game-state 1 "p1")))
-
-(defexpect total-points-in-row
-
-  ; Correctly counts points
-  (expect
-    21
-    (victory/total-points-in-row game-state 0))
-
-  (expect
-    256
-    (victory/total-points-in-row game-state 3)))
 
 (defexpect player-wins-row?
 
@@ -109,12 +99,14 @@
   (expect
     "winner"
     (victory/most-won-rows {:cards [{:power 1 :location [:row 0] :owner "winner"}]
-                            :rows [{}]}))
+                            :rows [{}]
+                            :player-ids ["winner" "unknown"]}))
   
   (expect
     ""
     (victory/most-won-rows {:cards [{:power 1 :owner "tier"}]
-                            :rows [{}{}]})))
+                            :rows [{}{}]
+                            :player-ids ["un-tier" "tier"]})))
 
 (defexpect winner
 
@@ -128,14 +120,16 @@
     "U"
     (victory/winner {:cards [{:power -1 :location [:row 0] :owner "I"}
                              {:power 0 :location [:row 0] :owner "U"}]
-                     :rows [{}]}))
+                     :rows [{}]
+                     :player-ids ["I" "U"]}))
   
   (expect
     "champ"
     (victory/winner {:cards [{:power 1 :location [:row 1] :owner "champ"}
                              {:power 1 :location [:row 2] :owner "champ"}
                              {:power 1 :location [:row 0] :owner "noob"}]
-                     :rows [{}{}{}]}))
+                     :rows [{}{}{}]
+                     :player-ids ["noob" "champ"]}))
   
   (expect
     ""

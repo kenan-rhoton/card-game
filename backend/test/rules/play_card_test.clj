@@ -5,7 +5,8 @@
 
   (def game-state {:cards [{:power 0 :location [:hand]} {:power 10 :add-power -1} {:power 100 :add-power -100}]
                    :rows [{}{}{}{}]
-                   :next-play {:p0 {:card-id 0 :row-id 0} :p1 {:card-id 1 :row-id 3 :target 2}}})
+                   :next-play {:p0 {:card-id 0 :row-id 0} :p1 {:card-id 1 :row-id 3 :target 2}}
+                   :player-ids ["p0" "p1"]})
 
 (defexpect move-card
 
@@ -56,7 +57,8 @@
   (expect
     {:cards [{:power 0 :location [:row 0]} {:power 10 :add-power -1 :location [:row 3]} {:power 99 :add-power -100}]
      :rows [{}{}{}{}]
-     :next-play {}}
+     :next-play {}
+     :player-ids ["p0" "p1"]}
     (play-card/apply-all-plays game-state)))
 
 (defexpect crowded-row?

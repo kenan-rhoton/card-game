@@ -13,14 +13,15 @@
   "Creates a new game object"
   ([] (new-game {}))
   ([ini-config]
-   {
-    :cards (let [hands (:hands ini-config hands/default-hands)
-                 player-ids (:player-ids ini-config player-ids/default-player-ids)]
-             (vec (concat (locate-in-hand (first hands) (first player-ids))
-                          (locate-in-hand (second hands) (second player-ids)))))
-    :rows (vec (reduce
-                 #(concat %1 [{:limit %2}])
-                 []
-                 (:limits ini-config rows/default-limits)))
-    :next-play [nil nil]
-   }))
+    (let [player-ids (:player-ids ini-config player-ids/default-player-ids)]
+    {
+      :player-ids player-ids
+      :cards (let [hands (:hands ini-config hands/default-hands)]
+               (vec (concat (locate-in-hand (first hands) (first player-ids))
+                            (locate-in-hand (second hands) (second player-ids)))))
+      :rows (vec (reduce
+                   #(concat %1 [{:limit %2}])
+                   []
+                   (:limits ini-config rows/default-limits)))
+      :next-play [nil nil]
+   })))

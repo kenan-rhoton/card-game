@@ -1,6 +1,7 @@
 (ns rules.create-game-test
   (:require [expectations.clojure.test :refer :all]
             [rules.create-game :as create-game]
+            [configs.player-ids :as player-ids]
             [configs.hands :as hands]
             [configs.rows :as rows]))
   
@@ -20,8 +21,8 @@
   ; Game can be created
   (expect
     #(some? %)
-    (create-game/new-game))
-  
+    (create-game/new-game))  
+
   ; Game has cards
   (expect
     #(not (empty? %))
@@ -34,8 +35,13 @@
   
   ; Game uses config
   (expect
-    [{:p 0 :location [:hand] :owner "pip"} {:attr 12 :sometext "" :location [:hand] :owner "pop"}]
-    (:cards (create-game/new-game {:hands [[{:p 0}][{:attr 12 :sometext ""}]] :player-ids ["pip" "pop"]})))
+    ["chip" "chop"]
+    (:player-ids (create-game/new-game {:player-ids ["chip" "chop"]})))
+  
+  (expect
+    [{:p 0 :location [:hand] :owner (first player-ids/default-player-ids)}
+     {:attr 12 :sometext "" :location [:hand] :owner (second player-ids/default-player-ids)}]
+    (:cards (create-game/new-game {:hands [[{:p 0}][{:attr 12 :sometext ""}]]})))
   
   (expect
      [{:limit 0} {:limit 3}]
@@ -51,11 +57,5 @@
     (vec (map :limit (:rows (create-game/new-game)))))
   
   (expect
-    "p0"
-    (get-in (create-game/new-game)
-            [:cards 0 :owner]))
-  
-  (expect
-    "p1"
-    (get-in (create-game/new-game)
-            [:cards (count hands/default-hand) :owner])))
+    player-ids/default-player-ids
+    (:player-ids (create-game/new-game))))

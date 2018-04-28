@@ -14,18 +14,14 @@
                             :owner player-id}
                            :power))
 
-(defn total-points-in-row
-  "Tells us how many points the cards of a row has regardless the player"
-  [game-state row-id]
-  (count-cards/count-cards game-state
-                          {:location [:row row-id]}
-                          :power))
-
 (defn player-wins-row?
   "Tells us if a player is winning a row"
   [game-state row-id player-id]
-  (> (* 2 (points-in-row game-state row-id player-id))
-     (total-points-in-row game-state row-id)))
+  (let [opponent-id (if (= player-id (first (:player-ids game-state)))
+                      (second (:player-ids game-state))
+                      (first (:player-ids game-state)))]
+    (> (points-in-row game-state row-id player-id)
+       (points-in-row game-state row-id opponent-id))))
 
 (defn get-won-rows
   "Tells us how many rows a player is winning"
@@ -42,7 +38,7 @@
 (defn most-won-rows
   "Which player is winning the most rows?"
   [game-state]
-  (let [player-ids (distinct (map :owner (:cards game-state)))
+  (let [player-ids (:player-ids game-state)
         won-rows (map #(get-won-rows game-state %) player-ids)]
     (loop [winner ""
            most-wons 0

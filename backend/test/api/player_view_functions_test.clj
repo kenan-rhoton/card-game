@@ -27,7 +27,8 @@
                                  {:power 2 :location [:row 1] :owner "U"}
                                  {:power 4 :location [:row 2] :owner "I"}
                                  {:power 8 :location [:row 2] :owner "I"}]
-                         :rows [{:limit 1}{:limit 4}{}]}
+                         :rows [{:limit 1}{:limit 4}{}]
+                         :player-ids ["I" "U"]}
                         "I")))
 
 (defexpect get-scores
@@ -41,7 +42,8 @@
                                    {:power 4 :location [:row 1] :owner "jo"}
                                    {:power 5 :location [:row 1] :owner "tu"}
                                    {:power 9 :location [:row 2] :owner "tu"}]
-                           :rows [{}{}{}{}]}
+                           :rows [{}{}{}{}]
+                           :player-ids ["jo" "tu"]}
                           "jo")))
 
 (defexpect get-winner
@@ -60,4 +62,5 @@
   (expect
     "winner"
     (functions/get-winner {:cards [{:power 1 :location [:row 1] :owner "winner"}]
-                           :rows [{}{}]})))
+                           :rows [{}{}]
+                           :player-ids ["winner" "someone"]})))

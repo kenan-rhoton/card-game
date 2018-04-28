@@ -16,7 +16,7 @@
 (defn get-rows
   "Return the rows info as seen by the player"
   [game-state player-id]
-  (let [player-ids (distinct (map :owner (:cards game-state)))
+  (let [player-ids (:player-ids game-state)
         opp-id (if (= (first player-ids) player-id)
                  (second player-ids)
                  (first player-ids))]
@@ -35,7 +35,7 @@
 (defn get-scores
   "Return the scores as seen by the player"
   [game-state player-id]
-  (let [player-ids (distinct (map :owner (:cards game-state)))
+  (let [player-ids (:player-ids game-state)
         opp-id (if (= (first player-ids) player-id)
                  (second player-ids)
                  (first player-ids))]
