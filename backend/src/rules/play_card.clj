@@ -29,9 +29,9 @@
   "Plays all cards waiting to be played"
   [game-state]
     (-> game-state
-        (apply-play (get-in game-state [:next-play 0]))
-        (apply-play (get-in game-state [:next-play 1]))
-        (assoc :next-play [nil nil])))
+        (apply-play (first (vals (:next-play game-state))))
+        (apply-play (second (vals (:next-play game-state))))
+        (assoc :next-play {})))
 
 (defn  crowded-row?
   "True if a row has :limit cards for player-id"
@@ -45,7 +45,7 @@
   [game-state player-id card-id row-id & target]
   ; Uses stored :next-play to know who is supposed to play
   (cond 
-    (some? (get-in game-state [:next-play player-id]))
+    (some? (get-in game-state [:next-play (keyword player-id)]))
     {:error messages/out-of-turn}
 
     (not= (get-in game-state [:cards card-id :owner]) player-id)
@@ -61,7 +61,7 @@
     {:error messages/need-target}
 
     :else
-    (let [new-game-state (assoc-in game-state [:next-play player-id] {:card-id card-id :row-id row-id :target (first target)})]
-      (if (every? nil? (:next-play game-state))
-        new-game-state
-        (apply-all-plays new-game-state)))))
+    (let [game-state (assoc-in game-state [:next-play (keyword player-id)] {:card-id card-id :row-id row-id :target (first target)})]
+      (if (= 2 (count (:next-play game-state)))
+        (apply-all-plays game-state)
+        game-state))))
