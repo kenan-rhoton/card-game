@@ -1,6 +1,7 @@
 (ns rules.create-game
   (:require [configs.hands :as hands]
-            [configs.rows :as rows]))
+            [configs.rows :as rows]
+            [configs.player-ids :as player-ids]))
 
 (defn locate-in-hand
   "Creates location for a vec of cards on player's hand"
@@ -13,9 +14,10 @@
   ([] (new-game {}))
   ([ini-config]
    {
-    :cards (let [hands (:hands ini-config hands/default-hands)]
-             (vec (concat (locate-in-hand (first hands) 0)
-                          (locate-in-hand (second hands) 1))))
+    :cards (let [hands (:hands ini-config hands/default-hands)
+                 player-ids (:player-ids ini-config player-ids/default-player-ids)]
+             (vec (concat (locate-in-hand (first hands) (first player-ids))
+                          (locate-in-hand (second hands) (second player-ids)))))
     :rows (vec (reduce
                  #(concat %1 [{:limit %2}])
                  []
