@@ -17,3 +17,5 @@
 (def too-many-players (get-in config-file [:messages :too-many-players]))
 
 (def need-target (get-in config-file [:messages :need-target]))
+
+(def not-owned-card (get-in config-file [:messages :not-owned-card]))
