@@ -26,25 +26,31 @@
   [ini-config]
   (let [game-id (persistence/next-id)]
     (persistence/save-game
-      (assoc (create-game/new-game ini-config)
-             :game-id game-id))
-    game-id))
+      {:status messages/no-opp
+       :game-id game-id
+       :player-ids [(generators/player-uuid {})]})))
 
 (defn add-player
   "Adds a player to a game"
   [game-id]
-  (let [saved-game (persistence/fetch-game game-id)
-        players-connected (count (:player-ids saved-game))]
-    (if (> players-connected 1)
-      {:error messages/too-many-players}
-      (let [game-state (persistence/save-game
-                         (generators/player-uuid
-                           saved-game))]
-        (get-game game-id (last (:player-ids game-state)))))))
+  (let [lobby (persistence/fetch-game game-id)
+        players-connected (count (:player-ids lobby))]
+    (cond
+      (> players-connected 1) {:error messages/too-many-players}
+      (< players-connected 1) {:error messages/lobby-not-created}
+      :else (let [second-uuid (generators/player-uuid lobby)]
+              (-> (create-game/new-game)
+                  (assoc :game-id (:game-id lobby))
+                  (assoc :player-ids [(first (:player-ids lobby))
+                                      second-uuid])
+                  persistence/save-game
+                  (get-game second-uuid))))))
 
 (defn create-game
   "Creates a new instance of a game with a player"
   ([] (create-game {}))
   ([ini-config]
-   (-> (create-empty-game ini-config)
-       (add-player))))
+   (let [lobby (create-empty-game ini-config)]
+     (-> lobby
+         (assoc :player-id (first (:player-ids lobby)))
+         (dissoc :player-ids)))))

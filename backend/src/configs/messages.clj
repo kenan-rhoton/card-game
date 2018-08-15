@@ -21,3 +21,5 @@
 (def not-owned-card (get-in config-file [:messages :not-owned-card]))
 
 (def no-row (get-in config-file [:messages :no-row]))
+
+(def lobby-not-created (get-in config-file [:messages :no-lobby-not-created]))
