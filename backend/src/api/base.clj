@@ -22,7 +22,7 @@
           {:error messages/out-of-turn})))
 
 (defn ^:private create-empty-game
-  "Creates a new instance of a game"
+  "Creates a new instance of a game lobby"
   [ini-config]
   (let [game-id (persistence/next-id)]
     (persistence/save-game
@@ -39,10 +39,10 @@
       (> players-connected 1) {:error messages/too-many-players}
       (< players-connected 1) {:error messages/lobby-not-created}
       :else (let [second-uuid (generators/player-uuid lobby)]
-              (-> (create-game/new-game)
+              (-> (create-game/new-game
+                    {:player-ids [(first (:player-ids lobby))
+                                  second-uuid]})
                   (assoc :game-id (:game-id lobby))
-                  (assoc :player-ids [(first (:player-ids lobby))
-                                      second-uuid])
                   persistence/save-game
                   (get-game second-uuid))))))
 

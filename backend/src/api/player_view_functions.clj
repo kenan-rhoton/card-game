@@ -60,6 +60,7 @@
 (defn get-status
   "Returns the status of the game from a player's perspective"
   [game-state player-id]
-  (if (nil? (get-in game-state [:next-play (keyword player-id)]))
-    messages/play
-    messages/wait))
+  (:status game-state
+           (if (nil? (get-in game-state [:next-play (keyword player-id)]))
+             messages/play
+             messages/wait)))

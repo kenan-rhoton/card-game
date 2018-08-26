@@ -7,12 +7,8 @@
 
 (ctest/use-fixtures :each mocking/mock-persistence)
 
-(defexpect lobby-creation
+(defexpect game-creation
   (expect 0 (:game-id (base/create-game)))
   (expect messages/no-opp (:status (base/create-game)))
   (expect nil (:player-ids (base/create-game)))
-  (expect true (contains? (base/create-game) :player-id))
-  (expect 0 (-> (base/create-game)
-                :game-id
-                base/add-player
-                :game-id)))
+  (expect true (contains? (base/create-game) :player-id)))
