@@ -20,7 +20,7 @@
     (parse-int (:index action))
     (parse-int (:row action))))
 
-(defroutes ^:private app-routes
+(defroutes app-routes
   (context "/games" [] (defroutes game-list-routes
     (POST "/" [] (api/create-game))
     (context "/:id" [id :<< coerce/as-int] (defroutes game-routes
