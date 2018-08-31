@@ -44,10 +44,10 @@ However, we will understand this further in the following sections.
 
 - **backend/Dockerfile**: Defines how the Docker image for the backend will be built and run
 - **backend/project.clj**: Defines the project dependencies and entry point
-- **backend/test/card_game/**: Contains all the unit tests for the code. Remember that a unit test must be done *before* the actual code.
-- **backend/src/card_game/**: Contains the code that will run in production, the actual logic.
-- **backend/src/card_game/persistence.clj**: This is the only file to interact directly with the database. All database calls *must* pass through here.
-- **backend/src/card_game/api_handler.clj**: This is the only file to interact directly with frontend. Any actions to take as a response to a frontend call *must* be defined here.
+- **backend/test/**: Contains all the unit tests for the code, following the same structure as src/. Remember that a unit test must be done *before* the actual code.
+- **backend/src/rules**: Contains the code that will run in production, the actual logic.
+- **backend/src/persistence/persistence.clj**: This is the only file to interact directly with the database. All database calls *must* pass through here.
+- **backend/src/api/handler.clj**: This is the only file to interact directly with frontend. Any actions to take as a response to a frontend call *must* be defined here.
 
 ## Frontend structure
 
