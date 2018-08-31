@@ -3,6 +3,7 @@
             [clojure.test :as ctest]
             [mocking :as mocking]
             [api.base :as base]
+            [configs.hands :as hands]
             [configs.messages :as messages]))
 
 (ctest/use-fixtures :each mocking/mock-persistence)
