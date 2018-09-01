@@ -12,11 +12,12 @@ test('Playing cards changes background as intended', () => {
     play.playCard(card);
     expect(card.style.background).toBe("green");
     
+    card = document.createElement("div");
     card.setAttribute("add-power", 1);
     play.playCard(card);
     expect(card.style.background).toBe("yellow");
 
-    card.setAttribute("target", 1);
+    card.setAttribute("target", "[:rows 0 :cards 0]");
     play.playCard(card);
     expect(card.style.background).toBe("green");
 });

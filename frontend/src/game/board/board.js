@@ -19,9 +19,10 @@ module.exports = {
         })
 
         boardState.forEach(function (row, rownum) {
-            row["cards"].forEach(function (cardInRow) {
+            row["cards"].forEach(function (cardInRow, index) {
                 var newCard = builder.buildCard(templates.baseCard, cardInRow);
                 newCard.setAttribute("rownum", rownum);
+                newCard.setAttribute("index", index);
 
                 if (cardInRow["owner"] === "me") {
                     fetchRow("#my-rows .game-row", rownum).appendChild(newCard);
@@ -29,6 +30,7 @@ module.exports = {
                     fetchRow("#opp-rows .game-row", rownum).appendChild(newCard);
                 }
             });
+
             document.querySelectorAll("#limits .scores-row")[rownum].innerText = "(lim: " + row["limit"] + ")"
         });
     },
