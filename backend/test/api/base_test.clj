@@ -46,6 +46,9 @@
         p1 (:player-id game)
         p2 (:player-id (base/add-player game-id))]
     
+    (expect {:error messages/no-row}
+            (base/play-card-as-player game-id p1 1 99))
+    
     (expect messages/wait
             (:status (base/play-card-as-player game-id p1 1 0)))
 

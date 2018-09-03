@@ -17,9 +17,12 @@
   [game-id player-id card-id row-id & target]
   (let [game-state (persistence/fetch-game game-id)]
       (if (= (:status (get-game game-id player-id)) messages/play)
-          (do
-            (persistence/save-game (play-card/play-card game-state player-id card-id row-id (first target)))
-            (get-game game-id player-id))
+          (let [new-game-state (play-card/play-card game-state player-id card-id row-id (first target))]
+            (if (contains? new-game-state :error)
+              new-game-state
+              (do
+                (persistence/save-game new-game-state)
+                (get-game game-id player-id))))
           {:error messages/out-of-turn})))
 
 (defn ^:private create-empty-game
