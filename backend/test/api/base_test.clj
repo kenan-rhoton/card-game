@@ -39,7 +39,7 @@
   (expect {:error messages/lobby-not-created}
               (base/add-player 0)))
 
-(defexpect play-card
+(defexpect play-card-messages
 
   (let [game (base/create-game)
         game-id (:game-id game)
@@ -48,6 +48,12 @@
     
     (expect {:error messages/no-row}
             (base/play-card-as-player game-id p1 1 99))
+            
+    (expect {:error messages/not-owned-card}
+            (base/play-card-as-player game-id p1 15 0))
+    
+    (expect {:error messages/not-owned-card}
+            (base/play-card-as-player game-id p2 0 0))
     
     (expect messages/wait
             (:status (base/play-card-as-player game-id p1 1 0)))
