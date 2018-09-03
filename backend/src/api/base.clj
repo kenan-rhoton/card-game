@@ -13,6 +13,7 @@
   (player-view/get-game-as-player (persistence/fetch-game game-id) player-id))
 
 (defn play-card-as-player
+  "Plays a card give and returns the game sate as seen by the player"
   [game-id player-id card-id row-id & target]
   (let [game-state (persistence/fetch-game game-id)]
       (if (= (:status (get-game game-id player-id)) messages/play)

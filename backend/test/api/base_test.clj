@@ -38,3 +38,17 @@
 (defexpect join-empty
   (expect {:error messages/lobby-not-created}
               (base/add-player 0)))
+
+(defexpect play-card
+
+  (let [game (base/create-game)
+        game-id (:game-id game)
+        p1 (:player-id game)
+        p2 (:player-id (base/add-player game-id))]
+    
+    (expect messages/wait
+            (:status (base/play-card-as-player game-id p1 1 0)))
+
+    (expect {:error messages/out-of-turn}
+            (base/play-card-as-player game-id p1 1 0))))
+
