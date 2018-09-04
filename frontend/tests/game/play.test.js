@@ -17,7 +17,7 @@ test('Playing cards changes background as intended', () => {
     play.playCard(card);
     expect(card.style.background).toBe("yellow");
 
-    card.setAttribute("target", "[:rows 0 :cards 0]");
+    card.setAttribute("target", "any-string-works-as-target");
     play.playCard(card);
     expect(card.style.background).toBe("green");
 });
