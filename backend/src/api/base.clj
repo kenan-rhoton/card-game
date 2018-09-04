@@ -16,6 +16,9 @@
   "Plays a card give and returns the game sate as seen by the player"
   [game-id player-id card-id row-id & target]
   (let [game-state (persistence/fetch-game game-id)]
+    (if (and (= game-id (:game-id game-state))
+          (or (= player-id (first (:player-ids game-state)))
+            (= player-id (second (:player-ids game-state)))))
       (if (= (:status (get-game game-id player-id)) messages/play)
           (let [new-game-state (play-card/play-card game-state player-id card-id row-id (first target))]
             (if (contains? new-game-state :error)
@@ -23,7 +26,8 @@
               (do
                 (persistence/save-game new-game-state)
                 (get-game game-id player-id))))
-          {:error messages/out-of-turn})))
+          {:error messages/out-of-turn})
+    {:error messages/invalid-id})))
 
 (defn ^:private create-empty-game
   "Creates a new instance of a game lobby"

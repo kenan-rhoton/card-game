@@ -46,6 +46,12 @@
         p1 (:player-id game)
         p2 (:player-id (base/add-player game-id))]
     
+    (expect {:error messages/invalid-id}
+            (base/play-card-as-player 9999999999 p1 0 0))
+    
+    (expect {:error messages/invalid-id}
+            (base/play-card-as-player game-id "MrInvalid" 0 0))
+    
     (expect {:error messages/no-row}
             (base/play-card-as-player game-id p1 1 99))
             
@@ -62,7 +68,7 @@
             (base/play-card-as-player game-id p1 1 0))
 
     (expect messages/play
-            (:status (base/play-card-as-player game-id p2 12 2)))
+            (:status (base/play-card-as-player game-id p2 11 2)))
 
     (expect messages/wait
             (:status (base/play-card-as-player game-id p2 11 1)))))
