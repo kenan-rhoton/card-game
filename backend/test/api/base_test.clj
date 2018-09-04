@@ -59,7 +59,10 @@
             (:status (base/play-card-as-player game-id p1 1 0)))
 
     (expect {:error messages/out-of-turn}
-            (base/play-card-as-player game-id p1 1 0)))
+            (base/play-card-as-player game-id p1 1 0))
+
+    (expect messages/play
+            (:status (base/play-card-as-player game-id p2 12 2)))
 
     (expect messages/wait
-            (:status (base/play-card-as-player game-id p2 11 1))))
+            (:status (base/play-card-as-player game-id p2 11 1)))))
