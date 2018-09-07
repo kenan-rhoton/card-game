@@ -10,6 +10,9 @@
 
 (defexpect game-creation
   (expect number? (:game-id (base/create-game)))
+  (expect false (=
+                 (:game-id (base/create-game))
+                 (:game-id (base/create-game))))
   (expect messages/no-opp (:status (base/create-game)))
   (expect nil (:player-ids (base/create-game)))
   (expect true (contains? (base/create-game) :player-id)))
