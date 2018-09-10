@@ -4,7 +4,7 @@
 (defn finished?
   "Tells us if a game has finished"
   [game-state]
-  (= 0 (count-cards/count-cards game-state {:location [:hand]})))
+  (zero? (count-cards/count-cards game-state {:location [:hand]})))
 
 (defn points-in-row
   "Tells us how many points the cards of a row has for a certain player"
