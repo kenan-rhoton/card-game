@@ -40,19 +40,11 @@
   [game-state]
   (let [player-ids (:player-ids game-state)
         won-rows (map #(get-won-rows game-state %) player-ids)]
-    (loop [winner ""
-           most-wons 0
-           player-ids player-ids]
-      (if (empty? player-ids)
-        winner
-        (let [tmp-wons (get-won-rows game-state (first player-ids))]
-          (cond (= tmp-wons most-wons)
-                (recur "" most-wons (rest player-ids))
-                (> tmp-wons most-wons)
-                (recur (first player-ids) tmp-wons (rest player-ids))
-                :else
-                (recur winner most-wons (rest player-ids))))))))
-
+    (cond
+      (= (first won-rows) (second won-rows)) ""
+      (> (first won-rows) (second won-rows)) (first player-ids)
+      :else (second player-ids))))
+    
 (defn winner
   "Tells us if there's a winner and if so, who it is"
   [game-state]
