@@ -10,6 +10,6 @@ List of issues the Pull Request fixes
 
 More in-depth explanation about the code submitted and its purpose.
 
-**Notes**
+**Hotspots**
 
 Special areas of code the reviewers should pay attention to.
