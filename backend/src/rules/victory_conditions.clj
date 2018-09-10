@@ -17,23 +17,19 @@
 (defn player-wins-row?
   "Tells us if a player is winning a row"
   [game-state row-id player-id]
-  (let [opponent-id (if (= player-id (first (:player-ids game-state)))
-                      (second (:player-ids game-state))
-                      (first (:player-ids game-state)))]
+  (let [opponent-id (first (filter
+                             #(not= % player-id)
+                             (:player-ids game-state)))]
     (> (points-in-row game-state row-id player-id)
        (points-in-row game-state row-id opponent-id))))
 
 (defn get-won-rows
   "Tells us how many rows a player is winning"
   [game-state player-id]
-  (loop [won 0 row 0]
-    (if (>= row (count (:rows game-state)))
-      won
-      (recur
-        (if (player-wins-row? game-state row player-id)
-          (inc won)
-          won)
-        (inc row)))))
+  (let [row-num (count (:rows game-state))]
+    (count
+      (filter #(player-wins-row? game-state % player-id)
+              (range 0 (count (:rows game-state)))))))
 
 (defn most-won-rows
   "Which player is winning the most rows?"
@@ -41,9 +37,10 @@
   (let [player-ids (:player-ids game-state)
         won-rows (map #(get-won-rows game-state %) player-ids)]
     (cond
-      (= (first won-rows) (second won-rows)) ""
+      (nil? player-ids) ""
+      (< (first won-rows) (second won-rows)) (second player-ids)
       (> (first won-rows) (second won-rows)) (first player-ids)
-      :else (second player-ids))))
+      :else "")))
     
 (defn winner
   "Tells us if there's a winner and if so, who it is"
