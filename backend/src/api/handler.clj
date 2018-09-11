@@ -30,7 +30,8 @@
        (api/get-game id player))
   (POST "/games/:id{[0-9]+}/player/:player"
         [id :<< coerce/as-int player :as {body :body}]
-        (play-action id player body)))
+        (play-action id player body))
+  (route/not-found "<h1>Page not found</h1>"))
 
 (def ^:private cors-headers 
   { "Access-Control-Allow-Origin" "*"
