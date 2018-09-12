@@ -17,6 +17,6 @@ module.exports = {
     setStatus() {
         onGetStatus(function(status) {
             document.getElementById("game-status").innerHTML = status;
-        })
+        });
     }
-}
+};

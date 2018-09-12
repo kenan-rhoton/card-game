@@ -1,8 +1,8 @@
-config = require("./data/config.yml")
+const config = require("./data/config.yml");
 
 // Load server data with defaults if file doesn't exist
 try {
-    servers = require("./data/servers.yml")
+    const servers = require("./data/servers.yml");
 } catch(error) {
 
     // Don't want to silently catch other errors
@@ -19,4 +19,4 @@ try {
     }
 }
 
-module.exports = Object.assign(config,servers);
+module.exports = Object.assign(config, servers);
