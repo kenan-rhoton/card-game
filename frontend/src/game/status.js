@@ -1,8 +1,8 @@
 "use strict";
 
-const fetch = require('node-fetch');
-const config = require('config/config.js');
-const params = require('game/params.js');
+const fetch = require("node-fetch");
+const config = require("config/config.js");
+const params = require("game/params.js");
 const backend = config.servers["backend"];
 
 function onGetStatus (action) {

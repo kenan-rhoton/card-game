@@ -1,9 +1,9 @@
 "use strict";
 
-var cleanup = require('game/cleanup.js');
-var templates = require('game/templates.js');
-var status = require('game/status.js');
-var play = require('game/play/hand.js');
+var cleanup = require("game/cleanup.js");
+var templates = require("game/templates.js");
+var status = require("game/status.js");
+var play = require("game/play/hand.js");
 
 function showAddPower(value) {
     if (value === undefined){
