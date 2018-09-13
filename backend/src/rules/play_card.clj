@@ -66,7 +66,7 @@
     {:error messages/need-target}
 
     (and (requires-target? game-state card-id)
-         (not (identical? (get-in game-state [:cards target :location 0]) :row)))
+         (not (identical? (get-in game-state [:cards (first target) :location 0]) :row)))
     {:error messages/invalid-target}
 
     :else
