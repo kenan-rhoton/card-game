@@ -1,8 +1,10 @@
 const config = require("./data/config.yml");
 
+var servers;
+
 // Load server data with defaults if file doesn't exist
 try {
-    var servers = require("./data/servers.yml");
+    servers = require("./data/servers.yml");
 } catch(error) {
 
     // Don't want to silently catch other errors
@@ -11,7 +13,7 @@ try {
     }
 
     // Defaults to dev values
-    var servers = {
+    servers = {
         servers: {
             frontend: "frontend:8880",
             backend: "backend:3000"
