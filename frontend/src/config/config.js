@@ -11,7 +11,7 @@ try {
     }
 
     // Defaults to dev values
-    servers = {
+    const servers = {
         servers: {
             frontend: "frontend:8880",
             backend: "backend:3000"
