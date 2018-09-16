@@ -11,25 +11,23 @@ var status = require('game/status.js');
 const params = require('game/params.js');
 
 function setState(state) {
-    hand.setHand(state["hand"]);
-    board.setBoard(state["rows"]);
+    hand.setHand(state["cards"]);
+    board.setBoard(state["cards"]);
     scores.setScores(state["scores"]);
-    scores.setScoresByRow(state["rows-power"]);
+    scores.setScoresByRow(state["rows"]);
 
     status.setStatus();
 }
 
 var lastnum = 0;
-function updateGame() {
-    fetch( `http://${backend}/games/${params.gameID}/player/${params.playerID}`)
-        .then(res => res.json())
-        .then(json => {
-            var num = json["hand"].length;
-            if (num !== lastnum){
-                lastnum = num;
-                setState(json);
-            }
-        })
+async function updateGame() {
+    const res = await fetch( `http://${backend}/games/${params.gameID}/player/${params.playerID}`);
+    const json = await res.json();
+    var num = json["cards"].filter(card => card.location[0] === 'hand').length;
+    if (num !== lastnum){
+        lastnum = num;
+        setState(json);
+    }
 }
 
 module.exports = updateGame;

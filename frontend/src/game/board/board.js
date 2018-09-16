@@ -11,30 +11,30 @@ function fetchRow(finder, index) {
 
 module.exports = {
     buildRows: builder.buildRows,
-    setBoard(boardState) {
+    setBoard(cards) {
         var gameRows = document.querySelectorAll(".game-row");
 
         gameRows.forEach(function (gameRow) {
             cleanup.clearChildren(gameRow);
-        })
+        });
 
-        boardState.forEach(function (row, rownum) {
-            row["cards"].forEach(function (cardInRow, index) {
-                var newCard = builder.buildCard(templates.baseCard, cardInRow);
-                newCard.setAttribute("rownum", rownum);
+        cards.forEach(function (card, index) {
+            const [owner, rowNum] = card.location;
+            if(owner === 'row') {
+                var newCard = builder.buildCard(templates.baseCard, card);
+                newCard.setAttribute("rownum", rowNum);
                 newCard.setAttribute("index", index);
 
-                if (cardInRow["owner"] === "me") {
-                    fetchRow("#my-rows .game-row", rownum).appendChild(newCard);
-                } else {
-                    fetchRow("#opp-rows .game-row", rownum).appendChild(newCard);
+                let rowSide = "#opp-rows .game-row";
+                if (card["owner"] === "me") {
+                  rowSide = "#my-rows .game-row";
                 }
-            });
-
-            document.querySelectorAll("#limits .scores-row")[rownum].innerText = "(lim: " + row["limit"] + ")"
+                fetchRow(rowSide, rowNum).appendChild(newCard);
+            }
+          // document.querySelectorAll("#limits .scores-row")[rownum].innerText = "(lim: " + row["limit"] + ")"
         });
     },
     allowDrop: play.allowDrop,
     dropOnRow: play.dropOnRow,
     clickRow: play.clickRow
-}
+};

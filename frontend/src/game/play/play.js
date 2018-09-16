@@ -20,8 +20,8 @@ module.exports = {
             const playData = {
                 index: card.getAttribute("index"),
                 row: card.getAttribute("row-played"),
-                targetrownum: card.getAttribute("target")[0],
-                targetindex: card.getAttribute("target")[2],
+                targetrownum: card.getAttribute("target").split(',')[0],
+                targetindex: card.getAttribute("target").split(',')[1],
             };
             card.style.background = "green";
 
@@ -33,8 +33,11 @@ module.exports = {
                     headers: { 'Content-Type': 'application/json' }
                 }
             )
-                .then( () => status.setStatus() )
-                .catch(error => console.log(error))
+            .then(async (resp) => {
+                const json = await resp.json();
+                status.setStatus()
+            })
+            .catch(error => console.log(error))
         }
     }
-}
+};

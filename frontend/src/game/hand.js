@@ -9,9 +9,9 @@ function showAddPower(value) {
     if (value === undefined){
         return ""
     } else {
-        var text = " ("
-        if (value > 0) text += "+"
-        text += value + ")"
+        var text = " (";
+        if (value > 0) text += "+";
+        text += value + ")";
         return text
     }
 }
@@ -22,14 +22,16 @@ module.exports = {
         cleanup.clearChildren(hand);
 
         handState.forEach(function (cardInHand, index) {
-            var newCard = templates.baseCard.cloneNode(true);
-            newCard.innerHTML = cardInHand["power"];
-            newCard.setAttribute("add-power", cardInHand["add-power"]);
-            newCard.innerHTML += showAddPower(cardInHand["add-power"]);
-            newCard.setAttribute("index", index);
-            newCard.addEventListener('click', function(){play.clickCard(newCard)});
+            if (cardInHand.owner === 'me' && cardInHand.location[0] === 'hand') {
+                var newCard = templates.baseCard.cloneNode(true);
+                newCard.innerHTML = cardInHand["power"];
+                newCard.setAttribute("add-power", cardInHand["add-power"]);
+                newCard.innerHTML += showAddPower(cardInHand["add-power"]);
+                newCard.setAttribute("index", index);
+                newCard.addEventListener('click', function(){play.clickCard(newCard)});
 
-            hand.appendChild(newCard);
+                hand.appendChild(newCard);
+            }
         });
 
         status.clickedCard = undefined;
@@ -37,4 +39,4 @@ module.exports = {
     dragCard(event) {
         event.dataTransfer.setData("handIndex", event.target.getAttribute("index"));
     }
-}
+};

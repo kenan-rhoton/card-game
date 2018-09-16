@@ -13,8 +13,8 @@ try {
     // Defaults to dev values
     servers = {
         servers: {
-            frontend: 'frontend:8880',
-            backend: 'backend:3000'
+            frontend: 'localhost:8880',
+            backend: 'localhost:3000'
         }
     }
 }

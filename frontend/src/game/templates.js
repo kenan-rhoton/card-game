@@ -2,5 +2,5 @@
 
 module.exports = {
     baseCard: document.getElementById("card-template")
-            .content.querySelector(".card")
-}
+        .content.querySelector(".card")
+};
