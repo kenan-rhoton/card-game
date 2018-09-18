@@ -46,8 +46,8 @@ module.exports = {
             if (status.clickedCard &&
                 status.clickedCard.hasAttribute("row-played") &&
                 !status.clickedCard.hasAttribute("target")) {
-                status.clickedCard.setAttribute("target", 
-                    [this.getAttribute("rownum"), this.getAttribute("index")]);
+
+                status.clickedCard.setAttribute("target", this.getAttribute("index"));
                 play.playCard(status.clickedCard);
             }
         });

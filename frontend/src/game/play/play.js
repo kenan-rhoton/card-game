@@ -14,14 +14,13 @@ module.exports = {
             status.clickedCard = card;
             document.getElementById("game-status").innerHTML = "Select a target";
         } else {
-            if (!card.hasAttribute("target")) {
-                card.setAttribute("target", [0, 0]);
-            }
+            // if (!card.hasAttribute("target")) {
+            //     card.setAttribute("target", [0, 0]);
+            // }
             const playData = {
                 index: card.getAttribute("index"),
                 row: card.getAttribute("row-played"),
-                targetrownum: card.getAttribute("target").split(',')[0],
-                targetindex: card.getAttribute("target").split(',')[1],
+                target: card.getAttribute("target"),
             };
             card.style.background = "green";
 
@@ -32,8 +31,7 @@ module.exports = {
                     body: JSON.stringify(playData),
                     headers: { 'Content-Type': 'application/json' }
                 }
-            )
-            .then(async (resp) => {
+            ).then(async (resp) => {
                 const json = await resp.json();
                 status.setStatus()
             })
