@@ -9,6 +9,8 @@ matrix:
                           - lein cloverage
                 - language: node_js
                   before_install: cd frontend
+                  install: yarn install
+                  sccript: yarn test
 
 notifications:
     email: false
