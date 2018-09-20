@@ -27,8 +27,9 @@
     ["games/" [#"\d+" :game]] :add-player
     ["games/" [#"\d+" :game] "/player/" :player] :get-game-or-play-action}])
 
-(defn exec-route [match method]
+(defn exec-route [match event]
   (let [handler (:handler match)
+        method (:httpMethod event)
         game (str->int (:game (:route-params match)))
         player (:player (:route-params match))]
     (pprint [handler method match])
@@ -40,7 +41,10 @@
       {:status 200 :body (api/add-player game)}
 
       (= [handler method] [:get-game-or-play-action "POST"])
-      {:status 200 :body (play-action game player)}
+      {:status 200 :body (play-action 
+                           game
+                           player
+                           (json/read-str (:body event)))}
 
       (= [handler method] [:get-game-or-play-action "GET"])
       {:status 200 :body (api/get-game game player)}
@@ -50,7 +54,7 @@
 (defn handle-event [event]
   (let [result (exec-route
                  (bidi/match-route routes (:path event))
-                 (:httpMethod event))]
+                 event)]
     (pprint result)
     {:isBase64Encoded false
      :statusCode (:status result)
