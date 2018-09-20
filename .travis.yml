@@ -1,14 +1,14 @@
 matrix:
         include:
                 - language: clojure
-                  before_script: cd backend
+                  before_install: cd backend
                   script:
                           - lein test
                           - lein yagni
                           - lein eastwood
                           - lein cloverage
                 - language: node_js
-                  before_script: cd frontend
+                  before_install: cd frontend
 
 notifications:
     email: false
