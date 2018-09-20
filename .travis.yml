@@ -8,7 +8,7 @@ matrix:
                           - lein eastwood
                           - lein cloverage
                 - language: node_js
-                  node_js: node
+                  node_js: lts/*
                   before_install: cd frontend
                   install: yarn install
                   script: yarn test
