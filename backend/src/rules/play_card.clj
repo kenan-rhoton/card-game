@@ -2,17 +2,17 @@
   (:require [configs.messages :as messages]
             [rules.count-cards :as count-cards]))
 
-(defn move-card
+(defn move-card-to-row
   "Moves a card to the specified row"
   [game-state card-id row-id]
   (assoc-in game-state [:cards card-id :location] [:row row-id]))
 
 (defn apply-ability
   "Apply the ability of a play, if it exists"
-  [game-state next-play]
-  (let [ability (get-in game-state [:cards (:card-id next-play) :ability])]
+  [game-state play]
+  (let [ability (get-in game-state [:cards (:card-id play) :ability])]
     (if (some? ability)
-      (ability game-state (:target next-play))
+      (ability game-state (:target play))
       game-state)))
 
 (defn ^:private apply-all-plays
@@ -23,8 +23,8 @@
         (apply-ability (first next-play))
         (apply-ability (second next-play))
         
-        (move-card (:card-id (first next-play)) (:row-id (first next-play)))
-        (move-card (:card-id (second next-play)) (:row-id (second next-play)))      
+        (move-card-to-row (:card-id (first next-play)) (:row-id (first next-play)))
+        (move-card-to-row (:card-id (second next-play)) (:row-id (second next-play)))      
         
         (assoc :next-play {}))))
 

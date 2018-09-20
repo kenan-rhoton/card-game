@@ -9,17 +9,17 @@
                    :next-play {:p0 {:card-id 0 :row-id 0} :p1 {:card-id 1 :row-id 3 :target 2}}
                    :player-ids ["p0" "p1"]})
 
-(defexpect move-card
+(defexpect move-card-to-row
 
   ; Moves a card to a chosen row
   (expect
     {:my-card "yes" :location [:row 3]}
-    (get-in (play-card/move-card {:cards [{}{:my-card "yes"}]} 1 3)
+    (get-in (play-card/move-card-to-row {:cards [{}{:my-card "yes"}]} 1 3)
             [:cards 1]))
   
   (expect
     {:location [:row 0]}
-    (get-in (play-card/move-card {:cards [{:location "nowhere"}]} 0 0)
+    (get-in (play-card/move-card-to-row {:cards [{:location "nowhere"}]} 0 0)
             [:cards 0])))
 
 (defexpect apply-ability
