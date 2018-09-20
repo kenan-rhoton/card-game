@@ -6,7 +6,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/data.json "0.2.6"]
                  [bidi "2.1.4"]
-                 [com.taoensso/carmine "2.17.0"]
+                 [com.taoensso/faraday "1.9.0"]
                  [io.forward/yaml "1.0.7"]
                  [expectations "2.2.0-rc3" :scope "test"]]
   :plugins [[com.jakemccrary/lein-test-refresh "0.22.0"]
