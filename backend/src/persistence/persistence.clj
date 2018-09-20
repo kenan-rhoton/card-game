@@ -3,8 +3,7 @@
 
 (def creds
   {:access-key "<access-key>"
-   :secret-key "<secret-key>"
-   :endpoint "http://dynamodb.eu-west-3.amazonaws.com"})
+   :secret-key "<secret-key>"})
 
 (defn next-id
   "Returns the next available game id"
