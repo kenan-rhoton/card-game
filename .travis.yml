@@ -8,9 +8,10 @@ matrix:
                           - lein eastwood
                           - lein cloverage
                 - language: node_js
+                  node_js: node
                   before_install: cd frontend
                   install: yarn install
-                  sccript: yarn test
+                  script: yarn test
 
 notifications:
     email: false
