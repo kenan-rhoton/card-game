@@ -8,6 +8,7 @@
                  [bidi "2.1.4"]
                  [com.taoensso/faraday "1.9.0"]
                  [io.forward/yaml "1.0.7"]
+                 [com.amazonaws/aws-lambda-java-core "1.0.0"]
                  [expectations "2.2.0-rc3" :scope "test"]]
   :plugins [[com.jakemccrary/lein-test-refresh "0.22.0"]
             [lein-expectations "0.0.8"]
