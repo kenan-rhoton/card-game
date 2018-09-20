@@ -2,8 +2,10 @@
   (:require [taoensso.faraday :as far]))
 
 (def creds
-  {:access-key "<access-key>"
-   :secret-key "<secret-key>"})
+  {:access-key (or (System/getenv "CARD_GAME_DB_ACCESS_KEY") "")
+   :secret-key (or (System/getenv "CARD_GAME_DB_SECRET_KEY") "")
+   :endpoint (or (System/getenv "CARD_GAME_DB_ENDPOINT")
+                 "http://localhost:8000")})
 
 (defn next-id
   "Returns the next available game id"
