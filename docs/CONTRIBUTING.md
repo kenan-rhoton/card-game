@@ -11,34 +11,39 @@ It is divided in three parts:
 
 You'll need to have the repository locally cloned: `git clone https://github.com/kenan-rhoton/card-game`
 
-### Docker
+### Leiningen
 
-You'll need to **install [Docker](https://store.docker.com/search?type=edition&offering=community)**.
+To work on the backend you'll need to install [Leiningen](https://leiningen.org/)
+
+### Yarn
+
+To work on the frontend you'll need to install [Yarn](https://yarnpkg.com/)
 
 ### Usage
 
-`docker-compose build && docker-compose up`
+`lein ring server-headless` to execute the backend's ring server (from within the backend directory)
+
+`yarn start` to execute the frontend server (from within the frontend directory)
 
 ### Tests
 
 While working on backend stuff (Clojure), please keep a terminal open at *all* times with the following command running:
 
-`docker-compose run backend lein test-refresh`
+`lein test-refresh`
 
 While working on frontend stuff (Javascript), please keep a terminal open at *all* times with the following command running:
 
-`docker-compose run frontend yarn test-refresh`
+`yarn test-refresh`
 
 This will give you instant feedback through the tests.
 
-If you don't want to use docker (and have Leiningen/Yarn installed), you can use the non-docker versions of the commands, which **must** be executed from within the respective directories (`backend`and `frontend` respectively):
+### Code-review tools
 
-`lein test-refresh`
-`yarn test-refresh`
+We have installed on the project a couple of tools to help us review the code.
 
-To run *all* tests, use: 
-
-`bash fulltest.sh`
+- *Cloverage*: Run `lein cloverage` from `backend/` to get a report of how well our code is being tested.
+- *Yagni*: Run `lein yagni` from `backend/` to get a report of which functions are not being used.
+- *Eastwood*: Run `lein eastwood` from `backend/` to get a report of possible errors in your implementation and pain points.
 
 ## Project architecture
 
@@ -57,19 +62,7 @@ Finally, the backend uses [Compojure](https://github.com/weavejester/compojure) 
 
 ### Frontend architecture
 
-Frontend uses a standard [Vue.js](https://vuejs.org) architecture due to being easy to set up and not overcomplicating the frontend aspects.
-
-### Docker
-
-We also use [Docker](https://docs.docker.com) to launch everything. Why?
-
-1. Dependency management: Docker creates a *container* (think of it as a mini-virtual-machine) that is built according to our specified `Dockerfile` and as such contains all of our projects dependencies without you having to set anything up (other than installing Docker)
-2. Stack Identity: As a consequence of this, the development and production stack (the set of technologies used) is guaranteed to be the same everywhere. Since Docker will launch with the same build, dependencies and options on each of our systems, we should never have *"but it works on my computer!"* problems.
-3. Isolated: Since our programs run inside a Docker container, which only has the bare minimum to make our programs run, there is less chance of some external tool or program clashing with our program's execution or viceversa.
-
-And how does it work?
-
-Learn this and much more by [RTFM](https://docs.docker.com/engine/docker-overview/)! :D
+Frontend uses Webpack to power Jest (for the unit tests), Pug (to have an extensible replacement for HTML) and to have a Server.
 
 ## Project structure
 
@@ -123,6 +116,7 @@ We will value the following things on your contribution *in this order*:
 4. The code is readable
 5. The code is well-organized
 6. The code works and fixes the issue
+7. Any rule changed or included is also on the [Manual](https://github.com/kenan-rhoton/card-game/wiki/0.-Troll:-Card-Game-Rules)
 
 If at any point you have a question, please ask it if possible through a comment so others may benefit from the answer.
 

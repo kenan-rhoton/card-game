@@ -1,37 +1,32 @@
 (ns rules.play-card
   (:require [configs.messages :as messages]
-            [rules.alter-card :as alter-card]
             [rules.count-cards :as count-cards]))
 
-(defn move-card
+(defn move-card-to-row
   "Moves a card to the specified row"
   [game-state card-id row-id]
   (assoc-in game-state [:cards card-id :location] [:row row-id]))
 
-(defn apply-add-power
-  "Applies an add-power ability"
+(defn apply-ability
+  "Apply the ability of a play, if it exists"
   [game-state play]
-  (let [add-power (get-in game-state
-                          [:cards (:card-id play) :add-power])
-        target (:target play)]
-    (if (nil? add-power)
-        game-state
-        (alter-card/add-power game-state target add-power))))
+  (let [ability (get-in game-state [:cards (:card-id play) :ability])]
+    (if (some? ability)
+      (ability game-state (:target play))
+      game-state)))
 
-(defn apply-play
-  "Applies an entire play"
-  [game-state play]
-  (-> game-state
-      (apply-add-power play)
-      (move-card (:card-id play) (:row-id play))))
-
-(defn apply-all-plays
+(defn ^:private apply-all-plays
   "Plays all cards waiting to be played"
   [game-state]
+  (let [next-play (vals (:next-play game-state))]
     (-> game-state
-        (apply-play (first (vals (:next-play game-state))))
-        (apply-play (second (vals (:next-play game-state))))
-        (assoc :next-play {})))
+        (apply-ability (first next-play))
+        (apply-ability (second next-play))
+        
+        (move-card-to-row (:card-id (first next-play)) (:row-id (first next-play)))
+        (move-card-to-row (:card-id (second next-play)) (:row-id (second next-play)))      
+        
+        (assoc :next-play {}))))
 
 (defn  crowded-row?
   "True if a row has :limit cards for player-id"
@@ -39,6 +34,10 @@
   (<= (get-in game-state [:rows row-id :limit] 9000)
       (count-cards/count-cards game-state {:location [:row row-id]
                                            :owner player-id})))
+
+(defn ^:private requires-target?
+  [game-state card-id]
+  (some? (get-in game-state [:cards card-id :ability])))
 
 (defn play-card
   "Takes a playing of a card from hand onto a game row and makes it wait until both players had played"
@@ -57,8 +56,13 @@
     (crowded-row? game-state row-id player-id)
     {:error messages/row-limit}
 
-    (and (some? (get-in game-state [:cards card-id :add-power])) (nil? target))
+    (and (requires-target? game-state card-id)
+         (nil? target))
     {:error messages/need-target}
+
+    (and (requires-target? game-state card-id)
+         (not (identical? (get-in game-state [:cards (first target) :location 0]) :row)))
+    {:error messages/invalid-target}
 
     :else
     (let [game-state (assoc-in game-state [:next-play (keyword player-id)] {:card-id card-id :row-id row-id :target (first target)})]
