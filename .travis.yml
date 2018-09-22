@@ -1,17 +1,18 @@
 matrix:
-        include:
-                - language: clojure
-                  before_install: cd backend
-                  script:
-                          - lein test
-                          - lein yagni
-                          - lein eastwood
-                          - lein cloverage
-                - language: node_js
-                  node_js: lts/*
-                  before_install: cd frontend
-                  install: yarn install
-                  script: yarn test-with-coverage
-
+  include:
+  - language: clojure
+    before_install: cd backend
+    script:
+    - lein test
+    - lein yagni
+    - lein eastwood
+    - lein cloverage
+  - language: node_js
+    node_js: lts/*
+    before_install: cd frontend
+    install: yarn install
+    script: yarn test-with-coverage
 notifications:
-    email: false
+  email: false
+dd:
+  secure: Alm1JKxWlRfLEB5GCOwgM6ErqBkWrNYTBGDBqrC/j8UPxSizW3xY8m8yO6k+7yX0lusojmKNKkkG+c2kN96KA7qRsUuk5ydGeoNXcFZrLJavGYROmC3UeR58V9a6grcIuAfr8m16V9QgmriTOYP5JvHNxSMIox1OdAsyVEZTfQWhTAAGecU84f8GIepZBgPa4ySQ9E1ZAZVxKCpxFrFCCFMNb3yrmxVsgbNrAoEI/xCpACNaCAqHtyZgH8aOQoTMm9al2e4vxAHiqAQ4tqL8CZ/BnIENE11nJLQEkefyoyTaAwv2AmiUxxfSFg3MEaJHZ/YFnJSZio/LaqHrwGz6KMFKx4Kejy6iuxOsebYHbOQSsACaM+QzOA1vi2BLtOWDt15F6VU+vJdBd4KoqfIMnplYP9BAhwji2waa5sttELO6QWli/Qy0cMG4Xf3O+7CRzxE6ClKcxL5/sdApNtek8vkxjl9TZYLlOX5V33eD9pQjThOJNqKP8BNN2Tqh/7N0+3EX+1GJwvPT4uyrHsB6fJhAPlRgKitWSk0QZsuo+3Up9d1M42gx8AooCYUKZD9a9gZ/Xbt6UKFTRjrN3OA56xxXPuqMMRude3p8f5Wi9EzmbzTyM0ooBCFNQjlRuR7yFJCjmdGRVmjtwnQocMBAeMNTENEFyre8WNLPpLGCqb8=
