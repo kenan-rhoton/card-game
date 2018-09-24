@@ -12,7 +12,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: './src/index.pug',
+            template: './src/index3.pug',
             chunks: []
         }),
     ]

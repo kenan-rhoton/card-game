@@ -9,6 +9,7 @@ const StylelintPlugin = require('stylelint-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const CleanPlugin = require('clean-webpack-plugin')
 const { StatsWriterPlugin } = require('webpack-stats-plugin')
+const { walkSync } = require('./app/scripts/walksynk')
 
 const parts = require('./webpack.parts')
 
@@ -208,7 +209,8 @@ function getPaths ({
   images = 'images',
   fonts = 'fonts',
   js = 'scripts',
-  css = 'styles'
+  css = 'styles',
+  pages = 'pages'
 } = {}) {
   const assets = { images, fonts, js, css }
 
@@ -221,32 +223,47 @@ function getPaths ({
   }, {
     app: path.join(__dirname, sourceDir),
     build: path.join(__dirname, buildDir),
+    pages: path.join(__dirname, `${sourceDir}/${pages}`),
     staticDir
   })
 }
 
-const pages = [
-  parts.page({
-    title: 'Home',
-    entry: {
-      home: paths.app
-    },
-    template: path.join(paths.app, 'index.pug'),
 
-    // An array of chunks to include in the page
-    chunks: ['home', 'runtime', 'vendors']
-  }),
-  parts.page({
-    title: 'About',
-    path: 'about',
-    entry: {
-      about: path.join(paths.app, 'about')
-    },
-    template: path.join(paths.app, 'about/about.pug'),
 
-    chunks: ['about', 'runtime', 'vendors']
+const pages = () => {
+  const pages = [
+    parts.page({
+      title: 'Home',
+      entry: {
+        home: paths.app
+      },
+      template: path.join(paths.app, 'index.pug'),
+
+      // An array of chunks to include in the page
+      chunks: ['home', 'runtime', 'vendors']
+    }),
+  ];
+  walkSync(paths.pages).forEach(result => {
+    if (result.endsWith('.pug')) {
+      // can be improved with a regex D:
+      const filename = result.split('/').slice(-1)[0].split('.')[0]
+      pages.push(
+        parts.page({
+          title: filename,
+          path: result,
+          entry: {
+            about: result
+          },
+          template: result,
+
+          chunks: [filename],
+        })
+      )
+    }
   })
-]
+  console.log(pages)
+  return pages
+}
 
 module.exports = env => {
   process.env.NODE_ENV = env
@@ -255,5 +272,5 @@ module.exports = env => {
     ? productionConfig
     : developmentConfig
 
-  return merge(commonConfig, config, ...pages)
+  return merge(commonConfig, config, ...pages())
 }
