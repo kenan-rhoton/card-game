@@ -210,7 +210,6 @@ function getPaths ({
   fonts = 'fonts',
   js = 'scripts',
   css = 'styles',
-  pages = 'pages'
 } = {}) {
   const assets = { images, fonts, js, css }
 
@@ -223,7 +222,6 @@ function getPaths ({
   }, {
     app: path.join(__dirname, sourceDir),
     build: path.join(__dirname, buildDir),
-    pages: path.join(__dirname, `${sourceDir}/${pages}`),
     staticDir
   })
 }
@@ -243,25 +241,25 @@ const pages = () => {
       chunks: ['home', 'runtime', 'vendors']
     }),
   ];
-  walkSync(paths.pages).forEach(result => {
+  walkSync(`${paths.app}/pages`).forEach(result => {
     if (result.endsWith('.pug')) {
       // can be improved with a regex D:
       const filename = result.split('/').slice(-1)[0].split('.')[0]
+      const entry = result.split('/').slice(0, -1).join('/')
+
       pages.push(
         parts.page({
           title: filename,
-          path: result,
+          path: result.split('/').pop(),
           entry: {
-            about: result
+            about: entry
           },
           template: result,
 
-          chunks: [filename],
         })
       )
     }
   })
-  console.log(pages)
   return pages
 }
 
@@ -271,6 +269,7 @@ module.exports = env => {
   const config = env === 'production'
     ? productionConfig
     : developmentConfig
-
-  return merge(commonConfig, config, ...pages())
+  const mappedPages = pages()
+  console.log(mappedPages)
+  return merge(commonConfig, config, ...mappedPages)
 }
