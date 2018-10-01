@@ -2,7 +2,21 @@
   (:require [yaml.core :as yaml]))
 
 (def ^:private config-file
-  (yaml/from-file "../configs/config.yml" true))
+  {
+   :messages {
+              :out-of-turn "Out of turn play"
+              :no-opp "Waiting for an opponent"
+              :play "Playing"
+              :wait "Waiting for opponent's play"
+              :row-limit "Can't play on this row"
+              :too-many-players "Too many players"
+              :need-target "A target is needed"
+              :invalid-target "That's an invalid target"
+              :not-owned-card "You don't own this card"
+              :no-row "This row doesn't exist"
+              :no-lobby-not-created "The Lobby does not exist"
+              :invalid-id "Wrong id"
+              }})
 
 (def out-of-turn (get-in config-file [:messages :out-of-turn]))
 

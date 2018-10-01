@@ -1,14 +1,15 @@
 (ns api.handler
-  (:require [api.base :as api])
-  (:require [compojure.handler :as handler]
-            [compojure.route :as route]
-            [compojure.core :as compojure]
-            [cheshire.core :as cheshire]
-            [ring.util.response :as response]
-            [ring.middleware.json :as middleware]
-            [compojure.coercions :as coerce]))
+  (:gen-class
+    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler])
+  (:require [api.base :as api]
+            [clojure.data.json :as json]
+            [clojure.string :as string]
+            [clojure.java.io :as io]
+            [clojure.pprint :refer [pprint]]
+            [bidi.bidi :as bidi]))
 
-(defn ^:private parse-int [number-string]
+
+(defn ^:private str->int [number-string]
   (try (Integer/parseInt number-string)
        (catch Exception e nil)))
 
@@ -17,36 +18,52 @@
   (api/play-card-as-player
     game-id
     player-id
-    (parse-int (:index action))
-    (parse-int (:row action))))
+    (str->int (:index action))
+    (str->int (:row action))))
 
-(def^:private app-routes
-  (compojure/routes
-    (compojure/POST "/games" [] (api/create-game))
-    (compojure/POST "/games/:id{[0-9]+}"
-                    [id]
-                    (api/add-player (parse-int id)))
-    (compojure/GET "/games/:id{[0-9]+}/player/:player"
-                   [id player]
-                   (api/get-game (parse-int id) player))
-    (compojure/POST "/games/:id{[0-9]+}/player/:player"
-                    [id player :as {body :body}]
-                    (play-action (parse-int id) player body))
-    (route/not-found "<h1>Page not found</h1>")))
+(def routes
+  ["/card-game/"
+   {"games" :create-game
+    ["games/" [#"\d+" :game]] :add-player
+    ["games/" [#"\d+" :game] "/player/" :player] :get-game-or-play-action}])
 
-(def ^:private cors-headers 
-  { "Access-Control-Allow-Origin" "*"
-   "Access-Control-Allow-Headers" "Content-Type"
-   "Access-Control-Allow-Methods" "OPTIONS"})
+(defn exec-route [match event]
+  (let [handler (:handler match)
+        method (:httpMethod event)
+        game (str->int (:game (:route-params match)))
+        player (:player (:route-params match))]
+    (pprint [handler method match])
+    (cond
+      (= [handler method] [:create-game "POST"])
+      {:status 200 :body (api/create-game)}
 
-(defn ^:private responsify
-  [handler]
-  (fn [request]
-    (update-in (response/response (handler request))
-               [:headers]
-               merge cors-headers)))
+      (= [handler method] [:add-player "POST"])
+      {:status 200 :body (api/add-player game)}
 
-(def entry
-  (-> (responsify app-routes)
-      (middleware/wrap-json-body {:keywords? true})
-      (middleware/wrap-json-response)))
+      (= [handler method] [:get-game-or-play-action "POST"])
+      {:status 200 :body (play-action 
+                           game
+                           player
+                           (json/read-str (:body event)))}
+
+      (= [handler method] [:get-game-or-play-action "GET"])
+      {:status 200 :body (api/get-game game player)}
+
+      :else {:status 404 :body "<h1>404 Not Found</h1>"})))
+
+(defn handle-event [event]
+  (let [result (exec-route
+                 (bidi/match-route routes (:path event))
+                 event)]
+    (pprint result)
+    {:isBase64Encoded false
+     :statusCode (:status result)
+     :headers {}
+     :body (json/write-str (:body result))}))
+
+(defn -handleRequest [this input output context]
+  (let [w (io/writer output)]
+    (-> (json/read (io/reader input) :key-fn keyword)
+        (handle-event)
+        (json/write w))
+    (.flush w)))
